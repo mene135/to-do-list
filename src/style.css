@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Roboto:ital,wght@0,400;0,700;0,900;1,400;1,500;1,700&display=swap')
+
+/* -- Base rules */
+
+/* -- Theme rules */ 
+
+body {
+     font-family: ;
+
+     --primary-400: hsl(0, 11%, 70%);
+     --primary-500: hsl(0, 11%, 80%);
+
+     --secondary: hsl(0, 0%, 100%);
+
+
+}
