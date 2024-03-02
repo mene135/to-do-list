@@ -1,0 +1,2 @@
+(()=>{console.log("hi");const e=document.querySelector(".themeToggle"),o=document.querySelector("body");e.addEventListener("click",(()=>{o.classList.toggle("darkTheme")}))})();
+//# sourceMappingURL=bundle.js.map
