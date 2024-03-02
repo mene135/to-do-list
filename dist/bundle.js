@@ -1,2 +1,2 @@
-(()=>{const e=document.querySelector(".themeToggle"),o=document.querySelector("body");e.addEventListener("click",(()=>{o.classList.toggle("darkTheme")})),document.querySelector(".menuToggle").addEventListener("click",(()=>{const e=document.querySelector(".l-mainNav");console.log("hi i am menelaos"),e.classList.toggle("nav-expanded")}))})();
+(()=>{const e=document.querySelector(".themeToggle"),o=document.querySelector("body");e.addEventListener("click",(()=>{o.classList.toggle("darkTheme")})),document.querySelector(".menuToggle").addEventListener("click",(()=>{const e=document.querySelector(".l-mainNav");console.log("hi i am menelaos"),e.classList.toggle("nav-hidden")}))})();
 //# sourceMappingURL=bundle.js.map

@@ -14,5 +14,5 @@ menuToggleBtn.addEventListener("click", () => {
     const nav = document.querySelector(".l-mainNav");
     console.log("hi i am menelaos");
 
-    nav.classList.toggle("nav-expanded");
+    nav.classList.toggle("nav-hidden");
 })
