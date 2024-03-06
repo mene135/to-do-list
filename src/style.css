@@ -1,10 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Roboto:ital,wght@0,400;0,700;0,900;1,400;1,500;1,700&display=swap');
 
 /* -- Base rules */
+    html {
+        box-sizing: border-box;
+        width: 100%;
+    }
 
     body {
         position: relative;
         height: 100vh;
+        width: 100%;
         padding: 0px;
         margin: 0px;
 
@@ -43,6 +48,14 @@
         font-family: var(--ff-primary);
     }
 
+    @media (max-width: 425px) {
+        #header {
+            padding: var(--spacing-100) 0;
+            justify-content: space-evenly;
+        }
+    }
+    
+
     .l-mainNav {
         position: fixed;
         left: 0;
@@ -63,6 +76,13 @@
     .nav-hidden {
         transform: scaleX(0);
         opacity: 0%;
+    }
+
+    @media (max-width: 425px) {
+        .l-mainNav {
+            width: 100%;
+            padding: 0;
+        }
     }
 
 
@@ -93,7 +113,7 @@
         font-weight: bold;
         letter-spacing: 0.15rem;
     }
-
+    
     .logo  span {
         color: var(--secondary);
     }
@@ -126,6 +146,11 @@
         background-color: var(--secondary-light);
     }
 
+    .homeSection {
+        width: 80%;
+        margin: 20px auto;
+    }
+
     .homeSection-title {
         margin: 0;
         
@@ -137,20 +162,27 @@
     }
 
     .homeSection-button{
-        display: flex;
-        gap: 20px;
+        display: grid;
+        grid-template-columns: 1fr;
+        
+        margin: 30px auto;
+        row-gap: 20px;
         width: 100%;
         margin-bottom: var(--spacing-300);
-        padding: var(--spacing-300);
+        
 
         font-size: var(--fs-500);
         font-weight: 600;
         color: var(--primary);
-    }
-       
+    }  
 
     .homeSection-button:hover {
         background-color: var(--hover-cl);
+    }
+
+    .projectSection {
+        width: 80%;
+        margin: 20px auto;
     }
 
     .projectSection-title {
@@ -175,12 +207,7 @@
     }
 
 /* -- State rules */ 
-@media (max-width: 341px) {
-    #header {
-        padding: var(--spacing-100) 0;
-        justify-content: space-evenly;
-    }
-}
+
 
 
 
