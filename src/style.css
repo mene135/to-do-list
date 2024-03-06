@@ -77,8 +77,9 @@
         .l-mainNav {
             width: 100%;
             padding: 0;
-            opacity: 0%;
+            
 
+            transition: transform 0.25s linear;
             transform: scaleY(0);
             transform-origin: 50% 0px;
         }
@@ -91,7 +92,7 @@
 
     .nav-expanded {
         transform: scaleY(1);
-        opacity: 100%;
+        
     }
 
     .l-main {

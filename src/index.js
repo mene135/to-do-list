@@ -11,6 +11,8 @@ toggleThemeBtn.addEventListener("click", () => {
 const menuToggleBtn = document.querySelector(".menuToggle");
 
 menuToggleBtn.addEventListener("click", () => {
+    console.log("menu button clicked");
+
     const nav = document.querySelector(".l-mainNav");
     console.log("hi i am menelaos");
 
@@ -82,6 +84,12 @@ tabs.forEach(tab => {
         clear();
         click(tab.childNodes[1].textContent);
         tab.classList.add("active");
+
+        const nav = document.querySelector(".l-mainNav")
+
+        if(nav.classList.contains("nav-expanded")) {
+            menuToggleBtn.click();
+        }
     })
 })
 
