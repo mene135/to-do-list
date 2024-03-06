@@ -73,16 +73,25 @@
         transition: opacity 0.25s linear, transform 0.25s linear;
     }
 
+    @media (max-width: 425px) {
+        .l-mainNav {
+            width: 100%;
+            padding: 0;
+            opacity: 0%;
+
+            transform: scaleY(0);
+            transform-origin: 50% 0px;
+        }
+    }
+
     .nav-hidden {
         transform: scaleX(0);
         opacity: 0%;
     }
 
-    @media (max-width: 425px) {
-        .l-mainNav {
-            width: 100%;
-            padding: 0;
-        }
+    .nav-expanded {
+        transform: scaleY(1);
+        opacity: 100%;
     }
 
 
@@ -165,7 +174,7 @@
         display: grid;
         grid-template-columns: 1fr;
         
-        margin: 30px auto;
+        padding: var(--spacing-300) 0;
         row-gap: 20px;
         width: 100%;
         margin-bottom: var(--spacing-300);

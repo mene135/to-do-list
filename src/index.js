@@ -11,16 +11,38 @@ toggleThemeBtn.addEventListener("click", () => {
 const menuToggleBtn = document.querySelector(".menuToggle");
 
 menuToggleBtn.addEventListener("click", () => {
-    const ariaExpandedValue = menuToggleBtn.getAttribute("aria-expanded");
-    if(ariaExpandedValue === "true") {
-        menuToggleBtn.setAttribute("aria-expanded", "false");
-    } else {
-        menuToggleBtn.setAttribute("aria-expanded", "true");
-    }
-
-
     const nav = document.querySelector(".l-mainNav");
     console.log("hi i am menelaos");
 
-    nav.classList.toggle("nav-hidden");
+    if(document.documentElement.clientWidth <= 425) {
+        nav.classList.toggle("nav-expanded");
+        nav.classList.remove("nav-hidden");
+
+        isNavExpanded();
+    };
+
+
+    if(document.documentElement.clientWidth > 425) {
+        nav.classList.toggle("nav-hidden"); 
+        nav.classList.remove("nav-expanded");
+
+        isNavExpanded();
+    }
 })
+
+function isNavExpanded() {
+    const nav = document.querySelector(".l-mainNav");
+    
+    if (
+        nav.classList.contains("nav-expanded") ||
+        nav.classList.contains("nav-hidden") === false && document.documentElement.clientWidth > 425
+    ) {
+        menuToggleBtn.setAttribute("aria-expanded", "true");
+    } else {
+        menuToggleBtn.setAttribute("aria-expanded", "false");
+    }
+}
+
+window.onload = () => {
+    isNavExpanded();
+}
