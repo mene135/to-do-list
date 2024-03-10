@@ -1,10 +1,12 @@
 export const addProjectBtn = document.querySelector(".projectSection-addProjectButton");
+const projectSectionContent = document.querySelector(".projectSection-content");
 
 export function projectSectionFormMaker() {
+
     const form = document.createElement("form");
     const input = document.createElement("input");
     const addBtn = document.createElement("button");
-    const deleteBtn = document.createElement("button");
+    const cancelBtn = document.createElement("button");
     const formBtnContainer = document.createElement("form");
 
     input.setAttribute("placeholder", "Project Name");
@@ -13,23 +15,61 @@ export function projectSectionFormMaker() {
     input.classList.add("addProjectForm-input");
     formBtnContainer.classList.add("addProjectForm-buttonContainer");
     addBtn.classList.add("addButton");
-    deleteBtn.classList.add("deleteButton");
+    cancelBtn.classList.add("cancelButton");
 
     addBtn.textContent = "ADD";
-    deleteBtn.textContent = "DELETE";
+    cancelBtn.textContent = "Cancel";
+
+    form.style.display = "none";
 
     formBtnContainer.appendChild(addBtn);
-    formBtnContainer.appendChild(deleteBtn);
+    formBtnContainer.appendChild(cancelBtn);
     form.appendChild(input);
     form.appendChild(formBtnContainer);
 
-    const projectSection = document.querySelector(".projectSection");
-    projectSection.insertBefore(form, addProjectBtn);
+    projectSectionContent.insertBefore(form, addProjectBtn);
+
+    addBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        if(input.value === "") {
+            alert("The field cannot be empty");
+            return;
+        };
+        projectSectionProjectMaker(input.value, form);
+        form.style.display = "none";
+        input.value = "";
+    });
+
+    cancelBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        form.style.display = "none";
+    })
 }
 
-class Project {
-    constructor(name, arr) {
-        this.name = name;
-        this.arr = arr;
-    } 
+export function projectSectionFormToggle() {
+    const form = document.querySelector(".addProjectForm");
+    form.style.display = "block";
+};
+
+
+export function projectSectionProjectMaker(name, form) {
+    console.log(name.charAt(0))
+
+    name = name.charAt(0).toUpperCase() + name.slice(1, );
+
+    const project = document.createElement("div");
+    const icon = document.createElement("i");
+    const projectName = document.createElement("span");
+    const options = document.createElement("i");
+
+    icon.classList.add("fa-solid", "fa-bars");
+    options.classList.add("fa-solid", "fa-ellipsis-vertical");
+
+    projectName.textContent = name;
+
+    project.appendChild(icon);
+    project.appendChild(projectName);
+    project.appendChild(options);
+    projectSectionContent.insertBefore(project, form);
 }
+

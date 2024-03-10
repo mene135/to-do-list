@@ -1,15 +1,13 @@
 import { toggleThemeBtn, toggleTheme } from "./themes/themeToggle";
 import { menuToggleBtn, menuToggle, isNavExpanded } from "./navigation/menuToggle";
 import { clearActive, clear, createTabContent} from "./tabs/tabFunctionalities";
-import { addProjectBtn, projectSectionFormMaker } from "./projectAdder/projectAdder";
+import { addProjectBtn, addBtn, cancelBtn, projectSectionFormMaker, projectSectionFormToggle, projectSectionProjectMaker } from "./projectAdder/projectAdder";
 
 
 
 toggleThemeBtn.addEventListener("click", toggleTheme);
 menuToggleBtn.addEventListener("click", menuToggle);
-addProjectBtn.addEventListener("click", projectSectionFormMaker);
-
-
+addProjectBtn.addEventListener("click", projectSectionFormToggle);
 
 class Tab {
     constructor(tabName, tabToDos) {
@@ -55,4 +53,5 @@ tabs.forEach(tab => {
 
 window.onload = () => {
     isNavExpanded();
+    projectSectionFormMaker();
 }
