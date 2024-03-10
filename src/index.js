@@ -1,49 +1,15 @@
-const toggleThemeBtn = document.querySelector(".themeToggle");
-const body = document.querySelector("body");
-
-toggleThemeBtn.addEventListener("click", () => {
-    
-    body.classList.toggle("darkTheme");
-
-    
-})
-
-const menuToggleBtn = document.querySelector(".menuToggle");
-
-menuToggleBtn.addEventListener("click", () => {
-    console.log("menu button clicked");
-
-    const nav = document.querySelector(".l-mainNav");
-    console.log("hi i am menelaos");
-
-    if(document.documentElement.clientWidth <= 425) {
-        nav.classList.toggle("nav-expanded");
-        nav.classList.remove("nav-hidden");
-
-        isNavExpanded();
-    };
+import { toggleThemeBtn, toggleTheme } from "./themes/themeToggle";
+import { menuToggleBtn, menuToggle, isNavExpanded } from "./navigation/menuToggle";
+import { clearActive, clear, createTabContent} from "./tabs/tabFunctionalities";
+import { addProjectBtn, projectSectionFormMaker } from "./projectAdder/projectAdder";
 
 
-    if(document.documentElement.clientWidth > 425) {
-        nav.classList.toggle("nav-hidden"); 
-        nav.classList.remove("nav-expanded");
 
-        isNavExpanded();
-    }
-})
+toggleThemeBtn.addEventListener("click", toggleTheme);
+menuToggleBtn.addEventListener("click", menuToggle);
+addProjectBtn.addEventListener("click", projectSectionFormMaker);
 
-function isNavExpanded() {
-    const nav = document.querySelector(".l-mainNav");
-    
-    if (
-        nav.classList.contains("nav-expanded") ||
-        nav.classList.contains("nav-hidden") === false && document.documentElement.clientWidth > 425
-    ) {
-        menuToggleBtn.setAttribute("aria-expanded", "true");
-    } else {
-        menuToggleBtn.setAttribute("aria-expanded", "false");
-    }
-}
+
 
 class Tab {
     constructor(tabName, tabToDos) {
@@ -77,57 +43,16 @@ homeSectionTabs.push(today);
 homeSectionTabs.push(next7Days);
 homeSectionTabs.push(important);
 
-console.log(next7Days);
+
 tabs.forEach(tab => {
     tab.addEventListener("click", () => {
-        clearActive(tab)
+        clearActive(tab);
         clear();
-        click(tab.childNodes[1].textContent);
-        tab.classList.add("active");
-
-        const nav = document.querySelector(".l-mainNav")
-
-        if(nav.classList.contains("nav-expanded")) {
-            menuToggleBtn.click();
-        }
+        createTabContent(tab.childNodes[1].textContent)
     })
 })
 
-function click(tabClicked) {
-    const main = document.querySelector("main");
-
-    const div = document.createElement("div");
-    div.classList.add("title");
-
-    const h3 = document.createElement("h3");
-    h3.textContent = tabClicked;
-    h3.classList.add("title-heading");
-
-    div.appendChild(h3);
-    main.appendChild(div);
-}
-
-function clear() {
-    const main = document.querySelector("main");
-
-    main.innerHTML = "";
-}
-
-function clearActive(tabClicked) {
-    tabs.forEach(tab => {
-        if(tabClicked !== tab) {
-            tab.classList.remove("active")
-        }
-    })
-}
-
-
 
 window.onload = () => {
-
-    const tabs = document.querySelectorAll(".tab");
-
-    console.log(tabs[3].childNodes);
-
     isNavExpanded();
 }
