@@ -1,13 +1,19 @@
 import { toggleThemeBtn, toggleTheme } from "./themes/themeToggle";
 import { menuToggleBtn, menuToggle, isNavExpanded } from "./navigation/menuToggle";
 import { clearActive, clear, createTabContent} from "./tabs/tabFunctionalities";
-import { addProjectBtn, addBtn, cancelBtn, projectSectionFormMaker, projectSectionFormToggle, projectSectionProjectMaker } from "./projectAdder/projectAdder";
+import { addProjectBtn, addBtn, cancelBtn, projectSectionFormMaker, projectSectionFormOpen, projectSectionProjectMaker } from "./projectAdder/projectAdder";
 
 
 
 toggleThemeBtn.addEventListener("click", toggleTheme);
 menuToggleBtn.addEventListener("click", menuToggle);
-addProjectBtn.addEventListener("click", projectSectionFormToggle);
+addProjectBtn.addEventListener("click", () => {
+    if(document.querySelector(".addProjectForm").style.display === "block") {
+        alert("You must finish the previous form");
+}
+    projectSectionFormOpen();
+    document.querySelector(".addProjectForm-input").focus();
+});
 
 class Tab {
     constructor(tabName, tabToDos) {

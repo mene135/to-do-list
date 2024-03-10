@@ -10,6 +10,7 @@ export function projectSectionFormMaker() {
     const formBtnContainer = document.createElement("form");
 
     input.setAttribute("placeholder", "Project Name");
+    input.setAttribute("maxlength", "20");
 
     form.classList.add("addProjectForm");
     input.classList.add("addProjectForm-input");
@@ -29,6 +30,17 @@ export function projectSectionFormMaker() {
 
     projectSectionContent.insertBefore(form, addProjectBtn);
 
+    input.addEventListener("keydown", (e) => {
+        if(e.key === "Enter") {
+            e.preventDefault();
+            addBtn.click(); 
+        }
+
+        if(e.key === "Escape") {
+            cancelBtn.click();
+        }
+    })
+
     addBtn.addEventListener("click", (e) => {
         e.preventDefault();
         if(input.value === "") {
@@ -46,7 +58,7 @@ export function projectSectionFormMaker() {
     })
 }
 
-export function projectSectionFormToggle() {
+export function projectSectionFormOpen() {
     const form = document.querySelector(".addProjectForm");
     form.style.display = "block";
 };
