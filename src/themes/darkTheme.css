@@ -1,0 +1,9 @@
+body.darkTheme {
+    --primary: #fff;
+    --secondary: #2db48c;
+    
+    --bg1: #22303c;
+    --bg2: #192734;
+
+    --text-color: var(--primary);
+}
