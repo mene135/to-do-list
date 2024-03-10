@@ -53,8 +53,6 @@ export function projectSectionFormToggle() {
 
 
 export function projectSectionProjectMaker(name, form) {
-    console.log(name.charAt(0))
-
     name = name.charAt(0).toUpperCase() + name.slice(1, );
 
     const project = document.createElement("div");
@@ -62,8 +60,10 @@ export function projectSectionProjectMaker(name, form) {
     const projectName = document.createElement("span");
     const options = document.createElement("i");
 
+    project.classList.add("project");
     icon.classList.add("fa-solid", "fa-bars");
-    options.classList.add("fa-solid", "fa-ellipsis-vertical");
+    projectName.classList.add("projectName")
+    options.classList.add("fa-solid", "fa-ellipsis-vertical", "options");
 
     projectName.textContent = name;
 

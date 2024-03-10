@@ -114,7 +114,7 @@
     }
 
     .menuToggle:hover {
-        background-color: var(--hover-cl);
+        background-color: var(--cl-lightGray);
     }
 
     .logo {
@@ -207,32 +207,15 @@
         padding: var(--spacing-300);
         width: 100%;
 
+        background-color: var(--cl-lightGray);
+
         font-weight: 500;
         font-size: var(--fs-500);
         color: var(--primary);
     }
 
-    .projectSection-addProjectButton:hover {
-        background-color: var(--hover-cl);
-    }
-
     .projectSection-addProjectButton > span {
         margin-left: var(--spacing-500);
-    }
-
-    .title {
-        background-color: var(--secondary);
-        padding: 0;
-        width: clamp(10rem, 50vw, 30rem);
-
-        border-radius: var(--border-radius);
-
-        font-family: var(--ff-primary);
-    }
-
-    .title-heading {
-        font-size: var(--fs-500);
-        text-align: center;
     }
 
     .addProjectForm {
@@ -260,6 +243,44 @@
         justify-content: center;
         gap: 5%;
         
+    }
+
+    .project {
+        display: grid;
+        grid-template-columns: 20px 1fr 1fr;
+        margin-bottom: var(--spacing-400);
+        align-items: center;
+        
+        color: var(--primary);
+
+        font-size: var(--fs-500);
+    }
+
+    .projectName {
+        margin-left: var(--spacing-400);
+
+        font-weight: var(--fw-bold);
+    }
+
+    .options {
+        justify-self: end;
+        margin-right: var(--spacing-200);
+    }
+
+
+    .title {
+        background-color: var(--secondary);
+        padding: 0;
+        width: clamp(10rem, 50vw, 30rem);
+
+        border-radius: var(--border-radius);
+
+        font-family: var(--ff-primary);
+    }
+
+    .title-heading {
+        font-size: var(--fs-500);
+        text-align: center;
     }
 
     .addButton {
@@ -320,7 +341,7 @@ body {
 
     --secondary-light: #83f0cf; 
 
-    --hover-cl: #ddd9d9;
+    --cl-lightGray: #ddd9d9;
 
     --bg1: #f2f3f5;
     --bg2: #ececec;
