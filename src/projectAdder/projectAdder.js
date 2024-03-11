@@ -67,21 +67,28 @@ export function projectSectionFormOpen() {
 export function projectSectionProjectMaker(name, form) {
     name = name.charAt(0).toUpperCase() + name.slice(1, );
 
-    const project = document.createElement("div");
+    const project = document.createElement("button");
     const icon = document.createElement("i");
     const projectName = document.createElement("span");
-    const options = document.createElement("i");
+    const optionsBtn = document.createElement("button");
+    const optionsIcon = document.createElement("i");
 
     project.classList.add("project");
     icon.classList.add("fa-solid", "fa-bars");
-    projectName.classList.add("projectName")
-    options.classList.add("fa-solid", "fa-ellipsis-vertical", "options");
+    projectName.classList.add("projectName");
+    optionsBtn.classList.add("options");
+    optionsIcon.classList.add("fa-solid", "fa-ellipsis-vertical", "optionsIcon");
+
+    optionsBtn.setAttribute("tabIndex", "0");
 
     projectName.textContent = name;
 
+    optionsBtn.appendChild(optionsIcon);
     project.appendChild(icon);
     project.appendChild(projectName);
-    project.appendChild(options);
+    project.appendChild(optionsBtn);
     projectSectionContent.insertBefore(project, form);
-}
+
+   
+} 
 

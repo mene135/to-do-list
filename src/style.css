@@ -244,10 +244,11 @@
     }
 
     .project {
-        display: grid;
-        grid-template-columns: 20px 1fr 20px;
+        display: flex;
+        justify-content: space-between;
         margin-bottom: var(--spacing-400);
         align-items: center;
+        width: 100%;
         
         color: var(--primary);
 
@@ -255,15 +256,17 @@
     }
 
     .projectName {
-        margin-left: var(--spacing-200);
-        overflow: scroll;
+        margin-left: var(--spacing-100);
+        padding: var(--spacing-300) 0;
+        justify-self: center;
 
         font-weight: var(--fw-bold);
+
+        overflow: scroll;
     }
 
-    .options {
-        justify-self: end;
-        margin-right: var(--spacing-200);
+    .optionsIcon {
+        font-size: var(--fs-500);
     }
 
 
