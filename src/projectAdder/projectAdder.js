@@ -89,6 +89,43 @@ export function projectSectionProjectMaker(name, form) {
     project.appendChild(optionsBtn);
     projectSectionContent.insertBefore(project, form);
 
-   
+    const optionsList = document.createElement("ul");
+    const modifyOption = document.createElement("li");
+    const deleteOption = document.createElement("li")
+    const modifyOptionBtn = document.createElement("button");
+    const deleteOptionBtn = document.createElement("button");
+
+
+    modifyOptionBtn.textContent = "MODIFY";
+    deleteOptionBtn.textContent = "DELETE";
+
+    optionsList.classList.add("optionsList");
+    modifyOptionBtn.classList.add("options-modifyOptionBtn");
+    optionsList.classList.toggle("hidden");
+
+    
+    modifyOption.appendChild(modifyOptionBtn);
+    deleteOption.appendChild(deleteOptionBtn);
+    
+    optionsList.appendChild(modifyOption);
+    optionsList.appendChild(deleteOption);
+    project.appendChild(optionsList);
+
+   optionsBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        optionsList.classList.toggle("hidden");     
+   })
+
+   optionsBtn.addEventListener("blur", () => {
+        optionsList.classList.toggle("hidden");
+   })
 } 
+
+
+
+
+
+
+
+
 
