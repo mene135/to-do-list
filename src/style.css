@@ -174,7 +174,7 @@
         padding-left: 0;
     }
 
-    .homeBtn{
+    .homeBtn {
         display: grid;
         grid-template-columns: 1fr;
         
@@ -190,7 +190,7 @@
     }  
 
     .homeBtn:hover {
-        background-color: var(--secondary-light);
+        background-color: var(--secondary);
     }
 
     .projectSection {
@@ -210,7 +210,7 @@
         padding: var(--spacing-300);
         width: 100%;
 
-        background-color: var(--cl-lightGray);
+        background-color: var(--cl-lightDarkGray);
 
         font-weight: 500;
         font-size: var(--fs-500);
@@ -263,7 +263,7 @@
     }
 
     .projectBtn:hover {
-        background-color: var(--secondary-light);
+        background-color: var(--secondary);
     }
 
     .project-name {
@@ -286,22 +286,27 @@
         grid-template-rows: 1fr 1fr;
         position: absolute;
         right: 0;
-        top: -5em;
+        top: -3.15em;
         padding: 0;
+
+        transition: transform 4s linear;
+        
 
         border-radius: var(--border-radius);
 
         background-color: var(--bg2);
+    }
+
+    .project-options button {
+        padding: var(--spacing-200) var(--spacing-200);
+
+        color: var(--primary);
 
         font-size: var(--fs-200);
         font-weight: bold;
     }
 
-    .project-options button {
-        padding: var(--spacing-200) var(--spacing-200);
-    }
-
-    .options-modifyOptionBtn {
+    .project-modifyOptionBtn {
         border-bottom: var(--border) var(--primary);
     }
 
@@ -350,7 +355,7 @@
 /* -- State rules */ 
 
 .active {
-    background-color: var(--secondary-light);
+    background-color: var(--secondary);
 }
 
 .hidden {
@@ -384,6 +389,7 @@ body {
     --secondary-light: #83f0cf; 
 
     --cl-lightGray: #ddd9d9;
+    --cl-lightDarkGray: #ddd9d9;
 
     --bg1: #f2f3f5;
     --bg2: #ececec;
@@ -407,6 +413,8 @@ body {
 body.darkTheme {
     --primary: #fff;
     --secondary: #2db48c;
+
+    --cl-lightDarkGray: #585757;
     
     --bg1: #22303c;
     --bg2: #192734;

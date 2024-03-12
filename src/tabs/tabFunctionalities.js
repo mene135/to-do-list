@@ -17,7 +17,7 @@ export function clear() {
     main.innerHTML = "";
 }
 
-export function clearActive(tabClicked) {
+export function manageActiveTab(tabClicked) {
     tabs.forEach(tab => {
         if(tabClicked !== tab) {
             tab.classList.remove("active")

@@ -1,4 +1,4 @@
-import { clearActive } from "../tabs/tabFunctionalities";
+import { manageActiveTab } from "../tabs/tabFunctionalities";
 
 export const addProjectBtn = document.querySelector(".projectSection-addProjectButton");
 const projectSectionContent = document.querySelector(".projectSection-content");
@@ -116,14 +116,14 @@ export function projectSectionProjectMaker(name, form) {
     projectBtn.appendChild(options);
 
    projectBtn.addEventListener("click", () => {
-    activeProjects(projectBtn);
-    clearActive("none");
+    manageActiveProject(projectBtn);
+    manageActiveTab("none");
    })
 
 
    optionsBtn.addEventListener("click", (e) => {
         e.stopPropagation();
-        options.classList.toggle("hidden");     
+        options.classList.toggle("hidden");
    })
 
    optionsBtn.addEventListener("blur", () => {
@@ -148,12 +148,13 @@ export function projectSectionProjectMaker(name, form) {
         projectBtn.insertBefore(modifyInput, optionsBtn);
         modifyInput.focus();
    })
+
+   projectBtn.click();
 }
 
-export function activeProjects(projectClicked) {
+export function manageActiveProject(projectClicked) {
     const projects = document.querySelectorAll(".projectBtn");
 
-    console.log("active projects clicked");
     projects.forEach(project => {
         if(project !== projectClicked) {
             project.classList.remove("active");
