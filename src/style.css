@@ -174,7 +174,7 @@
         padding-left: 0;
     }
 
-    .homeSection-button{
+    .homeBtn{
         display: grid;
         grid-template-columns: 1fr;
         
@@ -189,7 +189,7 @@
         color: var(--primary);
     }  
 
-    .homeSection-button:hover {
+    .homeBtn:hover {
         background-color: var(--secondary-light);
     }
 
@@ -200,6 +200,10 @@
 
     .projectSection-title {
         border-bottom: var(--border) var(--primary);
+    }
+
+    .projectSection-content {
+        padding: 0;
     }
 
     .projectSection-addProjectButton {
@@ -243,7 +247,7 @@
         
     }
 
-    .project {
+    .projectBtn {
         display: flex;
         justify-content: space-between;
         margin-bottom: var(--spacing-400);
@@ -258,11 +262,11 @@
         font-size: var(--fs-500);
     }
 
-    .project:hover {
+    .projectBtn:hover {
         background-color: var(--secondary-light);
     }
 
-    .projectName {
+    .project-name {
         margin-left: var(--spacing-100);
         justify-self: center;
 
@@ -271,13 +275,13 @@
        
     }
 
-    .optionsIcon {
+    .project-optionsIcon {
         color: var(--primary);
 
         font-size: var(--fs-500);
     }
 
-    .optionsList {
+    .project-options {
         display: grid;
         grid-template-rows: 1fr 1fr;
         position: absolute;
@@ -293,7 +297,7 @@
         font-weight: bold;
     }
 
-    .optionsList button {
+    .project-options button {
         padding: var(--spacing-200) var(--spacing-200);
     }
 

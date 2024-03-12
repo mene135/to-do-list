@@ -10,6 +10,8 @@ menuToggleBtn.addEventListener("click", menuToggle);
 addProjectBtn.addEventListener("click", () => {
     if(document.querySelector(".addProjectForm").style.display === "block") {
         alert("You must finish the previous form");
+        document.querySelector(".addProjectForm-input").focus();
+        return;
 }
     projectSectionFormOpen();
     document.querySelector(".addProjectForm-input").focus();

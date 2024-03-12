@@ -3,8 +3,6 @@ import { clearActive } from "../tabs/tabFunctionalities";
 export const addProjectBtn = document.querySelector(".projectSection-addProjectButton");
 const projectSectionContent = document.querySelector(".projectSection-content");
 
-const projects = [];
-
 export function projectSectionFormMaker() {
 
     const form = document.createElement("form");
@@ -32,7 +30,7 @@ export function projectSectionFormMaker() {
     form.appendChild(input);
     form.appendChild(formBtnContainer);
 
-    projectSectionContent.insertBefore(form, addProjectBtn);
+    projectSectionContent.appendChild(form);
 
     input.addEventListener("keydown", (e) => {
         if(e.key === "Enter") {
@@ -71,29 +69,31 @@ export function projectSectionFormOpen() {
 export function projectSectionProjectMaker(name, form) {
     name = name.charAt(0).toUpperCase() + name.slice(1, );
 
-    const project = document.createElement("button");
+    const project = document.createElement("li");
+    const projectBtn = document.createElement("button");
     const icon = document.createElement("i");
     const projectName = document.createElement("span");
     const optionsBtn = document.createElement("button");
     const optionsIcon = document.createElement("i");
 
-    project.classList.add("project");
+    projectBtn.classList.add("projectBtn");
     icon.classList.add("fa-solid", "fa-bars");
-    projectName.classList.add("projectName");
+    projectName.classList.add("project-name");
     optionsBtn.classList.add("options");
-    optionsIcon.classList.add("fa-solid", "fa-ellipsis-vertical", "optionsIcon");
+    optionsIcon.classList.add("fa-solid", "fa-ellipsis-vertical", "project-optionsIcon");
 
     optionsBtn.setAttribute("tabIndex", "0");
 
     projectName.textContent = name;
 
     optionsBtn.appendChild(optionsIcon);
-    project.appendChild(icon);
-    project.appendChild(projectName);
-    project.appendChild(optionsBtn);
+    projectBtn.appendChild(icon);
+    projectBtn.appendChild(projectName);
+    projectBtn.appendChild(optionsBtn);
+    project.appendChild(projectBtn);
     projectSectionContent.insertBefore(project, form);
 
-    const optionsList = document.createElement("ul");
+    const options = document.createElement("ul");
     const modifyOption = document.createElement("li");
     const deleteOption = document.createElement("li")
     const modifyOptionBtn = document.createElement("button");
@@ -103,34 +103,34 @@ export function projectSectionProjectMaker(name, form) {
     modifyOptionBtn.textContent = "MODIFY";
     deleteOptionBtn.textContent = "DELETE";
 
-    optionsList.classList.add("optionsList");
-    modifyOptionBtn.classList.add("options-modifyOptionBtn");
-    optionsList.classList.toggle("hidden");
+    options.classList.add("project-options");
+    modifyOptionBtn.classList.add("project-modifyOptionBtn");
+    options.classList.toggle("hidden");
 
     
     modifyOption.appendChild(modifyOptionBtn);
     deleteOption.appendChild(deleteOptionBtn);
     
-    optionsList.appendChild(modifyOption);
-    optionsList.appendChild(deleteOption);
-    project.appendChild(optionsList);
+    options.appendChild(modifyOption);
+    options.appendChild(deleteOption);
+    projectBtn.appendChild(options);
 
-   project.addEventListener("click", () => {
-    activeProjects(project);
+   projectBtn.addEventListener("click", () => {
+    activeProjects(projectBtn);
     clearActive("none");
    })
 
 
    optionsBtn.addEventListener("click", (e) => {
         e.stopPropagation();
-        optionsList.classList.toggle("hidden");     
+        options.classList.toggle("hidden");     
    })
 
    optionsBtn.addEventListener("blur", () => {
         const clickHandler = (e) => {
-            if(optionsList.classList.contains("hidden")) return;
+            if(options.classList.contains("hidden")) return;
             if(modifyOptionBtn !== e.target || deleteOptionBtn !== e.target) {
-                optionsList.classList.toggle("hidden");
+                options.classList.toggle("hidden");
                 document.removeEventListener("click", clickHandler);
             }
         }
@@ -145,13 +145,13 @@ export function projectSectionProjectMaker(name, form) {
 
         projectName.style.display = "none";
 
-        project.insertBefore(modifyInput, optionsBtn);
+        projectBtn.insertBefore(modifyInput, optionsBtn);
         modifyInput.focus();
    })
 }
 
 export function activeProjects(projectClicked) {
-    const projects = document.querySelectorAll(".project");
+    const projects = document.querySelectorAll(".projectBtn");
 
     console.log("active projects clicked");
     projects.forEach(project => {
