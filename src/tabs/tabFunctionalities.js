@@ -25,5 +25,5 @@ export function clearActive(tabClicked) {
             tab.classList.add("active");
         }
     })
-}
+} 
 

@@ -1,5 +1,9 @@
+import { clearActive } from "../tabs/tabFunctionalities";
+
 export const addProjectBtn = document.querySelector(".projectSection-addProjectButton");
 const projectSectionContent = document.querySelector(".projectSection-content");
+
+const projects = [];
 
 export function projectSectionFormMaker() {
 
@@ -111,15 +115,52 @@ export function projectSectionProjectMaker(name, form) {
     optionsList.appendChild(deleteOption);
     project.appendChild(optionsList);
 
+   project.addEventListener("click", () => {
+    activeProjects(project);
+    clearActive("none");
+   })
+
+
    optionsBtn.addEventListener("click", (e) => {
         e.stopPropagation();
         optionsList.classList.toggle("hidden");     
    })
 
    optionsBtn.addEventListener("blur", () => {
-        optionsList.classList.toggle("hidden");
+        const clickHandler = (e) => {
+            if(optionsList.classList.contains("hidden")) return;
+            if(modifyOptionBtn !== e.target || deleteOptionBtn !== e.target) {
+                optionsList.classList.toggle("hidden");
+                document.removeEventListener("click", clickHandler);
+            }
+        }
+
+        document.addEventListener("click", clickHandler);
    })
-} 
+
+   modifyOptionBtn.addEventListener("click", () => {
+        const modifyInput = document.createElement("input");
+        modifyInput.classList.add("project-modifyInput");
+        modifyInput.value = projectName.textContent;
+
+        projectName.style.display = "none";
+
+        project.insertBefore(modifyInput, optionsBtn);
+        modifyInput.focus();
+   })
+}
+
+export function activeProjects(projectClicked) {
+    const projects = document.querySelectorAll(".project");
+
+    console.log("active projects clicked");
+    projects.forEach(project => {
+        if(project !== projectClicked) {
+            project.classList.remove("active");
+        } else {
+            project.classList.add("active");
+        }})
+}
 
 
 

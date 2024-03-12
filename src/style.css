@@ -250,6 +250,8 @@
         align-items: center;
         width: 100%;
         position: relative;
+        padding: var(--spacing-300) 0;
+        padding-left: var(--spacing-100);
         
         color: var(--primary);
 
@@ -262,7 +264,6 @@
 
     .projectName {
         margin-left: var(--spacing-100);
-        padding: var(--spacing-300) 0;
         justify-self: center;
 
         font-weight: var(--fw-bold);
@@ -298,6 +299,10 @@
 
     .options-modifyOptionBtn {
         border-bottom: var(--border) var(--primary);
+    }
+
+    .project-modifyInput {
+        width: 70%;
     }
 
 

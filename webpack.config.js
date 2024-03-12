@@ -1,6 +1,14 @@
 const path = require('path');
 
 module.exports = {
+  devServer: {
+    static: {
+        directory: path.join(__dirname, 'dist'), // Path to serve static files from
+    },
+    compress: true, // Enable gzip compression
+    port: 5500, // Port to run dev server on
+    open: true // Open the browser when server starts
+  },
   mode: 'production',
   entry: './src/index.js', // Entry point of your application
   output: {

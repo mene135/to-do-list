@@ -1,7 +1,7 @@
 import { toggleThemeBtn, toggleTheme } from "./themes/themeToggle";
 import { menuToggleBtn, menuToggle, isNavExpanded } from "./navigation/menuToggle";
 import { clearActive, clear, createTabContent} from "./tabs/tabFunctionalities";
-import { addProjectBtn, addBtn, cancelBtn, projectSectionFormMaker, projectSectionFormOpen, projectSectionProjectMaker } from "./projectAdder/projectAdder";
+import { addProjectBtn, addBtn, cancelBtn, activeProjects, projectSectionFormMaker, projectSectionFormOpen, projectSectionProjectMaker } from "./projectAdder/projectAdder";
 
 
 
@@ -48,8 +48,12 @@ homeSectionTabs.push(next7Days);
 homeSectionTabs.push(important);
 
 
+const projects = document.querySelectorAll(".project");
+console.log(projects);
+
 tabs.forEach(tab => {
     tab.addEventListener("click", () => {
+        activeProjects("none");
         clearActive(tab);
         clear();
         createTabContent(tab.childNodes[1].textContent)
