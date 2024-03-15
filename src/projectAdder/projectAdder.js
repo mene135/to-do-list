@@ -1,5 +1,6 @@
 import { manageActiveTab } from "../tabs/tabFunctionalities";
 
+const projectSection = document.querySelector(".projectSection")
 export const addProjectBtn = document.querySelector(".projectSection-addProjectButton");
 const projectSectionContent = document.querySelector(".projectSection-content");
 
@@ -30,18 +31,16 @@ export function projectSectionFormMaker() {
     form.appendChild(input);
     form.appendChild(formBtnContainer);
 
-    projectSectionContent.appendChild(form);
+    projectSection.insertBefore(form, addProjectBtn);
 
     input.addEventListener("keydown", (e) => {
         if(e.key === "Enter") {
             e.preventDefault();
             addBtn.click(); 
-        }
-
-        if(e.key === "Escape") {
+        } else if (e.key === "Escape") {
             cancelBtn.click();
         }
-    })
+    });
 
     addBtn.addEventListener("click", (e) => {
         e.preventDefault();
@@ -57,7 +56,7 @@ export function projectSectionFormMaker() {
     cancelBtn.addEventListener("click", (e) => {
         e.preventDefault();
         form.style.display = "none";
-    })
+    });
 }
 
 export function projectSectionFormOpen() {
@@ -76,10 +75,11 @@ export function projectSectionProjectMaker(name, form) {
     const optionsBtn = document.createElement("button");
     const optionsIcon = document.createElement("i");
 
-    projectBtn.classList.add("projectBtn");
+    project.classList.add("project");
+    projectBtn.classList.add("project-button");
     icon.classList.add("fa-solid", "fa-bars");
     projectName.classList.add("project-name");
-    optionsBtn.classList.add("options");
+    optionsBtn.classList.add("project-optionsBtn");
     optionsIcon.classList.add("fa-solid", "fa-ellipsis-vertical", "project-optionsIcon");
 
     optionsBtn.setAttribute("tabIndex", "0");
@@ -91,7 +91,7 @@ export function projectSectionProjectMaker(name, form) {
     projectBtn.appendChild(projectName);
     projectBtn.appendChild(optionsBtn);
     project.appendChild(projectBtn);
-    projectSectionContent.insertBefore(project, form);
+    projectSectionContent.appendChild(project);
 
     const options = document.createElement("ul");
     const modifyOption = document.createElement("li");
@@ -105,7 +105,7 @@ export function projectSectionProjectMaker(name, form) {
 
     options.classList.add("project-options");
     modifyOptionBtn.classList.add("project-modifyOptionBtn");
-    options.classList.toggle("project-options-hidden");
+    options.classList.toggle("project-options-isHidden");
 
     
     modifyOption.appendChild(modifyOptionBtn);
@@ -121,16 +121,15 @@ export function projectSectionProjectMaker(name, form) {
    })
 
 
-   optionsBtn.addEventListener("click", (e) => {
-       ;
-        options.classList.toggle("project-options-hidden");
+   optionsBtn.addEventListener("click", () => {
+        options.classList.toggle("project-options-isHidden");
    })
 
    optionsBtn.addEventListener("blur", () => {
         const clickHandler = (e) => {
-            if(options.classList.contains("project-options-hidden")) return;
+            if(options.classList.contains("project-options-isHidden")) return;
             if(modifyOptionBtn !== e.target || deleteOptionBtn !== e.target) {
-                options.classList.toggle("project-options-hidden");
+                options.classList.toggle("project-options-isHidden");
                 document.removeEventListener("click", clickHandler);
             }
         }
@@ -139,21 +138,75 @@ export function projectSectionProjectMaker(name, form) {
    })
 
    modifyOptionBtn.addEventListener("click", () => {
+        optionsBtn.disabled = true;
+
         const modifyInput = document.createElement("input");
         modifyInput.classList.add("project-modifyInput");
         modifyInput.value = projectName.textContent;
 
         projectName.style.display = "none";
+        
+        project.classList.add("project-isModifyState");
+        projectBtn.classList.add("project-button-isModifyState");
+
+        const modifyButtons = document.createElement("div");
+        const renameBtn = document.createElement("button");
+        const cancelBtn = document.createElement("button");
+
+        renameBtn.textContent = "RENAME";
+        cancelBtn.textContent = "CANCEL";
+
+        modifyButtons.classList.add("project-modifyButtons");
+        renameBtn.classList.add("addButton");
+        cancelBtn.classList.add("cancelButton");
+
+        modifyButtons.appendChild(renameBtn);
+        modifyButtons.appendChild(cancelBtn);
+
+        project.appendChild(modifyButtons);
 
         projectBtn.insertBefore(modifyInput, optionsBtn);
         modifyInput.focus();
+
+        modifyInput.addEventListener("keydown", (e) => {
+            if(e.key === "Enter") {
+                renameBtn.click();
+            } else if (e.key === "Escape") {
+                cancelBtn.click();
+            }
+        });
+
+        renameBtn.addEventListener("click", () => {
+            projectName.style.display = "inline-block";
+            name = modifyInput.value;
+            name = name.charAt(0).toUpperCase() + name.slice(1, );
+
+            projectName.textContent = name;
+
+            cancelBtn.click();
+        });
+
+        cancelBtn.addEventListener("click", () => {
+            projectName.style.display = "inline-block";
+            modifyInput.style.display = "none";
+            modifyButtons.style.display = "none";
+
+            project.classList.remove("project-isModifyState");
+            projectBtn.classList.remove("project-button-isModifyState");
+
+            optionsBtn.disabled = false;
+        });
+   });
+
+   deleteOptionBtn.addEventListener("click", () => {
+        projectSectionContent.removeChild(project);
    })
 
    projectBtn.click();
 }
 
 export function manageActiveProject(projectClicked) {
-    const projects = document.querySelectorAll(".projectBtn");
+    const projects = document.querySelectorAll(".project-button");
 
     projects.forEach(project => {
         if(project !== projectClicked) {
