@@ -288,13 +288,22 @@
         right: 0;
         top: -3.15em;
         padding: 0;
+        
 
-        transition: transform 4s linear;
+        transition: transform 0.25s linear, opacity 0.25s linear;
         
 
         border-radius: var(--border-radius);
 
+        opacity: 100%;
         background-color: var(--bg2);
+    }
+
+    .project-options-hidden {
+        opacity: 0%;
+        transform: translateY(1rem);
+        
+        pointer-events: none;
     }
 
     .project-options button {
@@ -357,11 +366,6 @@
 .active {
     background-color: var(--secondary);
 }
-
-.hidden {
-    display: none;
-}
-
 
 /* -- Theme rules */
 

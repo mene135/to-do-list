@@ -105,7 +105,7 @@ export function projectSectionProjectMaker(name, form) {
 
     options.classList.add("project-options");
     modifyOptionBtn.classList.add("project-modifyOptionBtn");
-    options.classList.toggle("hidden");
+    options.classList.toggle("project-options-hidden");
 
     
     modifyOption.appendChild(modifyOptionBtn);
@@ -122,15 +122,15 @@ export function projectSectionProjectMaker(name, form) {
 
 
    optionsBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        options.classList.toggle("hidden");
+       ;
+        options.classList.toggle("project-options-hidden");
    })
 
    optionsBtn.addEventListener("blur", () => {
         const clickHandler = (e) => {
-            if(options.classList.contains("hidden")) return;
+            if(options.classList.contains("project-options-hidden")) return;
             if(modifyOptionBtn !== e.target || deleteOptionBtn !== e.target) {
-                options.classList.toggle("hidden");
+                options.classList.toggle("project-options-hidden");
                 document.removeEventListener("click", clickHandler);
             }
         }
