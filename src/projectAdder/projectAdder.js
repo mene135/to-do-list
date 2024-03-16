@@ -194,49 +194,50 @@ export function projectSectionProjectMaker(name, form) {
     projectBtn.insertBefore(modifyInput, optionsBtn);
     projectBtn.insertBefore(modifyLabel, modifyInput);
 
-        modifyOptionBtn.addEventListener("click", () => {
-        optionsBtn.disabled = true;
+    modifyOptionBtn.addEventListener("click", () => {
+    optionsBtn.disabled = true;
 
-        modifyLabel.style.display = "block";
-        modifyInput.style.display = "block";
-        projectName.style.display = "none";
-        modifyButtons.style.display = "flex";
+    modifyLabel.style.display = "block";
+    modifyInput.style.display = "block";
+    projectName.style.display = "none";
+    modifyButtons.style.display = "flex";
 
-        modifyInput.value = projectName.textContent;
+    modifyInput.value = projectName.textContent;
 
-        project.classList.add("project-isModifyState");
-        projectBtn.classList.add("project-button-isModifyState");
+    project.classList.add("project-isModifyState");
+    projectBtn.classList.add("project-button-isModifyState");
 
-        modifyInput.focus();
-        });
+    modifyInput.focus();
+    });
 
+    // Options for when you are modifying-renaming the project name
 
-   renameBtn.addEventListener("click", (e) => {
-            name = modifyInput.value;
-            name = name.charAt(0).toUpperCase() + name.slice(1, );
+    renameBtn.addEventListener("click", (e) => {
+        name = modifyInput.value;
+        name = name.charAt(0).toUpperCase() + name.slice(1, );
 
-            e.stopPropagation();
+        e.stopPropagation();
 
-            if(name === "") {
-                alert("The project name cannot be empty");
-                return;
-            } else {
-                projectName.style.display = "inline-block";
-                projectName.textContent = name;
-                cancelBtn.click();
-            }
-        });
-
-        cancelBtn.addEventListener("click", () => {
+        if(name === "") {
+            alert("The project name cannot be empty");
+            return;
+        } else {
             projectName.style.display = "inline-block";
-            modifyInput.style.display = "none";
-            modifyButtons.style.display = "none";
+            projectName.textContent = name;
+            cancelBtn.click();
+        }
+    });
 
-            project.classList.remove("project-isModifyState");
-            projectBtn.classList.remove("project-button-isModifyState");
+    cancelBtn.addEventListener("click", () => {
+        projectName.style.display = "inline-block";
+        modifyInput.style.display = "none";
+        modifyButtons.style.display = "none";
 
-            optionsBtn.disabled = false;
-        });
+        project.classList.remove("project-isModifyState");
+        projectBtn.classList.remove("project-button-isModifyState");
+
+        optionsBtn.disabled = false;
+    });
 
    // Delete section
 

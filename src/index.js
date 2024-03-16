@@ -1,4 +1,4 @@
-import { toggleThemeBtn, toggleTheme } from "./themes/themeToggle";
+import { toggleThemeBtn, toggleTheme, setTheme, applyTheme } from "./themes/themeToggle";
 import { menuToggleBtn, menuToggle, isNavExpanded } from "./navigation/menuToggle";
 import { manageActiveTab, clear, createTabContent} from "./tabs/tabFunctionalities";
 import { addProjectBtn, addBtn, cancelBtn, manageActiveProject, projectSectionFormMaker, projectSectionFormOpen, projectSectionProjectMaker } from "./projectAdder/projectAdder";
@@ -56,10 +56,14 @@ tabs.forEach(tab => {
         clear();
         createTabContent(tab.childNodes[1].textContent)
     })
-})
-
+});
 
 window.onload = () => {
+    applyTheme();
     isNavExpanded();
     projectSectionFormMaker();
 }
+
+window.addEventListener("beforeunload", () => {
+    setTheme();
+})
