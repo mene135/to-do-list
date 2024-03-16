@@ -208,15 +208,8 @@ export function projectSectionProjectMaker(name, form) {
         projectBtn.classList.add("project-button-isModifyState");
 
         modifyInput.focus();
-
-        modifyInput.addEventListener("keydown", (e) => {
-            if(e.key === "Enter") {
-                renameBtn.click();
-            } else if (e.key === "Escape") {
-                cancelBtn.click();
-            }
         });
-   });
+
 
    renameBtn.addEventListener("click", (e) => {
             name = modifyInput.value;
@@ -226,6 +219,7 @@ export function projectSectionProjectMaker(name, form) {
 
             if(name === "") {
                 alert("The project name cannot be empty");
+                return;
             } else {
                 projectName.style.display = "inline-block";
                 projectName.textContent = name;
@@ -249,6 +243,13 @@ export function projectSectionProjectMaker(name, form) {
    deleteOptionBtn.addEventListener("click", () => {
         projectSectionContent.removeChild(project);
    })
+
+   modifyInput.addEventListener("keydown", (e) => {
+            if(e.key === "Enter") {
+                renameBtn.click();
+            } else if (e.key === "Escape") {
+                cancelBtn.click();
+            }});
 
    // End of delete section
 
