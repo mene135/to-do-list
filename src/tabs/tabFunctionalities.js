@@ -1,5 +1,5 @@
 const main = document.querySelector("main");
-const tabs = document.querySelectorAll(".tab");
+export let tabs = document.querySelectorAll(".tab");
 
  export function createTabContent(tabClicked) {
     const div = document.createElement("div");
@@ -11,11 +11,11 @@ const tabs = document.querySelectorAll(".tab");
 
     div.appendChild(h3);
     main.appendChild(div);
-}
+};
 
 export function clear() {
     main.innerHTML = "";
-}
+};
 
 export function manageActiveTab(tabClicked) {
     tabs.forEach(tab => {
@@ -25,5 +25,10 @@ export function manageActiveTab(tabClicked) {
             tab.classList.add("active");
         }
     })
-} 
+};
 
+export function tabsEventHandler(tab) {
+    manageActiveTab(tab);
+    clear();
+    createTabContent(tab.childNodes[1].textContent);
+}

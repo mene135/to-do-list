@@ -88,7 +88,7 @@ export function projectSectionProjectMaker(name, form) {
     const optionsIcon = document.createElement("i");
 
     project.classList.add("project");
-    projectBtn.classList.add("project-button");
+    projectBtn.classList.add("project-button", "tab");
     icon.classList.add("fa-solid", "fa-bars");
     projectName.classList.add("project-name");
     optionsBtn.classList.add("project-optionsBtn");
@@ -253,7 +253,6 @@ export function projectSectionProjectMaker(name, form) {
             }});
 
    // End of delete section
-
     projectBtn.click();
 };
 
@@ -271,7 +270,7 @@ export function manageActiveProject(projectClicked) {
 
 
 
-
+  
 
 
 
