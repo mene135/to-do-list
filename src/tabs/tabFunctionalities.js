@@ -18,11 +18,12 @@ export function clear() {
 };
 
 export function manageActiveTab(tabClicked) {
+    tabs = document.querySelectorAll(".tab");
     tabs.forEach(tab => {
         if(tabClicked !== tab) {
-            tab.classList.remove("active")
+            tab.classList.remove("is-active")
         } else {
-            tab.classList.add("active");
+            tab.classList.add("is-active");
         }
     })
 };

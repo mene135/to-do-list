@@ -1,7 +1,7 @@
 import { toggleThemeBtn, toggleTheme, setTheme, applyTheme } from "./themes/themeToggle";
 import { menuToggleBtn, menuToggle, isNavExpanded } from "./navigation/menuToggle";
-import { manageActiveTab, clear, createTabContent, tabs, tabsEventHandler} from "./tabs/tabFunctionalities";
-import { addProjectBtn, manageActiveProject, projectSectionFormMaker, projectSectionFormOpen } from "./projectAdder/projectAdder";
+import { tabs, tabsEventHandler} from "./tabs/tabFunctionalities";
+import { addProjectBtn, projectSectionFormMaker, projectSectionFormOpen } from "./projectAdder/projectAdder";
 
 
 

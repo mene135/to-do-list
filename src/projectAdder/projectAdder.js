@@ -1,4 +1,4 @@
-import { manageActiveTab } from "../tabs/tabFunctionalities";
+import { tabsEventHandler } from "../tabs/tabFunctionalities";
 
 const projectSection = document.querySelector(".projectSection")
 export const addProjectBtn = document.querySelector(".projectSection-addProjectButton");
@@ -111,9 +111,8 @@ export function projectSectionProjectMaker(name, form) {
     projectSectionContent.appendChild(project);
 
     projectBtn.addEventListener("click", () => {
-        manageActiveProject(projectBtn);
-        manageActiveTab("none");
-       })
+        tabsEventHandler(projectBtn);
+    });
 
     // Options menu
 
@@ -253,19 +252,11 @@ export function projectSectionProjectMaker(name, form) {
             }});
 
    // End of delete section
+
     projectBtn.click();
 };
 
-export function manageActiveProject(projectClicked) {
-    const projects = document.querySelectorAll(".project-button");
 
-    projects.forEach(project => {
-        if(project !== projectClicked) {
-            project.classList.remove("is-active");
-        } else {
-            project.classList.add("is-active");
-        }})
-};
 
 
 
