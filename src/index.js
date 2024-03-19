@@ -18,9 +18,9 @@ addProjectBtn.addEventListener("click", () => {
 });
 
 class Tab {
-    constructor(tabName, tabToDos) {
+    constructor(tabName, tabtasks) {
         this.tabName = tabName;
-        this.tabToDos = tabToDos;
+        this.tabtasks = tabtasks;
     }
 
     click = () => {
@@ -32,8 +32,8 @@ class Tab {
         main.appendChild(h3);
     }
 
-    appendToDo = (toDo) => {
-        this.tabToDos.push(toDo);
+    appendtask = (task) => {
+        this.tabtasks.push(task);
     }
 } 
 

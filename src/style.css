@@ -59,9 +59,11 @@
         position: fixed;
         left: 0;
         height: 100%;
-        width: 15rem;
+        width: 16rem;
         padding: var(--spacing-300) var(--spacing-400);
         background-color: var(--bg1);
+
+        padding-bottom: var(--spacing-800);
 
         font-family: var(--ff-secondary);
 
@@ -71,7 +73,7 @@
 
         transition: opacity 0.25s linear, transform 0.25s linear;
 
-        overflow-y: scroll;
+        overflow-y: auto;
     }
 
     @media (max-width: 425px) {

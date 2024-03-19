@@ -1,4 +1,5 @@
 import { tabsEventHandler } from "../tabs/tabFunctionalities";
+import { initializeMainForProjects } from "../todos/taskAdder";
 
 const projectSection = document.querySelector(".projectSection")
 export const addProjectBtn = document.querySelector(".projectSection-addProjectButton");
@@ -112,6 +113,7 @@ export function projectSectionProjectMaker(name, form) {
 
     projectBtn.addEventListener("click", () => {
         tabsEventHandler(projectBtn);
+        initializeMainForProjects();
     });
 
     // Options menu
@@ -157,19 +159,12 @@ export function projectSectionProjectMaker(name, form) {
 
 
     // Modify option section
-
-    const modifyLabel = document.createElement("label")
     const modifyInput = document.createElement("input");
 
-    modifyLabel.setAttribute("for", "modifyInput")
-    modifyLabel.classList.add("is-visually-hidden");
-    modifyLabel.textContent = "Enter new name for project";
-
     modifyInput.classList.add("project-modifyInput");
-    modifyInput.setAttribute("id", "modifyInput");
+    modifyInput.setAttribute("aria-label", "Enter new project name, text input");
     modifyInput.value = projectName.textContent;
 
-    modifyLabel.style.display = "none";
     modifyInput.style.display = "none";
 
     const modifyButtons = document.createElement("div");
@@ -191,12 +186,10 @@ export function projectSectionProjectMaker(name, form) {
     modifyButtons.style.display = "none";
 
     projectBtn.insertBefore(modifyInput, optionsBtn);
-    projectBtn.insertBefore(modifyLabel, modifyInput);
 
     modifyOptionBtn.addEventListener("click", () => {
     optionsBtn.disabled = true;
 
-    modifyLabel.style.display = "block";
     modifyInput.style.display = "block";
     projectName.style.display = "none";
     modifyButtons.style.display = "flex";
