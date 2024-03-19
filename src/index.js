@@ -58,8 +58,8 @@ window.onload = () => {
     applyTheme();
     isNavExpanded();
     projectSectionFormMaker();
-}
+};
 
 window.addEventListener("beforeunload", () => {
     setTheme();
-})
+});

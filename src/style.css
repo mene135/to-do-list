@@ -70,6 +70,8 @@
         transform-origin: left;
 
         transition: opacity 0.25s linear, transform 0.25s linear;
+
+        overflow-y: scroll;
     }
 
     @media (max-width: 425px) {
