@@ -60,7 +60,7 @@
         left: 0;
         height: 100%;
         width: 16rem;
-        padding: var(--spacing-300) var(--spacing-400);
+        padding: var(--spacing-300) var(--spacing-100);
         background-color: var(--bg1);
 
         padding-bottom: var(--spacing-800);
@@ -244,7 +244,7 @@
         font-size: var(--fs-200);
     }
 
-    .addProjectForm-buttonContainer {
+    .buttonContainer {
         display: flex;
         justify-content: center;
         gap: 5%;
@@ -351,7 +351,8 @@
     .title {
         background-color: var(--secondary);
         padding: 0;
-        width: clamp(10rem, 50vw, 30rem);
+        width: 100%;
+        margin-bottom: var(--spacing-400);
 
         border-radius: var(--border-radius);
 
@@ -385,6 +386,49 @@
         font-weight: var(--fw-bold);
     }
 
+    .tasksContainer {
+        display: grid;
+        width: clamp(13rem, 50vw, 35rem);;
+
+        justify-items: center;
+    }
+
+    .tasksContainer-addTaskBtn {
+        width: 100%;
+        padding: var(--spacing-200) 0;
+        
+        background-color: var(--bg1);
+        color: var(--primary);
+
+        font-size: var(--fs-300);
+        font-weight: var(--fw-bold);
+    }
+
+    .tasksContainer-taskMakerForm {  
+        padding: var(--spacing-300);
+        margin-bottom: var(--spacing-300);
+
+        background-color: var(--bg1);       
+
+        font-weight: var(--fw-bold);
+    }
+
+    .taskForm-input {
+        width: 100%;
+        margin: var(--spacing-200) 0;
+        padding: var(--spacing-100);
+    }
+
+    .taskForm-input:last-child {
+        margin-bottom: var(--spacing-400);
+    }
+
+    .taskForm-textArea {
+        width: 100%;
+        margin: var(--spacing-200) 0;
+        padding: var(--spacing-100);
+    }
+
 /* -- State rules */ 
 
 .is-active {
@@ -400,6 +444,10 @@
     overflow: hidden;
     clip: rect(0, 0, 0, 0);
     border: 0;
+}
+
+.is-hidden {
+    display: none;
 }
 
 /* -- Theme rules */

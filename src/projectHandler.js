@@ -1,5 +1,5 @@
-import { tabsEventHandler } from "../tabs/tabFunctionalities";
-import { initializeMainForProjects } from "../todos/taskAdder";
+import { tabsEventHandler } from "./tabFunctionalities";
+import { addTaskBtnMaker, taskFormMaker } from "./tasksHandler";
 
 const projectSection = document.querySelector(".projectSection")
 export const addProjectBtn = document.querySelector(".projectSection-addProjectButton");
@@ -25,7 +25,7 @@ export function projectSectionFormMaker() {
     form.classList.add("addProjectForm");
     label.classList.add("is-visually-hidden");
     input.classList.add("addProjectForm-input");
-    formBtnContainer.classList.add("addProjectForm-buttonContainer");
+    formBtnContainer.classList.add("buttonContainer");
     addBtn.classList.add("addButton");
     cancelBtn.classList.add("cancelButton");
 
@@ -113,8 +113,9 @@ export function projectSectionProjectMaker(name, form) {
 
     projectBtn.addEventListener("click", () => {
         tabsEventHandler(projectBtn);
-        initializeMainForProjects();
-    });
+        addTaskBtnMaker();
+        taskFormMaker();
+        });
 
     // Options menu
 
@@ -229,6 +230,8 @@ export function projectSectionProjectMaker(name, form) {
         projectBtn.classList.remove("project-button-isModifyState");
 
         optionsBtn.disabled = false;
+
+        projectBtn.click();
     });
 
    // Delete section

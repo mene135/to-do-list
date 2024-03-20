@@ -1,4 +1,4 @@
-const main = document.querySelector("main");
+const tasksContainer = document.querySelector(".tasksContainer");
 export let tabs = document.querySelectorAll(".tab");
 
  export function createTabContent(tabClicked) {
@@ -10,22 +10,33 @@ export let tabs = document.querySelectorAll(".tab");
     h3.classList.add("title-heading");
 
     div.appendChild(h3);
-    main.appendChild(div);
+    tasksContainer.appendChild(div);
 };
 
 export function clear() {
-    main.innerHTML = "";
+    tasksContainer.innerHTML = "";
 };
 
 export function manageActiveTab(tabClicked) {
     tabs = document.querySelectorAll(".tab");
-    tabs.forEach(tab => {
-        if(tabClicked !== tab) {
-            tab.classList.remove("is-active")
-        } else {
-            tab.classList.add("is-active");
+    let currActiveTab = document.querySelector(".is-active");
+
+    if(currActiveTab !== tabClicked) {
+        tabs.forEach(tab => {
+            if(tabClicked === tab) {
+               console.log("helloooooo");
+               tab.classList.add("is-active");
+               return;
+            };
+        });
+
+        if(currActiveTab !== null) {
+            currActiveTab.classList.remove("is-active");
         }
-    })
+
+    } else {
+        return;
+    };
 };
 
 export function tabsEventHandler(tab) {
