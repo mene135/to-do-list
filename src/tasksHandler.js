@@ -1,3 +1,5 @@
+import { projectsArr } from "./localStorageAndState";
+
 const tasksContainer = document.querySelector(".tasksContainer");
 
 export function taskFormMaker() {
@@ -13,13 +15,16 @@ export function taskFormMaker() {
     detailsLabel.textContent = "Details(optional):"
     dateLabel.textContent = "Date:"
 
-    titleInput.classList.add("taskForm-input");
-    detailsTextArea.classList.add("taskForm-textArea");
-    dateInput.classList.add("taskForm-input");
+    titleInput.classList.add("taskForm-input", "taskForm-title");
+    detailsTextArea.classList.add("taskForm-textArea", "taskForm-details");
+    dateInput.classList.add("taskForm-input", "taskForm-date");
 
 
     titleInput.setAttribute("type", "text");
     dateInput.setAttribute("type", "date");
+
+    titleInput.setAttribute("required", "");
+    dateInput.setAttribute("required", "");
 
     detailsTextArea.setAttribute("rows", "3");
 
@@ -54,6 +59,20 @@ export function taskFormMaker() {
 
     tasksContainer.insertBefore(taskMakerForm, document.querySelector(".tasksContainer-addTaskBtn"));
 
+    addBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        const title = document.querySelector(".taskForm-title").value;
+        const details = document.querySelector(".taskForm-details").value;
+        const date = document.querySelector(".taskForm-date").value;
+
+        let newTask = new Task(title, details, date, false, false);
+
+        let currentlyActiveTabIndex = document.querySelector(".is-active").getAttribute("data-project-index");
+        projectsArr[currentlyActiveTabIndex].tabTasks.push(newTask);
+        console.log(projectsArr);
+    })
+
     cancelBtn.addEventListener("click", (e) => {
         e.preventDefault();
         taskMakerForm.classList.toggle("is-hidden");
@@ -63,9 +82,7 @@ export function taskFormMaker() {
 export function addTaskBtnMaker() {
     const addTaskBtn = document.createElement("button");
     addTaskBtn.textContent = "Add task";
-
     addTaskBtn.classList.add("tasksContainer-addTaskBtn");
-
     tasksContainer.appendChild(addTaskBtn);
 
     addTaskBtn.addEventListener("click", () => {
@@ -81,3 +98,22 @@ export function addTaskBtnMaker() {
         form.classList.toggle("is-hidden"); 
     });
 }; 
+
+class Task {
+    constructor(title, details, date, important, checked) {
+        this.title = title;
+        this.details = details;
+        this.date = date; 
+        this.important = important;
+        this.checked = checked;
+    }
+}
+
+function taskMaker(title, details, date, imortant, checked) {
+    const checkedCircle = document.createElement("button");
+    const taskTitle = document.createElement("h4");
+    const taskDetails = document.createElement("p");
+    const taksDate = document.createElement("div");
+    const importantStar = document.createElement("button");
+    const taskOptions = document.createElement("button");
+}
