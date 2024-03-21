@@ -1,4 +1,4 @@
-import { findEmptyDataTabIndex, projectsArr } from "./localStorageAndState";
+import { findEmptyDataTabIndex, projectsArr, sortProjectsDataAttributes, modifyProjectDataName } from "./localStorageAndState";
 import { tabsEventHandler, Tab } from "./tabFunctionalities";
 import { addTaskBtnMaker, taskFormMaker } from "./tasksHandler";
 
@@ -102,7 +102,7 @@ export function projectSectionProjectMaker(name, id) {
     optionsBtnAccesibilityText.classList.add("is-visually-hidden");
     optionsIcon.classList.add("fa-solid", "fa-ellipsis-vertical", "project-optionsIcon");
 
-    projectBtn.setAttribute("data-tabIndex", `${id}`);
+    projectBtn.setAttribute("data-project-index", `${id}`);
 
     optionsBtn.setAttribute("tabIndex", "0");
     optionsBtn.setAttribute("aria-controls", "options")
@@ -226,6 +226,7 @@ export function projectSectionProjectMaker(name, id) {
             projectName.style.display = "inline-block";
             projectName.textContent = name;
             cancelBtn.click();
+            modifyProjectDataName(name, projectBtn.getAttribute("data-project-index"));
         }
     });
 
@@ -245,9 +246,18 @@ export function projectSectionProjectMaker(name, id) {
    // Delete section
 
    deleteOptionBtn.addEventListener("click", () => {
-        projectsArr.splice(projectBtn.getAttribute("data-tabIndex"), 1);
+        let confirmed = confirm("Are you sure you want to delete this project");
+
+        if(confirmed === true) {
+        projectsArr.splice(projectBtn.getAttribute("data-project-index"), 1);
         projectSectionContent.removeChild(project);
+        sortProjectsDataAttributes();
         console.log(projectsArr);
+        } else {
+            return;
+        }
+
+        
    })
 
    modifyInput.addEventListener("keydown", (e) => {

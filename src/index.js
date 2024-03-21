@@ -2,6 +2,7 @@ import { toggleThemeBtn, toggleTheme, setThemeLocalStorage, applyThemeLocalStora
 import { menuToggleBtn, menuToggle, isNavExpanded } from "./menuToggle";
 import { tabs, tabsEventHandler} from "./tabFunctionalities";
 import { addProjectBtn, projectSectionFormMaker, projectSectionFormOpen } from "./projectHandler";
+import { applyProjectsLocalStorage, setProjectsLocalStorage } from "./localStorageAndState";
 
 
 
@@ -25,11 +26,15 @@ tabs.forEach(tab => {
 
 window.onload = () => {
     applyThemeLocalStorage();
+    applyProjectsLocalStorage();
     isNavExpanded();
     projectSectionFormMaker();
+    
+    document.querySelector(".homeBtn").click();
 };
 
 window.addEventListener("beforeunload", () => {
     setThemeLocalStorage();
+    setProjectsLocalStorage();
 });
 
