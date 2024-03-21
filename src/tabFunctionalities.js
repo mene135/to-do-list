@@ -24,7 +24,6 @@ export function manageActiveTab(tabClicked) {
     if(currActiveTab !== tabClicked) {
         tabs.forEach(tab => {
             if(tabClicked === tab) {
-               console.log("helloooooo");
                tab.classList.add("is-active");
                return;
             };
@@ -43,4 +42,11 @@ export function tabsEventHandler(tab) {
     manageActiveTab(tab);
     clear();
     createTabContent(tab.childNodes[1].textContent);
+}
+
+export class Tab {
+    constructor(tabName, tabTasks) {
+        this.tabName = tabName;
+        this.tabTasks = tabTasks;
+    }
 }

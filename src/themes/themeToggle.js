@@ -6,7 +6,7 @@ export function toggleTheme() {
     body.classList.toggle("darkTheme");
 };
 
-export function setTheme() {
+export function setThemeLocalStorage() {
     if(body.classList.contains("darkTheme")) {
         localStorage.setItem("theme", "dark")
     } else {
@@ -14,7 +14,7 @@ export function setTheme() {
     }
 }
 
-export function applyTheme() {
+export function applyThemeLocalStorage() {
     const theme = localStorage.getItem("theme");
 
     if(theme === "dark") {

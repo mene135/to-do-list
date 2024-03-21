@@ -1,4 +1,5 @@
-import { tabsEventHandler } from "./tabFunctionalities";
+import { findEmptyDataTabIndex, projectsArr } from "./localStorageAndState";
+import { tabsEventHandler, Tab } from "./tabFunctionalities";
 import { addTaskBtnMaker, taskFormMaker } from "./tasksHandler";
 
 const projectSection = document.querySelector(".projectSection")
@@ -58,7 +59,12 @@ export function projectSectionFormMaker() {
             alert("The project name cannot be empty");
             return;
         };
-        projectSectionProjectMaker(input.value, form);
+
+        projectSectionProjectMaker(input.value, findEmptyDataTabIndex());
+        let newProject = new Tab(input.value, []);
+        projectsArr.push(newProject);
+        console.log(projectsArr);
+
         form.style.display = "none";
         input.value = "";
     });
@@ -75,7 +81,7 @@ export function projectSectionFormOpen() {
 };
 
 
-export function projectSectionProjectMaker(name, form) {
+export function projectSectionProjectMaker(name, id) {
     // General project section
 
     name = name.charAt(0).toUpperCase() + name.slice(1, );
@@ -95,6 +101,8 @@ export function projectSectionProjectMaker(name, form) {
     optionsBtn.classList.add("project-optionsBtn");
     optionsBtnAccesibilityText.classList.add("is-visually-hidden");
     optionsIcon.classList.add("fa-solid", "fa-ellipsis-vertical", "project-optionsIcon");
+
+    projectBtn.setAttribute("data-tabIndex", `${id}`);
 
     optionsBtn.setAttribute("tabIndex", "0");
     optionsBtn.setAttribute("aria-controls", "options")
@@ -237,7 +245,9 @@ export function projectSectionProjectMaker(name, form) {
    // Delete section
 
    deleteOptionBtn.addEventListener("click", () => {
+        projectsArr.splice(projectBtn.getAttribute("data-tabIndex"), 1);
         projectSectionContent.removeChild(project);
+        console.log(projectsArr);
    })
 
    modifyInput.addEventListener("keydown", (e) => {
