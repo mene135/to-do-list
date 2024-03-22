@@ -168,7 +168,7 @@
         margin: 20px auto;
     }
 
-    .homeSection-title {
+    .homeSection-displayTab-title {
         margin: 0;
         
         border-bottom: var(--border) var(--primary);
@@ -202,7 +202,7 @@
         margin: 20px auto;
     }
 
-    .projectSection-title {
+    .projectSection-displayTab-title {
         border-bottom: var(--border) var(--primary);
     }
 
@@ -347,23 +347,6 @@
         width: 70%;
     }
 
-
-    .title {
-        background-color: var(--secondary);
-        padding: 0;
-        width: 100%;
-        margin-bottom: var(--spacing-400);
-
-        border-radius: var(--border-radius);
-
-        font-family: var(--ff-primary);
-    }
-
-    .title-heading {
-        font-size: var(--fs-500);
-        text-align: center;
-    }
-
     .addButton {
         display: inline-block;
         padding: var(--spacing-200);
@@ -386,14 +369,36 @@
         font-weight: var(--fw-bold);
     }
 
-    .tasksContainer {
-        display: grid;
+    .displayTab {
+        display: flex;
         width: clamp(13rem, 50vw, 35rem);;
 
+        flex-direction: column;
         justify-items: center;
     }
 
-    .tasksContainer-addTaskBtn {
+    .displayTab-title {
+        background-color: var(--secondary);
+        padding: 0;
+        width: 100%;
+        margin-bottom: var(--spacing-400);
+
+        border-radius: var(--border-radius);
+
+        font-family: var(--ff-primary);
+    }
+
+    .displayTab-title-heading {
+        font-size: var(--fs-500);
+        text-align: center;
+    }
+
+    .displayTab-tasksContainer {
+        padding: 0;
+        margin: 0;
+    }
+
+    .displayTab-addTaskBtn {
         width: 100%;
         padding: var(--spacing-200) 0;
         
@@ -404,7 +409,7 @@
         font-weight: var(--fw-bold);
     }
 
-    .tasksContainer-taskMakerForm {  
+    .displayTab-taskMakerForm {  
         padding: var(--spacing-300);
         margin-bottom: var(--spacing-300);
 
@@ -429,6 +434,96 @@
         padding: var(--spacing-100);
     }
 
+    .task {
+        display: grid;
+        grid-template-columns: 1fr 6fr 3fr 1fr 1fr;
+        place-items: center;
+        padding: var(--spacing-200) var(--spacing-100);
+        margin-bottom: var(--spacing-400);
+
+        position: relative;
+
+        border: 2px solid var(--primary);
+        border-radius: 5px;
+    }
+
+    .task-checkedCircleBtn {
+        width: 20px;
+        height: 20px;
+        
+        padding: 0;
+
+        font-size: var(--fs-400);
+    }
+
+    .taskText {
+        width: 100%;
+        min-width: 262px;
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        padding-left: var(--spacing-300);
+
+        word-break: break-all;
+    }
+
+    .task-title {
+        margin: 0;
+        margin-bottom: var(--spacing-100);
+    }
+
+    .task-details {
+        margin: 0;
+    }
+
+    .taskOptionsBtn {
+        position: relative;
+        color: var(--primary);
+    }
+
+    .task-optionsContainer {
+        display: flex;
+        flex-direction: column;
+        
+        position: absolute;
+        right: -1rem;
+        top: -4.85rem;
+        padding: var(--spacing-100);
+
+        background-color: var(--bg1);
+        color: var(--primary);
+
+        border-radius: var(--border-radius);
+
+        font-size: var(--fs-400);
+        font-weight: var(--fw-bold);
+
+        transition: transform 0.15s linear, opacity 0.15s linear;
+        opacity: 100%;
+    }
+
+    .task-optionsContainer .taskOptions-modifyBtn, .task-optionsContainer .taskOptions-deleteBtn {
+        padding: var(--spacing-200) var(--spacing-100);
+
+        color: var(--primary);
+
+        font-weight: var(--fw-bold);
+    }
+
+    .taskOptions-modifyBtn {
+        padding-bottom: var(--spacing-100);
+
+        border-bottom: var(--border) var(--primary);
+    }
+
+    .task-optionsContainer-isHidden {
+        opacity: 0%;
+        transform: translateY(0.5rem);
+
+        pointer-events: none;
+    }
+
+    
 /* -- State rules */ 
 
 .is-active {

@@ -136,11 +136,10 @@ export function projectSectionProjectMaker(name, id) {
     modifyOptionBtn.textContent = "MODIFY";
     deleteOptionBtn.textContent = "DELETE";
 
-    options.classList.add("project-options");
+    options.classList.add("project-options", "project-options-isHidden");
     options.setAttribute("id", "options");
 
     modifyOptionBtn.classList.add("project-modifyOptionBtn");
-    options.classList.toggle("project-options-isHidden");
 
     
     modifyOption.appendChild(modifyOptionBtn);
@@ -158,7 +157,7 @@ export function projectSectionProjectMaker(name, id) {
         const clickHandler = (e) => {
             if(options.classList.contains("project-options-isHidden")) return;
             if(modifyOptionBtn !== e.target || deleteOptionBtn !== e.target) {
-                options.classList.toggle("project-options-isHidden");
+                options.classList.add("project-options-isHidden");
                 document.removeEventListener("click", clickHandler);
             }
         }

@@ -1,20 +1,25 @@
-const tasksContainer = document.querySelector(".tasksContainer");
+const displayTab = document.querySelector(".displayTab");
 export let tabs = document.querySelectorAll(".tab");
 
  export function createTabContent(tabClicked) {
     const div = document.createElement("div");
-    div.classList.add("title");
+    div.classList.add("displayTab-title");
 
     const h3 = document.createElement("h3");
     h3.textContent = tabClicked;
-    h3.classList.add("title-heading");
+    h3.classList.add("displayTab-title-heading");
+
+    const tasksContainer = document.createElement("ul");
+    tasksContainer.classList.add("displayTab-tasksContainer");
+
 
     div.appendChild(h3);
-    tasksContainer.appendChild(div);
+    displayTab.appendChild(div);
+    displayTab.appendChild(tasksContainer);
 };
 
 export function clear() {
-    tasksContainer.innerHTML = "";
+    displayTab.innerHTML = "";
 };
 
 export function manageActiveTab(tabClicked) {

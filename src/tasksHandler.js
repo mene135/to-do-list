@@ -1,6 +1,6 @@
 import { projectsArr } from "./localStorageAndState";
 
-const tasksContainer = document.querySelector(".tasksContainer");
+const displayTab = document.querySelector(".displayTab");
 
 export function taskFormMaker() {
     const taskMakerForm = document.createElement("form");
@@ -50,27 +50,41 @@ export function taskFormMaker() {
     
     formBtnContainer.classList.add("buttonContainer");
 
-    taskMakerForm.classList.add("tasksContainer-taskMakerForm", "is-hidden");
+    taskMakerForm.classList.add("displayTab-taskMakerForm", "is-hidden");
 
     taskMakerForm.appendChild(titleLabel);
     taskMakerForm.appendChild(detailsLabel);
     taskMakerForm.appendChild(dateLabel);
     taskMakerForm.appendChild(formBtnContainer);
 
-    tasksContainer.insertBefore(taskMakerForm, document.querySelector(".tasksContainer-addTaskBtn"));
+    displayTab.insertBefore(taskMakerForm, document.querySelector(".displayTab-addTaskBtn"));
 
     addBtn.addEventListener("click", (e) => {
         e.preventDefault();
 
-        const title = document.querySelector(".taskForm-title").value;
-        const details = document.querySelector(".taskForm-details").value;
-        const date = document.querySelector(".taskForm-date").value;
+        let title = titleInput.value;
+        let details = detailsTextArea.value;
+        let date = dateInput.value;
+
+        if(title === "") {
+            alert("You must fill out the Title field");
+            return;
+        }
+
+        if(date === "") {
+            date = "No due date";
+        }
+
+        console.log(title);
 
         let newTask = new Task(title, details, date, false, false);
 
         let currentlyActiveTabIndex = document.querySelector(".is-active").getAttribute("data-project-index");
         projectsArr[currentlyActiveTabIndex].tabTasks.push(newTask);
-        console.log(projectsArr);
+
+
+        cancelBtn.click();
+        taskMaker(title, details, date);
     })
 
     cancelBtn.addEventListener("click", (e) => {
@@ -82,19 +96,17 @@ export function taskFormMaker() {
 export function addTaskBtnMaker() {
     const addTaskBtn = document.createElement("button");
     addTaskBtn.textContent = "Add task";
-    addTaskBtn.classList.add("tasksContainer-addTaskBtn");
-    tasksContainer.appendChild(addTaskBtn);
+    addTaskBtn.classList.add("displayTab-addTaskBtn");
+    displayTab.appendChild(addTaskBtn);
 
     addTaskBtn.addEventListener("click", () => {
-        let form = document.querySelector(".tasksContainer-taskMakerForm");
+        let form = document.querySelector(".displayTab-taskMakerForm");
 
         if(form.classList.contains("is-hidden") === false) {
             alert("Finish the form you started");
             return;
         }
 
-        console.log(addTaskBtn);
-        console.log(form);
         form.classList.toggle("is-hidden"); 
     });
 }; 
@@ -110,10 +122,137 @@ class Task {
 }
 
 function taskMaker(title, details, date, imortant, checked) {
-    const checkedCircle = document.createElement("button");
+    const taskContainer = document.querySelector(".displayTab-tasksContainer");
+    const task = document.createElement("li");
+
+    task.classList.add("task");
+
+    const checkedCircleBtn = document.createElement("button");
+    const checkedCircleOutline = document.createElement("i");
+    const checkedCircleGreenCheck = document.createElement("i");
+
+    checkedCircleBtn.classList.add("task-checkedCircleBtn");
+    checkedCircleOutline.classList.add("fa-regular", "fa-circle");
+    checkedCircleGreenCheck.classList.add("fa-solid", "fa-circle-check");
+
+    checkedCircleOutline.style.color = "var(--primary)";
+
+    checkedCircleGreenCheck.style.display = "none";
+    checkedCircleGreenCheck.style.color = "var(--secondary)";
+
+    checkedCircleBtn.appendChild(checkedCircleOutline);
+    checkedCircleBtn.appendChild(checkedCircleGreenCheck);
+    task.appendChild(checkedCircleBtn);
+
+    const taskText = document.createElement("div");
     const taskTitle = document.createElement("h4");
     const taskDetails = document.createElement("p");
-    const taksDate = document.createElement("div");
+    const taskDate = document.createElement("div");
+
+    taskText.classList.add("taskText");
+    taskTitle.classList.add("task-title");
+    taskDetails.classList.add("task-details");
+    taskDate.classList.add("task-date");
+
+    taskTitle.textContent = `${title}`;
+    
+    if(details !== "") {
+        taskDetails.textContent = `${details}`;
+    }
+
+    taskDate.textContent = `${date}`;
+
+    taskText.appendChild(taskTitle);
+    taskText.appendChild(taskDetails);
+    task.appendChild(taskText);
+    task.appendChild(taskDate);
+
     const importantStar = document.createElement("button");
-    const taskOptions = document.createElement("button");
+    const emptyStar = document.createElement("i");
+    const yellowStar = document.createElement("i")
+
+    emptyStar.classList.add("fa-regular", "fa-star", "emptyStar");
+    yellowStar.classList.add("fa-solid", "fa-star", "yellowStar");
+
+
+    emptyStar.style.color = "var(--primary)";
+    yellowStar.style.color = "#f1bf13";
+    yellowStar.style.display = "none"; 
+
+    importantStar.appendChild(emptyStar);
+    importantStar.appendChild(yellowStar);
+
+    task.appendChild(importantStar);
+
+    const taskOptionsBtn = document.createElement("button");
+    const taskOptionsIcon = document.createElement("i");
+
+    taskOptionsBtn.classList.add("taskOptionsBtn");
+    taskOptionsIcon.classList.add("fa-solid", "fa-ellipsis-vertical");
+
+    taskOptionsBtn.appendChild(taskOptionsIcon);
+    task.appendChild(taskOptionsBtn);
+
+    const taskOptionsContainer = document.createElement("ul");
+    const taskOptionModify = document.createElement("li");
+    const taskOptionDelete = document.createElement("li");
+    const taskOptionModifyBtn = document.createElement("button");
+    const taskOptionDeleteBtn = document.createElement("button");
+
+    taskOptionsContainer.classList.add("task-optionsContainer", "task-optionsContainer-isHidden");
+
+    taskOptionModifyBtn.textContent = "MODIFY";
+    taskOptionDeleteBtn.textContent = "DELETE";
+
+    taskOptionModifyBtn.classList.add("taskOptions-modifyBtn");
+    taskOptionDeleteBtn.classList.add("taskOptions-deleteBtn");
+
+    taskOptionModify.appendChild(taskOptionModifyBtn);
+    taskOptionDelete.appendChild(taskOptionDeleteBtn);
+
+
+    taskOptionsContainer.appendChild(taskOptionModify);
+    taskOptionsContainer.appendChild(taskOptionDelete);
+
+    taskOptionsBtn.appendChild(taskOptionsContainer);
+
+    checkedCircleBtn.addEventListener("click", () => {
+        console.log("circle working right now");
+        if(checkedCircleOutline.style.display === "none") {
+            checkedCircleOutline.style.display = "inline";
+            checkedCircleGreenCheck.style.display = "none";
+        } else {
+            checkedCircleOutline.style.display = "none";
+            checkedCircleGreenCheck.style.display = "inline";
+        }
+    });
+
+    importantStar.addEventListener("click", () => {
+        if(emptyStar.style.display === "none") {
+            emptyStar.style.display = "inline";
+            yellowStar.style.display = "none";
+        } else {
+            emptyStar.style.display = "none";
+            yellowStar.style.display = "inline";
+        }
+    });
+
+    taskOptionsBtn.addEventListener("click", () => {
+        taskOptionsContainer.classList.toggle("task-optionsContainer-isHidden");
+    });
+
+    taskOptionsBtn.addEventListener("blur", () => {
+        const clickHandler = (e) => {
+            if(taskOptionsContainer.classList.contains("task-optionsContainer-isHidden")) return;
+            if(taskOptionModifyBtn !== e.target || taskOptionDeleteBtn !== e.target) {
+                taskOptionsContainer.classList.add("task-optionsContainer-isHidden");
+                document.removeEventListener("click", clickHandler);
+            }
+        }
+
+        document.addEventListener("click", clickHandler);
+    })
+
+    taskContainer.appendChild(task);
+
 }
