@@ -13,7 +13,7 @@ export function taskFormMaker() {
     
     titleLabel.textContent = "Title:"
     detailsLabel.textContent = "Details(optional):"
-    dateLabel.textContent = "Date:"
+    dateLabel.textContent = "Date due:"
 
     titleInput.classList.add("taskForm-input", "taskForm-title");
     detailsTextArea.classList.add("taskForm-textArea", "taskForm-details");
@@ -35,7 +35,7 @@ export function taskFormMaker() {
     detailsLabel.appendChild(detailsTextArea);
     dateLabel.appendChild(dateInput);
 
-    const formBtnContainer = document.createElement("div");
+    const projectFormBtnContainer = document.createElement("div");
     const addBtn = document.createElement("button");
     const cancelBtn = document.createElement("button");
 
@@ -45,17 +45,17 @@ export function taskFormMaker() {
     addBtn.textContent = "Add";
     cancelBtn.textContent = "Cancel";
 
-    formBtnContainer.appendChild(addBtn);
-    formBtnContainer.appendChild(cancelBtn);
+    projectFormBtnContainer.appendChild(addBtn);
+    projectFormBtnContainer.appendChild(cancelBtn);
     
-    formBtnContainer.classList.add("buttonContainer");
+    projectFormBtnContainer.classList.add("buttonContainer");
 
     taskMakerForm.classList.add("displayTab-taskMakerForm", "is-hidden");
 
     taskMakerForm.appendChild(titleLabel);
     taskMakerForm.appendChild(detailsLabel);
     taskMakerForm.appendChild(dateLabel);
-    taskMakerForm.appendChild(formBtnContainer);
+    taskMakerForm.appendChild(projectFormBtnContainer);
 
     displayTab.insertBefore(taskMakerForm, document.querySelector(".displayTab-addTaskBtn"));
 

@@ -8,43 +8,43 @@ const projectSectionContent = document.querySelector(".projectSection-content");
 
 export function projectSectionFormMaker() {
 
-    const form = document.createElement("form");
-    const label = document.createElement("label");
-    const input = document.createElement("input");
+    const projectMakerForm = document.createElement("form");
+    const nameLabel = document.createElement("label");
+    const nameInput = document.createElement("input");
     const addBtn = document.createElement("button");
     const cancelBtn = document.createElement("button");
-    const formBtnContainer = document.createElement("form");
+    const projectFormBtnContainer = document.createElement("div");
 
-    label.setAttribute("for", "projectNameInput");
-    label.textContent = "Enter projects name";
+    nameLabel.setAttribute("for", "projectNameInput");
+    nameLabel.textContent = "Enter projects name";
 
-    input.setAttribute("type", "text");
-    input.setAttribute("placeholder", "Project Name");
-    input.setAttribute("maxlength", "20");
-    input.setAttribute("id", "projectNameInput");
+    nameInput.setAttribute("type", "text");
+    nameInput.setAttribute("placeholder", "Project Name");
+    nameInput.setAttribute("maxlength", "20");
+    nameInput.setAttribute("id", "projectNameInput");
 
-    form.classList.add("addProjectForm");
-    label.classList.add("is-visually-hidden");
-    input.classList.add("addProjectForm-input");
-    formBtnContainer.classList.add("buttonContainer");
+    projectMakerForm.classList.add("addProjectForm");
+    nameLabel.classList.add("is-visually-hidden");
+    nameInput.classList.add("addProjectForm-input");
+    projectFormBtnContainer.classList.add("buttonContainer");
     addBtn.classList.add("addButton");
     cancelBtn.classList.add("cancelButton");
 
     addBtn.textContent = "ADD";
     cancelBtn.textContent = "Cancel";
 
-    form.style.display = "none";
+    projectMakerForm.style.display = "none";
 
-    formBtnContainer.appendChild(addBtn);
-    formBtnContainer.appendChild(cancelBtn);
+    projectFormBtnContainer.appendChild(addBtn);
+    projectFormBtnContainer.appendChild(cancelBtn);
 
-    form.appendChild(label);
-    form.appendChild(input);
-    form.appendChild(formBtnContainer);
+    projectMakerForm.appendChild(nameLabel);
+    projectMakerForm.appendChild(nameInput);
+    projectMakerForm.appendChild(projectFormBtnContainer);
 
-    projectSection.insertBefore(form, addProjectBtn);
+    projectSection.insertBefore(projectMakerForm, addProjectBtn);
 
-    input.addEventListener("keydown", (e) => {
+    nameInput.addEventListener("keydown", (e) => {
         if(e.key === "Enter") {
             e.preventDefault();
             addBtn.click(); 
@@ -55,67 +55,69 @@ export function projectSectionFormMaker() {
 
     addBtn.addEventListener("click", (e) => {
         e.preventDefault();
-        if(input.value === "") {
+
+        if(nameInput.value === "") {
             alert("The project name cannot be empty");
             return;
         };
 
-        projectSectionProjectMaker(input.value, findEmptyDataTabIndex());
-        let newProject = new Tab(input.value, []);
-        projectsArr.push(newProject);
-        console.log(projectsArr);
+        projectMaker(nameInput.value, findEmptyDataTabIndex());
 
-        form.style.display = "none";
-        input.value = "";
+        let newProject = new Tab(nameInput.value, []);
+        projectsArr.push(newProject);
+
+
+        projectMakerForm.style.display = "none";
+        nameInput.value = "";
     });
 
     cancelBtn.addEventListener("click", (e) => {
         e.preventDefault();
-        form.style.display = "none";
+        nameInput.style.display = "none";
     });
 }
 
-export function projectSectionFormOpen() {
-    const form = document.querySelector(".addProjectForm");
-    form.style.display = "block";
+export function projectFormOpener() {
+    const projcetForm = document.querySelector(".addProjectForm");
+    projcetForm.style.display = "block";
 };
 
 
-export function projectSectionProjectMaker(name, id) {
+export function projectMaker(name, id) {
     // General project section
 
     name = name.charAt(0).toUpperCase() + name.slice(1, );
 
     const project = document.createElement("li");
     const projectBtn = document.createElement("button");
-    const icon = document.createElement("i");
+    const projectIcon = document.createElement("i");
     const projectName = document.createElement("span");
-    const optionsBtn = document.createElement("button");
+    const projectOptionsBtn = document.createElement("button");
     const optionsBtnAccesibilityText = document.createElement("span");
-    const optionsIcon = document.createElement("i");
+    const projectOptionsIcon = document.createElement("i");
 
     project.classList.add("project");
     projectBtn.classList.add("project-button", "tab");
-    icon.classList.add("fa-solid", "fa-bars");
+    projectIcon.classList.add("fa-solid", "fa-bars");
     projectName.classList.add("project-name");
-    optionsBtn.classList.add("project-optionsBtn");
+    projectOptionsBtn.classList.add("project-optionsBtn");
     optionsBtnAccesibilityText.classList.add("is-visually-hidden");
-    optionsIcon.classList.add("fa-solid", "fa-ellipsis-vertical", "project-optionsIcon");
+    projectOptionsIcon.classList.add("fa-solid", "fa-ellipsis-vertical", "project-optionsIcon");
 
     projectBtn.setAttribute("data-project-index", `${id}`);
 
-    optionsBtn.setAttribute("tabIndex", "0");
-    optionsBtn.setAttribute("aria-controls", "options")
+    projectOptionsBtn.setAttribute("tabIndex", "0");
+    projectOptionsBtn.setAttribute("aria-controls", "options")
 
     projectName.textContent = name;
     optionsBtnAccesibilityText.textContent = "Options";
 
-    optionsBtn.appendChild(optionsIcon);
-    optionsBtn.appendChild(optionsBtnAccesibilityText);
+    projectOptionsBtn.appendChild(projectOptionsIcon);
+    projectOptionsBtn.appendChild(optionsBtnAccesibilityText);
 
-    projectBtn.appendChild(icon);
+    projectBtn.appendChild(projectIcon);
     projectBtn.appendChild(projectName);
-    projectBtn.appendChild(optionsBtn);
+    projectBtn.appendChild(projectOptionsBtn);
     project.appendChild(projectBtn);
     projectSectionContent.appendChild(project);
 
@@ -127,7 +129,7 @@ export function projectSectionProjectMaker(name, id) {
 
     // Options menu
 
-    const options = document.createElement("ul");
+    const projecOptions = document.createElement("ul");
     const modifyOption = document.createElement("li");
     const deleteOption = document.createElement("li")
     const modifyOptionBtn = document.createElement("button");
@@ -136,8 +138,8 @@ export function projectSectionProjectMaker(name, id) {
     modifyOptionBtn.textContent = "MODIFY";
     deleteOptionBtn.textContent = "DELETE";
 
-    options.classList.add("project-options", "project-options-isHidden");
-    options.setAttribute("id", "options");
+    projecOptions.classList.add("project-options", "project-options-isHidden");
+    projecOptions.setAttribute("id", "options");
 
     modifyOptionBtn.classList.add("project-modifyOptionBtn");
 
@@ -145,19 +147,19 @@ export function projectSectionProjectMaker(name, id) {
     modifyOption.appendChild(modifyOptionBtn);
     deleteOption.appendChild(deleteOptionBtn);
     
-    options.appendChild(modifyOption);
-    options.appendChild(deleteOption);
-    projectBtn.appendChild(options);
+    projecOptions.appendChild(modifyOption);
+    projecOptions.appendChild(deleteOption);
+    projectBtn.appendChild(projecOptions);
 
-    optionsBtn.addEventListener("click", () => {
-        options.classList.toggle("project-options-isHidden");
+    projectOptionsBtn.addEventListener("click", () => {
+        projecOptions.classList.toggle("project-options-isHidden");
     })
 
-    optionsBtn.addEventListener("blur", () => {
+    projectOptionsBtn.addEventListener("blur", () => {
         const clickHandler = (e) => {
-            if(options.classList.contains("project-options-isHidden")) return;
+            if(projecOptions.classList.contains("project-options-isHidden")) return;
             if(modifyOptionBtn !== e.target || deleteOptionBtn !== e.target) {
-                options.classList.add("project-options-isHidden");
+                projecOptions.classList.add("project-options-isHidden");
                 document.removeEventListener("click", clickHandler);
             }
         }
@@ -167,13 +169,12 @@ export function projectSectionProjectMaker(name, id) {
 
 
     // Modify option section
-    const modifyInput = document.createElement("input");
+    const modifyNameInput = document.createElement("input");
 
-    modifyInput.classList.add("project-modifyInput");
-    modifyInput.setAttribute("aria-label", "Enter new project name, text input");
-    modifyInput.value = projectName.textContent;
-
-    modifyInput.style.display = "none";
+    modifyNameInput.classList.add("project-modifyInput");
+    modifyNameInput.setAttribute("aria-label", "Enter new project name, text input");
+    modifyNameInput.value = projectName.textContent;
+    modifyNameInput.style.display = "none";
 
     const modifyButtons = document.createElement("div");
     const renameBtn = document.createElement("button");
@@ -193,27 +194,27 @@ export function projectSectionProjectMaker(name, id) {
 
     modifyButtons.style.display = "none";
 
-    projectBtn.insertBefore(modifyInput, optionsBtn);
+    projectBtn.insertBefore(modifyNameInput, projectOptionsBtn);
 
     modifyOptionBtn.addEventListener("click", () => {
-    optionsBtn.disabled = true;
+        projectOptionsBtn.disabled = true;
 
-    modifyInput.style.display = "block";
+    modifyNameInput.style.display = "block";
     projectName.style.display = "none";
     modifyButtons.style.display = "flex";
 
-    modifyInput.value = projectName.textContent;
+    modifyNameInput.value = projectName.textContent;
 
     project.classList.add("project-isModifyState");
     projectBtn.classList.add("project-button-isModifyState");
 
-    modifyInput.focus();
+    modifyNameInput.focus();
     });
 
     // Options for when you are modifying-renaming the project name
 
     renameBtn.addEventListener("click", (e) => {
-        name = modifyInput.value;
+        name = modifyNameInput.value;
         name = name.charAt(0).toUpperCase() + name.slice(1, );
 
         e.stopPropagation();
@@ -231,13 +232,13 @@ export function projectSectionProjectMaker(name, id) {
 
     cancelBtn.addEventListener("click", () => {
         projectName.style.display = "inline-block";
-        modifyInput.style.display = "none";
+        modifyNameInput.style.display = "none";
         modifyButtons.style.display = "none";
 
         project.classList.remove("project-isModifyState");
         projectBtn.classList.remove("project-button-isModifyState");
 
-        optionsBtn.disabled = false;
+        projectOptionsBtn.disabled = false;
 
         projectBtn.click();
     });
@@ -259,7 +260,7 @@ export function projectSectionProjectMaker(name, id) {
         
    })
 
-   modifyInput.addEventListener("keydown", (e) => {
+   modifyNameInput.addEventListener("keydown", (e) => {
             if(e.key === "Enter") {
                 renameBtn.click();
             } else if (e.key === "Escape") {
