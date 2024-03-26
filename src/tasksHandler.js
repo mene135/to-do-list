@@ -1,4 +1,4 @@
-import { projectsArr } from "./localStorageAndState";
+import { projectsArr, setTasks, assignTaskIndex, sortProjectsDataAttributes, sortTaskDataAttributes } from "./localStorageAndState";
 
 const displayTab = document.querySelector(".displayTab");
 
@@ -77,14 +77,8 @@ export function taskFormMaker() {
 
         console.log(title);
 
-        let newTask = new Task(title, details, date, false, false);
-
-        let currentlyActiveTabIndex = document.querySelector(".is-active").getAttribute("data-project-index");
-        projectsArr[currentlyActiveTabIndex].tabTasks.push(newTask);
-
-
         cancelBtn.click();
-        taskMaker(title, details, date);
+        taskMaker(title, details, date, undefined, undefined, assignTaskIndex());
     })
 
     cancelBtn.addEventListener("click", (e) => {
@@ -111,17 +105,18 @@ export function addTaskBtnMaker() {
     });
 }; 
 
-class Task {
-    constructor(title, details, date, important, checked) {
+export class Task {
+    constructor(title, details, date, important, checked, index) {
         this.title = title;
         this.details = details;
         this.date = date; 
         this.important = important;
         this.checked = checked;
+        this.index = index;
     }
 }
 
-function taskMaker(title, details, date, imortant, checked) {
+export function taskMaker(title, details, date, imortant, checked, index) {
     const taskContainer = document.querySelector(".displayTab-tasksContainer");
     const task = document.createElement("li");
 
@@ -143,6 +138,8 @@ function taskMaker(title, details, date, imortant, checked) {
     checkedCircleBtn.appendChild(checkedCircleOutline);
     checkedCircleBtn.appendChild(checkedCircleGreenCheck);
     task.appendChild(checkedCircleBtn);
+
+    task.setAttribute("data-task-index", `${index}`);
 
     const taskText = document.createElement("div");
     const taskTitle = document.createElement("h4");
@@ -170,6 +167,8 @@ function taskMaker(title, details, date, imortant, checked) {
     const importantStar = document.createElement("button");
     const emptyStar = document.createElement("i");
     const yellowStar = document.createElement("i")
+
+    importantStar.classList.add("task-important");
 
     emptyStar.classList.add("fa-regular", "fa-star", "emptyStar");
     yellowStar.classList.add("fa-solid", "fa-star", "yellowStar");
@@ -252,6 +251,17 @@ function taskMaker(title, details, date, imortant, checked) {
 
         document.addEventListener("click", clickHandler);
     })
+
+    taskOptionDeleteBtn.addEventListener("click", () => {
+        let taskIndex = task.getAttribute("data-task-index");
+        let currActiveProjectIndex = document.querySelector(".is-active").getAttribute("data-project-index");
+        console.log(currActiveProjectIndex);
+        projectsArr[currActiveProjectIndex].tabTasks.splice(taskIndex, 1);
+        taskContainer.removeChild(task);
+        sortTaskDataAttributes();
+    })
+
+
 
     taskContainer.appendChild(task);
 

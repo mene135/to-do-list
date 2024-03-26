@@ -168,7 +168,7 @@
         margin: 20px auto;
     }
 
-    .homeSection-displayTab-title {
+    .homeSection-title {
         margin: 0;
         
         border-bottom: var(--border) var(--primary);
@@ -202,7 +202,7 @@
         margin: 20px auto;
     }
 
-    .projectSection-displayTab-title {
+    .projectSection-title {
         border-bottom: var(--border) var(--primary);
     }
 

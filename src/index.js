@@ -1,7 +1,7 @@
 import { toggleThemeBtn, toggleTheme, setThemeLocalStorage, applyThemeLocalStorage } from "./themes/themeToggle";
 import { menuToggleBtn, menuToggle, isNavExpanded } from "./menuToggle";
 import { tabs, tabsEventHandler} from "./tabFunctionalities";
-import { addProjectBtn, projectSectionFormMaker, projectSectionFormOpen } from "./projectHandler";
+import { addProjectBtn, projectFormMaker, projectFormOpener } from "./projectHandler";
 import { applyProjectsLocalStorage, setProjectsLocalStorage } from "./localStorageAndState";
 
 
@@ -14,7 +14,7 @@ addProjectBtn.addEventListener("click", () => {
         document.querySelector(".addProjectForm-input").focus();
         return;
 }
-    projectSectionFormOpen();
+    projectFormOpener();
     document.querySelector(".addProjectForm-input").focus();
 });
 
@@ -28,7 +28,7 @@ window.onload = () => {
     applyThemeLocalStorage();
     applyProjectsLocalStorage();
     isNavExpanded();
-    projectSectionFormMaker();
+    projectFormMaker();
     
     document.querySelector(".homeBtn").click();
 };
@@ -36,5 +36,5 @@ window.onload = () => {
 window.addEventListener("beforeunload", () => {
     setThemeLocalStorage();
     setProjectsLocalStorage();
-});
+}); 
 

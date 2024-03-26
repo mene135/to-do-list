@@ -1,3 +1,5 @@
+import { setTasks } from "./localStorageAndState";
+
 const displayTab = document.querySelector(".displayTab");
 export let tabs = document.querySelectorAll(".tab");
 
@@ -43,15 +45,30 @@ export function manageActiveTab(tabClicked) {
     };
 };
 
-export function tabsEventHandler(tab) {
+export function tabsEventHandler(tab, checkForTasks) {
+    if(checkForTasks == false) {
     manageActiveTab(tab);
     clear();
     createTabContent(tab.childNodes[1].textContent);
-}
+    } else {
+        checkIfActiveProject();
+        manageActiveTab(tab);
+        clear();
+        createTabContent(tab.childNodes[1].textContent);
+    }
+    
+};
 
 export class Tab {
     constructor(tabName, tabTasks) {
         this.tabName = tabName;
         this.tabTasks = tabTasks;
     }
-}
+};
+
+function checkIfActiveProject() {
+    let currActiveTab = document.querySelector(".is-active");
+    if(currActiveTab.classList.contains("project-button")) {
+        setTasks();
+    }
+};

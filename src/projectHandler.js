@@ -1,4 +1,4 @@
-import { findEmptyDataTabIndex, projectsArr, sortProjectsDataAttributes, modifyProjectDataName } from "./localStorageAndState";
+import { findEmptyDataTabIndex, projectsArr, sortProjectsDataAttributes, modifyProjectDataName, applyTasks, setTasks } from "./localStorageAndState";
 import { tabsEventHandler, Tab } from "./tabFunctionalities";
 import { addTaskBtnMaker, taskFormMaker } from "./tasksHandler";
 
@@ -6,7 +6,7 @@ const projectSection = document.querySelector(".projectSection")
 export const addProjectBtn = document.querySelector(".projectSection-addProjectButton");
 const projectSectionContent = document.querySelector(".projectSection-content");
 
-export function projectSectionFormMaker() {
+export function projectFormMaker() {
 
     const projectMakerForm = document.createElement("form");
     const nameLabel = document.createElement("label");
@@ -85,6 +85,7 @@ export function projectFormOpener() {
 
 export function projectMaker(name, id) {
     // General project section
+    let clickedOnce = false;
 
     name = name.charAt(0).toUpperCase() + name.slice(1, );
 
@@ -122,10 +123,14 @@ export function projectMaker(name, id) {
     projectSectionContent.appendChild(project);
 
     projectBtn.addEventListener("click", () => {
-        tabsEventHandler(projectBtn);
+
+        tabsEventHandler(projectBtn, true);
         addTaskBtnMaker();
         taskFormMaker();
+        applyTasks();
         });
+
+    
 
     // Options menu
 
@@ -269,8 +274,12 @@ export function projectMaker(name, id) {
 
    // End of delete section
 
-    projectBtn.click();
+   tabsEventHandler(projectBtn, false);
+   addTaskBtnMaker();
+   taskFormMaker();
 };
+
+
 
 
 
