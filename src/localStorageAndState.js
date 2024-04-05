@@ -120,3 +120,4 @@ export function updateProject() {
     let activeProject = document.querySelector(".is-active");
     activeProject.click();
 }
+

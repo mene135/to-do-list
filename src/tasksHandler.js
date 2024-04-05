@@ -270,8 +270,8 @@ export function taskMaker(title, details, date, imortant, checked, index) {
     });
 
     taskOptionModify.addEventListener("click", () => {
-        taskFormMaker();
-    })
+        
+    });
 
     taskContainer.appendChild(task); 
 
