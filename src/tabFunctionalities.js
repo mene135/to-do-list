@@ -45,18 +45,10 @@ export function manageActiveTab(tabClicked) {
     };
 };
 
-export function tabsEventHandler(tab, checkForTasks) {
-    if(checkForTasks == false) {
+export function tabsEventHandler(tab) {
     manageActiveTab(tab);
     clear();
     createTabContent(tab.childNodes[1].textContent);
-    } else {
-        checkIfActiveProject();
-        manageActiveTab(tab);
-        clear();
-        createTabContent(tab.childNodes[1].textContent);
-    }
-    
 };
 
 export class Tab {
@@ -66,9 +58,3 @@ export class Tab {
     }
 };
 
-function checkIfActiveProject() {
-    let currActiveTab = document.querySelector(".is-active");
-    if(currActiveTab.classList.contains("project-button")) {
-        setTasks();
-    }
-};

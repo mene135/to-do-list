@@ -18,49 +18,25 @@ export function findEmptyDataTabIndex() {
 }
 
 export const projectsArr = [];
+const allTasks = [];
 
 export function sortProjectsDataAttributes() {
-    console.log("hello gusy")
     let projects = document.querySelectorAll("[data-project-index]");
-    console.log(projects);
     let count = 0;
 
     projects.forEach(project => {
-        console.log("it does not work");
 
         project.setAttribute("data-project-index", `${count}`);
         count++;
     })
 };
 
-export function sortTaskDataAttributes() {
-    let currActiveProjectIndex = document.querySelector(".is-active").getAttribute("data-project-index");
-    let countState = 0;
-    
-
-    projectsArr[currActiveProjectIndex].tabTasks.forEach(task => {
-        task.index = `${countState}`;
-        countState++;
-    })
-
-    let tasks = document.querySelector(".displayTab-tasksContainercd").childNodes;
-
-    let count = 0;
-    tasks.forEach(task => {
-        task.setAttribute("data-task-index", `${count}`);
-        count++;
-    })
-
-}
 
 export function modifyProjectDataName(newName, index) {
     projectsArr[index].tabName = newName;
-    console.log(projectsArr);
 };
 
 export function setProjectsLocalStorage() {
-    console.log("123");
-    console.log(projectsArr);
     localStorage.setItem("Projects", JSON.stringify(projectsArr));
 };
 
@@ -86,28 +62,6 @@ export function applyTasks() {
     })
 };  
 
-export function setTasks() {
-    let  tasksContainer = document.querySelector(".displayTab-tasksContainer");
-    console.log(tasksContainer.childNodes);
-    let tasks = tasksContainer.childNodes;
-
-    let currActiveProjectIndex = document.querySelector(".is-active").getAttribute("data-project-index");
-    console.log(projectsArr)
-    projectsArr[currActiveProjectIndex].tabTasks = [];
-
-    tasks.forEach(task => {
-        let title = task.querySelector(".task-title").textContent;
-        let details = task.querySelector(".task-details").textContent;
-        let date = task.querySelector(".task-date").textContent;
-        let important = task.querySelector(".task-important");
-        let checked = task.querySelector(".task-checkedCircleBtn");
-
-        let newTask = new Task(title, details, date, important, checked);
-        projectsArr[currActiveProjectIndex].tabTasks.push(newTask);
-        console.log(projectsArr)
-    })
-};
-
 export function assignTaskIndex() {
     let currActiveProjectIndex = document.querySelector(".is-active").getAttribute("data-project-index");
     let taskArr = projectsArr[currActiveProjectIndex].tabTasks;
@@ -123,4 +77,46 @@ export function assignTaskIndex() {
             count++;
         }
     }
+};
+
+export function assignTaskIndex2() {
+    let count = 0;
+    let found = false;
+    let currActiveProjectIndex = parseInt(document.querySelector(".is-active").getAttribute("data-project-index"));
+    
+
+    for(let i = 0; i < projectsArr.length; i++) {
+        if(i === currActiveProjectIndex) {
+            let localIndex = 0;
+            while(found === false) {
+                if(projectsArr[i].tabTasks[localIndex] === undefined) {
+                    found = true;
+                    console.log(count);
+                    return count;
+                } else {
+                    localIndex++;
+                    count++;
+                }
+            }
+        } else {
+            for(let j = 0; j < projectsArr[i].tabTasks.length; j++) {
+                count++;
+            }; 
+        }
+    };
+};
+
+export function sortTaskIndex(taskRemoved) {
+    for(let i = 0; i < projectsArr.length; i++) {
+        for(let j = 0; j < projectsArr[i].tabTasks.length; j++) {
+            if(taskRemoved <= projectsArr[i].tabTasks[j].index) {
+                projectsArr[i].tabTasks[j].index =  projectsArr[i].tabTasks[j].index - 1;
+            }
+        }
+    }
+}
+
+export function updateProject() {
+    let activeProject = document.querySelector(".is-active");
+    activeProject.click();
 }

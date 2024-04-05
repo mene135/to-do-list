@@ -1,4 +1,4 @@
-import { projectsArr, setTasks, assignTaskIndex, sortProjectsDataAttributes, sortTaskDataAttributes } from "./localStorageAndState";
+import { projectsArr, setTasks, assignTaskIndex2, sortTaskIndex, updateProject,  } from "./localStorageAndState";
 
 const displayTab = document.querySelector(".displayTab");
 
@@ -65,6 +65,7 @@ export function taskFormMaker() {
         let title = titleInput.value;
         let details = detailsTextArea.value;
         let date = dateInput.value;
+        let taskIndex = assignTaskIndex2();
 
         if(title === "") {
             alert("You must fill out the Title field");
@@ -75,10 +76,14 @@ export function taskFormMaker() {
             date = "No due date";
         }
 
-        console.log(title);
-
         cancelBtn.click();
-        taskMaker(title, details, date, undefined, undefined, assignTaskIndex());
+
+        let currActiveProjectIndex = document.querySelector(".is-active").getAttribute("data-project-index");
+
+        let newTask = new Task(title, details, date, false, false, taskIndex);
+        projectsArr[currActiveProjectIndex].tabTasks.push(newTask);
+        taskMaker(title, details, date, false, false, taskIndex);
+        
     })
 
     cancelBtn.addEventListener("click", (e) => {
@@ -216,7 +221,6 @@ export function taskMaker(title, details, date, imortant, checked, index) {
     taskOptionsBtn.appendChild(taskOptionsContainer);
 
     checkedCircleBtn.addEventListener("click", () => {
-        console.log("circle working right now");
         if(checkedCircleOutline.style.display === "none") {
             checkedCircleOutline.style.display = "inline";
             checkedCircleGreenCheck.style.display = "none";
@@ -253,16 +257,23 @@ export function taskMaker(title, details, date, imortant, checked, index) {
     })
 
     taskOptionDeleteBtn.addEventListener("click", () => {
-        let taskIndex = task.getAttribute("data-task-index");
+        let taskIndex = parseInt(task.getAttribute("data-task-index"));
         let currActiveProjectIndex = document.querySelector(".is-active").getAttribute("data-project-index");
-        console.log(currActiveProjectIndex);
-        projectsArr[currActiveProjectIndex].tabTasks.splice(taskIndex, 1);
+        for(let i = 0; i < projectsArr[currActiveProjectIndex].tabTasks.length; i++) {
+            if(projectsArr[currActiveProjectIndex].tabTasks[i].index == taskIndex);
+            projectsArr[currActiveProjectIndex].tabTasks.splice(i, 1);
+            i = projectsArr[currActiveProjectIndex].tabTasks.length + 1;
+        }
         taskContainer.removeChild(task);
-        sortTaskDataAttributes();
+        sortTaskIndex(index);
+        updateProject();
+    });
+
+    taskOptionModify.addEventListener("click", () => {
+        taskFormMaker();
     })
 
-
-
-    taskContainer.appendChild(task);
+    taskContainer.appendChild(task); 
 
 }
+ 

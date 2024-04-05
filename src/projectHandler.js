@@ -1,5 +1,5 @@
 import { findEmptyDataTabIndex, projectsArr, sortProjectsDataAttributes, modifyProjectDataName, applyTasks, setTasks } from "./localStorageAndState";
-import { tabsEventHandler, Tab } from "./tabFunctionalities";
+import { tabsEventHandler, Tab, clear } from "./tabFunctionalities";
 import { addTaskBtnMaker, taskFormMaker } from "./tasksHandler";
 
 const projectSection = document.querySelector(".projectSection")
@@ -73,7 +73,7 @@ export function projectFormMaker() {
 
     cancelBtn.addEventListener("click", (e) => {
         e.preventDefault();
-        nameInput.style.display = "none";
+        projectMakerForm.style.display = "none";
     });
 }
 
@@ -123,7 +123,7 @@ export function projectMaker(name, id) {
     projectSectionContent.appendChild(project);
 
     projectBtn.addEventListener("click", () => {
-
+        console.log(projectsArr)
         tabsEventHandler(projectBtn, true);
         addTaskBtnMaker();
         taskFormMaker();
@@ -250,14 +250,15 @@ export function projectMaker(name, id) {
 
    // Delete section
 
-   deleteOptionBtn.addEventListener("click", () => {
+   deleteOptionBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
         let confirmed = confirm("Are you sure you want to delete this project");
 
         if(confirmed === true) {
         projectsArr.splice(projectBtn.getAttribute("data-project-index"), 1);
         projectSectionContent.removeChild(project);
         sortProjectsDataAttributes();
-        console.log(projectsArr);
+        clear();
         } else {
             return;
         }
@@ -278,6 +279,8 @@ export function projectMaker(name, id) {
    addTaskBtnMaker();
    taskFormMaker();
 };
+
+
 
 
 
