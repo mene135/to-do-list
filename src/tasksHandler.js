@@ -19,7 +19,6 @@ export function taskFormMaker() {
     detailsTextArea.classList.add("taskForm-textArea", "taskForm-details");
     dateInput.classList.add("taskForm-input", "taskForm-date");
 
-
     titleInput.setAttribute("type", "text");
     dateInput.setAttribute("type", "date");
 
@@ -270,10 +269,106 @@ export function taskMaker(title, details, date, imortant, checked, index) {
     });
 
     taskOptionModify.addEventListener("click", () => {
-        
+        taskModifyForm(task);
     });
 
     taskContainer.appendChild(task); 
 
 }
  
+function taskModifyForm(task) {
+    task.style.display = "none";
+    const taskMakerForm = document.createElement("form");
+    const titleLabel = document.createElement("label");
+    const titleInput = document.createElement("input");
+    const detailsLabel = document.createElement("label");
+    const detailsTextArea = document.createElement("textArea");
+    const dateLabel = document.createElement("label");
+    const dateInput = document.createElement("input");
+    
+    titleLabel.textContent = "Title:"
+    detailsLabel.textContent = "Details(optional):"
+    dateLabel.textContent = "Date due:"
+
+    titleInput.classList.add("taskForm-input", "taskForm-title");
+    detailsTextArea.classList.add("taskForm-textArea", "taskForm-details");
+    dateInput.classList.add("taskForm-input", "taskForm-date");
+
+    titleInput.value = task.querySelector(".task-title").textContent;
+    detailsTextArea.value = task.querySelector(".task-details").textContent;
+    dateInput.value = task.querySelector(".task-date").textContent;
+
+    titleInput.setAttribute("type", "text");
+    dateInput.setAttribute("type", "date");
+
+    titleInput.setAttribute("required", "");
+    dateInput.setAttribute("required", "");
+
+    detailsTextArea.setAttribute("rows", "3");
+
+    titleInput.setAttribute("placeHolder", "What to do?");
+    detailsTextArea.setAttribute("placeHolder", "e.g: How will i do it");
+
+    titleLabel.appendChild(titleInput);
+    detailsLabel.appendChild(detailsTextArea);
+    dateLabel.appendChild(dateInput);
+
+    const projectFormBtnContainer = document.createElement("div");
+    const modifyBtn = document.createElement("button");
+    const cancelBtn = document.createElement("button");
+
+    modifyBtn.classList.add("addButton");
+    cancelBtn.classList.add("cancelButton");
+
+    modifyBtn.textContent = "Modify";
+    cancelBtn.textContent = "Cancel";
+
+    projectFormBtnContainer.appendChild(modifyBtn);
+    projectFormBtnContainer.appendChild(cancelBtn);
+    
+    projectFormBtnContainer.classList.add("buttonContainer");
+
+    taskMakerForm.classList.add("displayTab-taskMakerForm") ;
+
+    taskMakerForm.appendChild(titleLabel);
+    taskMakerForm.appendChild(detailsLabel);
+    taskMakerForm.appendChild(dateLabel);
+    taskMakerForm.appendChild(projectFormBtnContainer);
+
+    let taskContainer = document.querySelector(".displayTab-tasksContainer");
+    console.log("modify work")
+
+    taskContainer.insertBefore(taskMakerForm, task);
+
+    modifyBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        let title = titleInput.value;
+        let details =  detailsTextArea.value;
+        let date = dateInput.value;
+        if(date === "") {
+            date = "No due date";
+        }
+
+        let taskIndex = parseFloat(task.getAttribute("data-task-index"));
+
+        let currActiveProjectIndex = document.querySelector(".is-active").getAttribute("data-project-index");
+        projectsArr[currActiveProjectIndex].tabTasks.forEach(task => {
+            if(task.index === taskIndex)  {
+                task.title = title;
+                task.details = details;
+                task.date = date;
+            }
+        });
+
+        
+
+        cancelBtn.click();
+        document.querySelector(".is-active").click();
+        task.style.display = "block";
+    })
+
+    cancelBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        taskMakerForm.classList.toggle("is-hidden");
+    });
+}
