@@ -1,4 +1,4 @@
-import { setTasks } from "./localStorageAndState";
+import { setTasks, applyTasks } from "./localStorageAndState";
 
 const displayTab = document.querySelector(".displayTab");
 export let tabs = document.querySelectorAll(".tab");
@@ -49,6 +49,7 @@ export function tabsEventHandler(tab) {
     manageActiveTab(tab);
     clear();
     createTabContent(tab.childNodes[1].textContent);
+    applyTasks();
 };
 
 export class Tab {

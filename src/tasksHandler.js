@@ -219,6 +219,18 @@ export function taskMaker(title, details, date, imortant, checked, index) {
 
     taskOptionsBtn.appendChild(taskOptionsContainer);
 
+    task.addEventListener("mousedown", () => {
+        task.classList.add("task-shrink");
+    });
+
+    task.addEventListener("mouseup", () => {
+        task.classList.remove("task-shrink");
+    })
+
+    task.addEventListener("mouseout", () => {
+        task.classList.remove("task-shrink")
+    })
+
     checkedCircleBtn.addEventListener("click", () => {
         if(checkedCircleOutline.style.display === "none") {
             checkedCircleOutline.style.display = "inline";

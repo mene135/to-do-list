@@ -1,5 +1,7 @@
 import { projectMaker } from "./projectHandler";
+import { Tab } from "./tabFunctionalities";
 import { taskMaker,Task } from "./tasksHandler";
+
 
 export function findEmptyDataTabIndex() {
     const indexes = document.querySelectorAll("[data-project-index]");
@@ -18,7 +20,7 @@ export function findEmptyDataTabIndex() {
 }
 
 export const projectsArr = [];
-const allTasks = [];
+const homeBtnAllTasksArr = [];
 
 export function sortProjectsDataAttributes() {
     let projects = document.querySelectorAll("[data-project-index]");
@@ -53,13 +55,28 @@ export function applyProjectsLocalStorage() {
 };
 
 export function applyTasks() {
-    let currActiveProjectIndex = document.querySelector(".is-active").getAttribute("data-project-index");
+    let currActiveTab = document.querySelector(".is-active");
 
-    if(projectsArr[currActiveProjectIndex].tabTasks.length === 0) return;
+    if(currActiveTab.classList.contains("homeBtn")) {
+        if(currActiveTab.classList.contains("homeBtn-allTasks")) {
+            manageAllTasks();
+            homeBtnAllTasksArr.forEach(task => {
+                taskMaker(task.title, task.details, task.date, task.important, task.checked, task.index);
+            }) 
+        }
+    }
 
-    projectsArr[currActiveProjectIndex].tabTasks.forEach(task => {
-        taskMaker(task.title, task.details, task.date, task.important, task.checked, task.index);
-    })
+    if(currActiveTab.classList.contains("project-button")) {
+       let currActiveProjectIndex = document.querySelector(".is-active").getAttribute("data-project-index");
+
+        if(projectsArr[currActiveProjectIndex].tabTasks.length === 0) return;
+
+        projectsArr[currActiveProjectIndex].tabTasks.forEach(task => {
+            taskMaker(task.title, task.details, task.date, task.important, task.checked, task.index);
+    }) 
+    };
+
+    
 };  
 
 export function assignTaskIndex() {
@@ -114,10 +131,21 @@ export function sortTaskIndex(taskRemoved) {
             }
         }
     }
-}
+};
 
 export function updateProject() {
     let activeProject = document.querySelector(".is-active");
     activeProject.click();
-}
+};
 
+export function manageAllTasks() {
+    while(homeBtnAllTasksArr.length != 0) {
+        homeBtnAllTasksArr.pop();
+    }
+
+    for(let i = 0; i < projectsArr.length; i++) {
+        for(let j = 0; j < projectsArr[i].tabTasks.length; j++) {
+            homeBtnAllTasksArr.push(projectsArr[i].tabTasks[j]);
+        }
+    }
+};

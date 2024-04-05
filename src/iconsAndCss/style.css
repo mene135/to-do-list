@@ -443,8 +443,14 @@
 
         position: relative;
 
+        transition: transform 0.15s linear;
+
         border: 2px solid var(--primary);
         border-radius: 5px;
+    }
+
+    .task-shrink {
+        transform: scale(0.995);
     }
 
     .task-checkedCircleBtn {
@@ -479,6 +485,7 @@
     .taskOptionsBtn {
         position: relative;
         color: var(--primary);
+        padding: var(--spacing-200);
     }
 
     .task-optionsContainer {

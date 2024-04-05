@@ -61,11 +61,11 @@ export function projectFormMaker() {
             return;
         };
 
-        projectMaker(nameInput.value, findEmptyDataTabIndex());
-
+        
         let newProject = new Tab(nameInput.value, []);
         projectsArr.push(newProject);
-
+        
+        projectMaker(nameInput.value, findEmptyDataTabIndex());
 
         projectMakerForm.style.display = "none";
         nameInput.value = "";
@@ -127,7 +127,6 @@ export function projectMaker(name, id) {
         tabsEventHandler(projectBtn, true);
         addTaskBtnMaker();
         taskFormMaker();
-        applyTasks();
         });
 
     
