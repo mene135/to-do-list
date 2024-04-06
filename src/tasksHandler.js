@@ -120,7 +120,7 @@ export class Task {
     }
 }
 
-export function taskMaker(title, details, date, imortant, checked, index) {
+export function taskMaker(title, details, date, important, checked, index) {
     const taskContainer = document.querySelector(".displayTab-tasksContainer");
     const task = document.createElement("li");
 
@@ -135,10 +135,9 @@ export function taskMaker(title, details, date, imortant, checked, index) {
     checkedCircleGreenCheck.classList.add("fa-solid", "fa-circle-check");
 
     checkedCircleOutline.style.color = "var(--primary)";
-
-    checkedCircleGreenCheck.style.display = "none";
     checkedCircleGreenCheck.style.color = "var(--secondary)";
 
+    
     checkedCircleBtn.appendChild(checkedCircleOutline);
     checkedCircleBtn.appendChild(checkedCircleGreenCheck);
     task.appendChild(checkedCircleBtn);
@@ -180,7 +179,26 @@ export function taskMaker(title, details, date, imortant, checked, index) {
 
     emptyStar.style.color = "var(--primary)";
     yellowStar.style.color = "#f1bf13";
-    yellowStar.style.display = "none"; 
+
+    if(important === true) {
+        emptyStar.style.display = "none";
+    } else {
+        yellowStar.style.display = "none"; 
+    }
+
+    if(checked === true) {
+        checkedCircleOutline.style.display = "none";
+
+        taskTitle.classList.add("task-crossedOut");
+        taskDetails.classList.add("task-crossedOut");
+
+    } else {
+        checkedCircleGreenCheck.style.display = "none";
+
+        taskTitle.classList.remove("task-crossedOut");
+        taskDetails.classList.remove("task-crossedOut");
+    }
+
 
     importantStar.appendChild(emptyStar);
     importantStar.appendChild(yellowStar);
@@ -232,22 +250,67 @@ export function taskMaker(title, details, date, imortant, checked, index) {
     })
 
     checkedCircleBtn.addEventListener("click", () => {
-        if(checkedCircleOutline.style.display === "none") {
+        if(checked === true) {
             checkedCircleOutline.style.display = "inline";
             checkedCircleGreenCheck.style.display = "none";
+            checked = false;
+
+            for(let i = 0; i < projectsArr.length; i++) {
+                for(let j = 0; j < projectsArr[i].tabTasks.length; j++) {
+                    if(projectsArr[i].tabTasks[j].index === index) {
+                        projectsArr[i].tabTasks[j].checked = false;
+                    }
+                }
+            }
+
+            taskTitle.classList.remove("task-crossedOut");
+            taskDetails.classList.remove("task-crossedOut");
+
         } else {
             checkedCircleOutline.style.display = "none";
             checkedCircleGreenCheck.style.display = "inline";
+            checked = true;
+
+            for(let i = 0; i < projectsArr.length; i++) {
+                for(let j = 0; j < projectsArr[i].tabTasks.length; j++) {
+                    if(projectsArr[i].tabTasks[j].index === index) {
+                        projectsArr[i].tabTasks[j].checked = true;
+                    }
+                }
+            }
+
+            taskTitle.classList.add("task-crossedOut");
+            taskDetails.classList.add("task-crossedOut");
         }
     });
 
     importantStar.addEventListener("click", () => {
-        if(emptyStar.style.display === "none") {
+        if(important == true) {
             emptyStar.style.display = "inline";
             yellowStar.style.display = "none";
-        } else {
+            important = false;
+
+            for(let i = 0; i < projectsArr.length; i++) {
+                for(let j = 0; j < projectsArr[i].tabTasks.length; j++) {
+                    if(projectsArr[i].tabTasks[j].index === index) {
+                        projectsArr[i].tabTasks[j].important = false;
+                    }
+                }
+            }
+
+            } else {
             emptyStar.style.display = "none";
             yellowStar.style.display = "inline";
+            important = true;
+            
+            for(let i = 0; i < projectsArr.length; i++) {
+                for(let j = 0; j < projectsArr[i].tabTasks.length; j++) {
+                    if(projectsArr[i].tabTasks[j].index === index) {
+                        projectsArr[i].tabTasks[j].important = true;
+                    }
+                }
+            }
+
         }
     });
 

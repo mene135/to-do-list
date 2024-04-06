@@ -21,6 +21,7 @@ export function findEmptyDataTabIndex() {
 
 export const projectsArr = [];
 const homeBtnAllTasksArr = [];
+const importantArr = [];
 
 export function sortProjectsDataAttributes() {
     let projects = document.querySelectorAll("[data-project-index]");
@@ -63,6 +64,11 @@ export function applyTasks() {
             homeBtnAllTasksArr.forEach(task => {
                 taskMaker(task.title, task.details, task.date, task.important, task.checked, task.index);
             }) 
+        } else if(currActiveTab.classList.contains("homeBtn-important")) {
+            manageImportant();
+            importantArr.forEach(task => {
+                taskMaker(task.title, task.details, task.date, task.important, task.checked, task.index);
+            })
         }
     }
 
@@ -149,3 +155,17 @@ export function manageAllTasks() {
         }
     }
 };
+
+export function manageImportant() {
+    while(importantArr.length != 0) {
+        importantArr.pop();
+    }
+
+    for(let i = 0; i < projectsArr.length; i++) {
+        for(let j = 0; j < projectsArr[i].tabTasks.length; j++) {
+            if(projectsArr[i].tabTasks[j].important === true ) {
+                importantArr.push(projectsArr[i].tabTasks[j]);
+            }
+        }
+    }
+}

@@ -462,6 +462,10 @@
         font-size: var(--fs-400);
     }
 
+    .task-crossedOut {
+        text-decoration: line-through;
+    }
+
     .taskText {
         width: 100%;
         min-width: 262px;
@@ -485,7 +489,7 @@
     .taskOptionsBtn {
         position: relative;
         color: var(--primary);
-        padding: var(--spacing-200);
+        padding: var(--spacing-100) var(--spacing-200);
     }
 
     .task-optionsContainer {
