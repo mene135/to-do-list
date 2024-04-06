@@ -140,8 +140,8 @@ export function sortTaskIndex(taskRemoved) {
 };
 
 export function updateProject() {
-    let activeProject = document.querySelector(".is-active");
-    activeProject.click();
+    let active = document.querySelector(".is-active");
+    active.click();
 };
 
 export function manageAllTasks() {

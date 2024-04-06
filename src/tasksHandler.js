@@ -333,11 +333,15 @@ export function taskMaker(title, details, date, important, checked, index) {
     taskOptionDeleteBtn.addEventListener("click", () => {
         let taskIndex = parseInt(task.getAttribute("data-task-index"));
         let currActiveProjectIndex = document.querySelector(".is-active").getAttribute("data-project-index");
-        for(let i = 0; i < projectsArr[currActiveProjectIndex].tabTasks.length; i++) {
-            if(projectsArr[currActiveProjectIndex].tabTasks[i].index == taskIndex);
-            projectsArr[currActiveProjectIndex].tabTasks.splice(i, 1);
-            i = projectsArr[currActiveProjectIndex].tabTasks.length + 1;
+
+        for(let i = 0; i < projectsArr.length; i++) {
+            for(let j = 0; j < projectsArr[i].tabTasks.length; j++) {
+                if(projectsArr[i].tabTasks[j].index === index) {
+                    projectsArr[i].tabTasks.splice(j, 1);
+                }
+            }
         }
+
         taskContainer.removeChild(task);
         sortTaskIndex(index);
         updateProject();
