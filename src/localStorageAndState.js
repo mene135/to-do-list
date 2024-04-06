@@ -1,6 +1,7 @@
 import { projectMaker } from "./projectHandler";
 import { Tab } from "./tabFunctionalities";
 import { taskMaker,Task } from "./tasksHandler";
+import {differenceInMilliseconds, millisecondsToHours, isSameWeek, format, sub, getDate} from "date-fns";
 
 
 export function findEmptyDataTabIndex() {
@@ -22,6 +23,8 @@ export function findEmptyDataTabIndex() {
 export const projectsArr = [];
 const homeBtnAllTasksArr = [];
 const importantArr = [];
+const todayArr = [];
+const weekArr = [];
 
 export function sortProjectsDataAttributes() {
     let projects = document.querySelectorAll("[data-project-index]");
@@ -67,6 +70,16 @@ export function applyTasks() {
         } else if(currActiveTab.classList.contains("homeBtn-important")) {
             manageImportant();
             importantArr.forEach(task => {
+                taskMaker(task.title, task.details, task.date, task.important, task.checked, task.index);
+            })
+        } else if(currActiveTab.classList.contains("homeBtn-today")) {
+            manageToday();
+            todayArr.forEach(task => {
+                taskMaker(task.title, task.details, task.date, task.important, task.checked, task.index);
+        })
+        } else if(currActiveTab.classList.contains("homeBtn-next7Days")) {
+            manageWeek();
+            weekArr.forEach(task => {
                 taskMaker(task.title, task.details, task.date, task.important, task.checked, task.index);
             })
         }
@@ -165,6 +178,50 @@ export function manageImportant() {
         for(let j = 0; j < projectsArr[i].tabTasks.length; j++) {
             if(projectsArr[i].tabTasks[j].important === true ) {
                 importantArr.push(projectsArr[i].tabTasks[j]);
+            }
+        }
+    }
+}
+
+ function manageToday() {
+    while(todayArr.length != 0) {
+        todayArr.pop();
+    }
+
+    let today = new Date();
+    let newDay = today.getDate();
+    let newMonth = today.getMonth();
+    let newYear = today.getFullYear();
+
+    today = new Date(newYear, newMonth, newDay)
+    
+    for(let i = 0; i < projectsArr.length; i++) {
+        for(let j = 0; j < projectsArr[i].tabTasks.length; j++) {
+            let taskDate = projectsArr[i].tabTasks[j].date;
+            console.log(taskDate);
+            let difference = millisecondsToHours(differenceInMilliseconds(taskDate, today));
+            console.log(difference);
+            console.log(todayArr)
+            
+           if(difference < 24 && difference >= 0 ) {
+                todayArr.push(projectsArr[i].tabTasks[j]);
+           }
+        }
+    }
+}
+
+function manageWeek() {
+    while(weekArr.length != 0) {
+        weekArr.pop();
+    }
+
+    let today = new Date();
+
+    for(let i = 0; i < projectsArr.length; i++) {
+        for(let j = 0; j < projectsArr[i].tabTasks.length; j++) {
+            let taskDate = projectsArr[i].tabTasks[j].date;
+            if(isSameWeek(taskDate, today, {weekStartsOn: 1}) === true) {
+                weekArr.push(projectsArr[i].tabTasks[j]);
             }
         }
     }

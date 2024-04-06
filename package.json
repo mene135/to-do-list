@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/mene135/to-do-list#readme",
   "dependencies": {
+    "date-fns": "^3.6.0",
     "webpack": "^5.90.3",
     "webpack-cli": "^5.1.4"
   },
