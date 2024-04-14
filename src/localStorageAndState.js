@@ -1,7 +1,7 @@
 import { projectMaker } from "./projectHandler";
 import { Tab } from "./tabFunctionalities";
-import { taskMaker,Task } from "./tasksHandler";
-import {differenceInMilliseconds, millisecondsToHours, isSameWeek, format, sub, getDate} from "date-fns";
+import { taskMaker } from "./tasksHandler";
+import {differenceInMilliseconds, millisecondsToHours, isSameWeek} from "date-fns";
 
 
 export function findEmptyDataTabIndex() {
@@ -61,6 +61,8 @@ export function applyProjectsLocalStorage() {
 export function applyTasks() {
     let currActiveTab = document.querySelector(".is-active");
 
+    if(currActiveTab == null) return;
+
     if(currActiveTab.classList.contains("homeBtn")) {
         if(currActiveTab.classList.contains("homeBtn-allTasks")) {
             manageAllTasks();
@@ -77,7 +79,7 @@ export function applyTasks() {
             todayArr.forEach(task => {
                 taskMaker(task.title, task.details, task.date, task.important, task.checked, task.index);
         })
-        } else if(currActiveTab.classList.contains("homeBtn-next7Days")) {
+        } else if(currActiveTab.classList.contains("homeBtn-thisWeek")) {
             manageWeek();
             weekArr.forEach(task => {
                 taskMaker(task.title, task.details, task.date, task.important, task.checked, task.index);
@@ -85,7 +87,7 @@ export function applyTasks() {
         }
     }
 
-    if(currActiveTab.classList.contains("project-button")) {
+    if(currActiveTab.classList.contains("project-btn")) {
        let currActiveProjectIndex = document.querySelector(".is-active").getAttribute("data-project-index");
 
         if(projectsArr[currActiveProjectIndex].tabTasks.length === 0) return;
@@ -93,9 +95,7 @@ export function applyTasks() {
         projectsArr[currActiveProjectIndex].tabTasks.forEach(task => {
             taskMaker(task.title, task.details, task.date, task.important, task.checked, task.index);
     }) 
-    };
-
-    
+    }; 
 };  
 
 export function assignTaskIndex() {

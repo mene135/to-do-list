@@ -3,8 +3,8 @@ import { tabsEventHandler, Tab, clear } from "./tabFunctionalities";
 import { addTaskBtnMaker, taskFormMaker } from "./tasksHandler";
 
 const projectSection = document.querySelector(".projectSection")
-export const addProjectBtn = document.querySelector(".projectSection-addProjectButton");
-const projectSectionContent = document.querySelector(".projectSection-content");
+export const addProjectBtn = document.querySelector(".projectSection-addProjectBtn");
+const projectSectionContent = document.querySelector(".js-projectSection-content");
 
 export function projectFormMaker() {
 
@@ -23,9 +23,9 @@ export function projectFormMaker() {
     nameInput.setAttribute("maxlength", "20");
     nameInput.setAttribute("id", "projectNameInput");
 
-    projectMakerForm.classList.add("addProjectForm");
+    projectMakerForm.classList.add("projectMakerForm");
     nameLabel.classList.add("is-visually-hidden");
-    nameInput.classList.add("addProjectForm-input");
+    nameInput.classList.add("projectMakerForm-input");
     projectFormBtnContainer.classList.add("buttonContainer");
     addBtn.classList.add("addButton");
     cancelBtn.classList.add("cancelButton");
@@ -78,7 +78,7 @@ export function projectFormMaker() {
 }
 
 export function projectFormOpener() {
-    const projcetForm = document.querySelector(".addProjectForm");
+    const projcetForm = document.querySelector(".projectMakerForm");
     projcetForm.style.display = "block";
 };
 
@@ -98,7 +98,7 @@ export function projectMaker(name, id) {
     const projectOptionsIcon = document.createElement("i");
 
     project.classList.add("project");
-    projectBtn.classList.add("project-button", "tab");
+    projectBtn.classList.add("project-btn", "js-tab");
     projectIcon.classList.add("fa-solid", "fa-bars");
     projectName.classList.add("project-name");
     projectOptionsBtn.classList.add("project-optionsBtn");
@@ -210,7 +210,7 @@ export function projectMaker(name, id) {
     modifyNameInput.value = projectName.textContent;
 
     project.classList.add("project-isModifyState");
-    projectBtn.classList.add("project-button-isModifyState");
+    projectBtn.classList.add("project-btn-isModifyState");
 
     modifyNameInput.focus();
     });
@@ -240,7 +240,7 @@ export function projectMaker(name, id) {
         modifyButtons.style.display = "none";
 
         project.classList.remove("project-isModifyState");
-        projectBtn.classList.remove("project-button-isModifyState");
+        projectBtn.classList.remove("project-btn-isModifyState");
 
         projectOptionsBtn.disabled = false;
 

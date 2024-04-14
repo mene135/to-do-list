@@ -17,23 +17,46 @@
             <i class="fa-solid fa-circle-check" style="color: #63E6BE;"></i>
             <div>What<span>ToDo</span></div>
         </div>
-        <button class="themeToggle">Light Mode</button>
+        <button class="themeToggle">Switch theme</button>
     </header>
     <nav class="l-mainNav" id="menu">
-        <div class="homeSection">
-            <h1 class="homeSection-title">Home</h1>
-            <ul class="homeSection-content">
-                <li><button class="homeBtn homeBtn-allTasks tab"><i class="fa-solid fa-box" style="color: #FFD43B;"></i><span>All Tasks</span></button></li>
-                <li><button class="homeBtn homeBtn-today tab"><i class="fa-solid fa-calendar-day" style="color: #ff0000"></i><span>Today</span></button></li>
-                <li><button class="homeBtn homeBtn-next7Days tab"><i class="fa-solid fa-calendar-week" style="color: #ff0000;"></i><span>Next 7 Days</span></button></li>
-                <li><button class="homeBtn homeBtn-important tab"><i class="fa-solid fa-circle-exclamation"></i><span>Important</span></button></li>
+        <div class="navSection homeSection">
+            <h1 class="navSection-title">Home</h1>
+            <ul class="navSection-content">
+                <li>
+                    <button class="homeBtn homeBtn-allTasks js-tab">
+                        <i class="fa-solid fa-box" style="color: #FFD43B;"></i>
+                        <span>All Tasks</span>
+                    </button>
+                </li>
+                <li>
+                    <button class="homeBtn homeBtn-today js-tab">
+                        <i class="fa-solid fa-calendar-day" style="color: #ff0000"></i>
+                        <span>Today</span>
+                    </button>
+                </li>
+                <li>
+                    <button class="homeBtn homeBtn-thisWeek js-tab">
+                        <i class="fa-solid fa-calendar-week" style="color: #ff0000;"></i>
+                        <span>This Week</span>
+                    </button>
+                </li>
+                <li>
+                    <button class="homeBtn homeBtn-important js-tab">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        <span>Important</span>
+                    </button>
+                </li>
             </ul>
         </div>
-        <div class="projectSection">
-            <h2 class="projectSection-title">Projects</h2>
-            <ul class="projectSection-content">    
+        <div class="navSection projectSection">
+            <h2 class="navSection-title">Projects</h2>
+            <ul class="navSection-content js-projectSection-content">
             </ul>
-            <button class="projectSection-addProjectButton"><i class="fa-solid fa-plus"></i><span>Add a project</span></button>
+            <button class="projectSection-addProjectBtn">
+                <i class="fa-solid fa-plus"></i>
+                <span>Add a project</span>
+            </button>
         </div>
     </nav>
     <main class="l-main">

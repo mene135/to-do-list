@@ -2,20 +2,20 @@ import { toggleThemeBtn, toggleTheme, setThemeLocalStorage, applyThemeLocalStora
 import { menuToggleBtn, menuToggle, isNavExpanded } from "./menuToggle";
 import { tabs, tabsEventHandler} from "./tabFunctionalities";
 import { addProjectBtn, projectFormMaker, projectFormOpener } from "./projectHandler";
-import { applyProjectsLocalStorage, setProjectsLocalStorage, manageAllTasks, projectsArr } from "./localStorageAndState";
+import { applyProjectsLocalStorage, setProjectsLocalStorage, projectsArr } from "./localStorageAndState";
 
 
 
 toggleThemeBtn.addEventListener("click", toggleTheme);
 menuToggleBtn.addEventListener("click", menuToggle);
 addProjectBtn.addEventListener("click", () => {
-    if(document.querySelector(".addProjectForm").style.display === "block") {
+    if(document.querySelector(".projectMakerForm").style.display === "block") {
         alert("You must finish the previous form");
-        document.querySelector(".addProjectForm-input").focus();
+        document.querySelector(".projectMakerForm-input").focus();
         return;
 }
     projectFormOpener();
-    document.querySelector(".addProjectForm-input").focus();
+    document.querySelector(".projectMakerForm-input").focus();
 });
 
 tabs.forEach(tab => {
