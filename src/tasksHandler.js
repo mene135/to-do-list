@@ -1,6 +1,6 @@
-import { projectsArr, setTasks, assignTaskIndex2, sortTaskIndex, updateProject,  } from "./localStorageAndState";
+import { projectsArr, setTasks, assignTaskIndex, sortTaskIndex, updateProject,  } from "./localStorageAndState";
 
-const displayTab = document.querySelector(".displayTab");
+const displayTab = document.querySelector(".l-displayTab");
 
 export function taskFormMaker() {
     const taskMakerForm = document.createElement("form");
@@ -49,14 +49,14 @@ export function taskFormMaker() {
     
     projectFormBtnContainer.classList.add("buttonContainer");
 
-    taskMakerForm.classList.add("displayTab-taskMakerForm", "is-hidden");
+    taskMakerForm.classList.add("taskMakerForm", "is-hidden");
 
     taskMakerForm.appendChild(titleLabel);
     taskMakerForm.appendChild(detailsLabel);
     taskMakerForm.appendChild(dateLabel);
     taskMakerForm.appendChild(projectFormBtnContainer);
 
-    displayTab.insertBefore(taskMakerForm, document.querySelector(".displayTab-addTaskBtn"));
+    displayTab.insertBefore(taskMakerForm, document.querySelector(".tab-addTaskBtn"));
 
     addBtn.addEventListener("click", (e) => {
         e.preventDefault();
@@ -64,7 +64,7 @@ export function taskFormMaker() {
         let title = titleInput.value;
         let details = detailsTextArea.value;
         let date = dateInput.value;
-        let taskIndex = assignTaskIndex2();
+        let taskIndex = assignTaskIndex();
 
         if(title === "") {
             alert("You must fill out the Title field");
@@ -94,11 +94,11 @@ export function taskFormMaker() {
 export function addTaskBtnMaker() {
     const addTaskBtn = document.createElement("button");
     addTaskBtn.textContent = "Add task";
-    addTaskBtn.classList.add("displayTab-addTaskBtn");
+    addTaskBtn.classList.add("tab-addTaskBtn");
     displayTab.appendChild(addTaskBtn);
 
     addTaskBtn.addEventListener("click", () => {
-        let form = document.querySelector(".displayTab-taskMakerForm");
+        let form = document.querySelector(".taskMakerForm");
 
         if(form.classList.contains("is-hidden") === false) {
             alert("Finish the form you started");
@@ -121,7 +121,7 @@ export class Task {
 }
 
 export function taskMaker(title, details, date, important, checked, index) {
-    const taskContainer = document.querySelector(".displayTab-tasksContainer");
+    const taskContainer = document.querySelector(".tab-tasksContainer");
     const task = document.createElement("li");
 
     task.classList.add("task");
@@ -129,10 +129,12 @@ export function taskMaker(title, details, date, important, checked, index) {
     const checkedCircleBtn = document.createElement("button");
     const checkedCircleOutline = document.createElement("i");
     const checkedCircleGreenCheck = document.createElement("i");
+    const checkedAriaText = document.createElement("span");
 
     checkedCircleBtn.classList.add("task-checkedCircleBtn");
     checkedCircleOutline.classList.add("fa-regular", "fa-circle");
     checkedCircleGreenCheck.classList.add("fa-solid", "fa-circle-check");
+    checkedAriaText.classList.add("is-visually-hidden");
 
     checkedCircleOutline.style.color = "var(--primary)";
     checkedCircleGreenCheck.style.color = "var(--secondary)";
@@ -140,6 +142,7 @@ export function taskMaker(title, details, date, important, checked, index) {
     
     checkedCircleBtn.appendChild(checkedCircleOutline);
     checkedCircleBtn.appendChild(checkedCircleGreenCheck);
+    checkedCircleBtn.appendChild(checkedAriaText);
     task.appendChild(checkedCircleBtn);
 
     task.setAttribute("data-task-index", `${index}`);
@@ -169,12 +172,14 @@ export function taskMaker(title, details, date, important, checked, index) {
 
     const importantStar = document.createElement("button");
     const emptyStar = document.createElement("i");
-    const yellowStar = document.createElement("i")
+    const yellowStar = document.createElement("i");
+    const importantAriaText = document.createElement("span");
 
     importantStar.classList.add("task-important");
 
     emptyStar.classList.add("fa-regular", "fa-star", "emptyStar");
     yellowStar.classList.add("fa-solid", "fa-star", "yellowStar");
+    importantAriaText.classList.add("is-visually-hidden");
 
 
     emptyStar.style.color = "var(--primary)";
@@ -182,18 +187,25 @@ export function taskMaker(title, details, date, important, checked, index) {
 
     if(important === true) {
         emptyStar.style.display = "none";
+        importantAriaText.textContent = "Important"
     } else {
         yellowStar.style.display = "none"; 
+        importantAriaText.textContent = "Not Important";
     }
 
     if(checked === true) {
         checkedCircleOutline.style.display = "none";
+        checkedCircleBtn.setAttribute("aria-pressed", "true");
+        checkedAriaText.textContent = "Checked";
+
 
         taskTitle.classList.add("task-crossedOut");
         taskDetails.classList.add("task-crossedOut");
 
-    } else {
+    } else {        
         checkedCircleGreenCheck.style.display = "none";
+        checkedCircleBtn.setAttribute("aria-pressed", "false");
+        checkedAriaText.textContent = "Unchecked";
 
         taskTitle.classList.remove("task-crossedOut");
         taskDetails.classList.remove("task-crossedOut");
@@ -202,6 +214,7 @@ export function taskMaker(title, details, date, important, checked, index) {
 
     importantStar.appendChild(emptyStar);
     importantStar.appendChild(yellowStar);
+    importantStar.appendChild(importantAriaText);
 
     task.appendChild(importantStar);
 
@@ -253,6 +266,8 @@ export function taskMaker(title, details, date, important, checked, index) {
         if(checked === true) {
             checkedCircleOutline.style.display = "inline";
             checkedCircleGreenCheck.style.display = "none";
+            checkedCircleBtn.setAttribute("aria-pressed", "false");
+            checkedAriaText.textContent = "Unchecked"
             checked = false;
 
             for(let i = 0; i < projectsArr.length; i++) {
@@ -269,6 +284,8 @@ export function taskMaker(title, details, date, important, checked, index) {
         } else {
             checkedCircleOutline.style.display = "none";
             checkedCircleGreenCheck.style.display = "inline";
+            checkedCircleBtn.setAttribute("aria-pressed", "true")
+            checkedAriaText.textContent = "Checked";
             checked = true;
 
             for(let i = 0; i < projectsArr.length; i++) {
@@ -288,6 +305,7 @@ export function taskMaker(title, details, date, important, checked, index) {
         if(important == true) {
             emptyStar.style.display = "inline";
             yellowStar.style.display = "none";
+            importantAriaText.textContent = "Important";
             important = false;
 
             for(let i = 0; i < projectsArr.length; i++) {
@@ -301,6 +319,7 @@ export function taskMaker(title, details, date, important, checked, index) {
             } else {
             emptyStar.style.display = "none";
             yellowStar.style.display = "inline";
+            importantAriaText.textContent = "Not important";
             important = true;
             
             for(let i = 0; i < projectsArr.length; i++) {
@@ -331,9 +350,6 @@ export function taskMaker(title, details, date, important, checked, index) {
     })
 
     taskOptionDeleteBtn.addEventListener("click", () => {
-        let taskIndex = parseInt(task.getAttribute("data-task-index"));
-        let currActiveProjectIndex = document.querySelector(".is-active").getAttribute("data-project-index");
-
         for(let i = 0; i < projectsArr.length; i++) {
             for(let j = 0; j < projectsArr[i].tabTasks.length; j++) {
                 if(projectsArr[i].tabTasks[j].index === index) {
@@ -407,14 +423,14 @@ function taskModifyForm(task) {
     
     projectFormBtnContainer.classList.add("buttonContainer");
 
-    taskMakerForm.classList.add("displayTab-taskMakerForm") ;
+    taskMakerForm.classList.add("taskMakerForm") ;
 
     taskMakerForm.appendChild(titleLabel);
     taskMakerForm.appendChild(detailsLabel);
     taskMakerForm.appendChild(dateLabel);
     taskMakerForm.appendChild(projectFormBtnContainer);
 
-    let taskContainer = document.querySelector(".displayTab-tasksContainer");
+    let taskContainer = document.querySelector(".tab-tasksContainer");
     console.log("modify work")
 
     taskContainer.insertBefore(taskMakerForm, task);

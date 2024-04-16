@@ -1,11 +1,11 @@
 import { setTasks, applyTasks } from "./localStorageAndState";
 
-const displayTab = document.querySelector(".displayTab");
+const displayTab = document.querySelector(".l-displayTab");
 export let tabs = document.querySelectorAll(".js-tab");
 
  export function createTabContent(tab) {
     const div = document.createElement("div");
-    div.classList.add("displayTab-title");
+    div.classList.add("tab-title");
 
     let text = tab.querySelector("span").textContent;
 
@@ -13,10 +13,10 @@ export let tabs = document.querySelectorAll(".js-tab");
 
     const h3 = document.createElement("h3");
     h3.textContent = text;
-    h3.classList.add("displayTab-title-heading");
+    h3.classList.add("tab-title-heading");
 
     const tasksContainer = document.createElement("ul");
-    tasksContainer.classList.add("displayTab-tasksContainer");
+    tasksContainer.classList.add("tab-tasksContainer");
 
 
     div.appendChild(h3);

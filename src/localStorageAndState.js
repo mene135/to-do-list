@@ -1,7 +1,6 @@
 import { projectMaker } from "./projectHandler";
-import { Tab } from "./tabFunctionalities";
 import { taskMaker } from "./tasksHandler";
-import {differenceInMilliseconds, millisecondsToHours, isSameWeek} from "date-fns";
+import { differenceInMilliseconds, millisecondsToHours, isSameWeek } from "date-fns";
 
 
 export function findEmptyDataTabIndex() {
@@ -98,24 +97,9 @@ export function applyTasks() {
     }; 
 };  
 
+
+
 export function assignTaskIndex() {
-    let currActiveProjectIndex = document.querySelector(".is-active").getAttribute("data-project-index");
-    let taskArr = projectsArr[currActiveProjectIndex].tabTasks;
-
-    let count = 0;
-    let found = false;
-    
-    while(found === false) {
-        if(taskArr[count] === undefined) {
-        found = true;
-        return count;
-        } else {
-            count++;
-        }
-    }
-};
-
-export function assignTaskIndex2() {
     let count = 0;
     let found = false;
     let currActiveProjectIndex = parseInt(document.querySelector(".is-active").getAttribute("data-project-index"));
@@ -127,7 +111,6 @@ export function assignTaskIndex2() {
             while(found === false) {
                 if(projectsArr[i].tabTasks[localIndex] === undefined) {
                     found = true;
-                    console.log(count);
                     return count;
                 } else {
                     localIndex++;
@@ -198,11 +181,8 @@ export function manageImportant() {
     for(let i = 0; i < projectsArr.length; i++) {
         for(let j = 0; j < projectsArr[i].tabTasks.length; j++) {
             let taskDate = projectsArr[i].tabTasks[j].date;
-            console.log(taskDate);
             let difference = millisecondsToHours(differenceInMilliseconds(taskDate, today));
-            console.log(difference);
-            console.log(todayArr)
-            
+
            if(difference < 24 && difference >= 0 ) {
                 todayArr.push(projectsArr[i].tabTasks[j]);
            }

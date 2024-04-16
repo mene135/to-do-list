@@ -3,7 +3,7 @@ import { tabsEventHandler, Tab, clear } from "./tabFunctionalities";
 import { addTaskBtnMaker, taskFormMaker } from "./tasksHandler";
 
 const projectSection = document.querySelector(".projectSection")
-export const addProjectBtn = document.querySelector(".projectSection-addProjectBtn");
+export const addProjectBtn = document.querySelector(".addProjectBtn");
 const projectSectionContent = document.querySelector(".js-projectSection-content");
 
 export function projectFormMaker() {
@@ -85,20 +85,21 @@ export function projectFormOpener() {
 
 export function projectMaker(name, id) {
     // General project section
-    let clickedOnce = false;
 
     name = name.charAt(0).toUpperCase() + name.slice(1, );
 
     const project = document.createElement("li");
+    
     const projectBtn = document.createElement("button");
     const projectIcon = document.createElement("i");
     const projectName = document.createElement("span");
+
     const projectOptionsBtn = document.createElement("button");
     const optionsBtnAccesibilityText = document.createElement("span");
     const projectOptionsIcon = document.createElement("i");
 
     project.classList.add("project");
-    projectBtn.classList.add("project-btn", "js-tab");
+    projectBtn.classList.add("project-btn","button-primarySkin", "js-tab");
     projectIcon.classList.add("fa-solid", "fa-bars");
     projectName.classList.add("project-name");
     projectOptionsBtn.classList.add("project-optionsBtn");
@@ -123,7 +124,6 @@ export function projectMaker(name, id) {
     projectSectionContent.appendChild(project);
 
     projectBtn.addEventListener("click", () => {
-        console.log(projectsArr)
         tabsEventHandler(projectBtn, true);
         addTaskBtnMaker();
         taskFormMaker();
@@ -187,7 +187,7 @@ export function projectMaker(name, id) {
     renameBtn.textContent = "RENAME";
     cancelBtn.textContent = "CANCEL";
 
-    modifyButtons.classList.add("project-modifyButtons");
+    modifyButtons.classList.add("modifyProject-options");
     renameBtn.classList.add("addButton");
     cancelBtn.classList.add("cancelButton");
 
