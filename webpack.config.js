@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = {
   devServer: {
     static: {
-        directory: path.join(__dirname, 'dist'), // Path to serve static files from
+      directory: path.join(__dirname, 'dist'), // Path to serve static files from
     },
     compress: true, // Enable gzip compression
     port: 5500, // Port to run dev server on
@@ -25,6 +25,18 @@ module.exports = {
       {
         test: /\.(png|jpg|gif)$/i,
         type: 'asset/resource',
+      },
+      {
+        test: /\.(?:js|mjs|cjs)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              ['@babel/preset-env', { targets: "defaults" }]
+            ]
+          }
+        }
       }
     ]
   }

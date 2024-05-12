@@ -1,25 +1,25 @@
-export const toggleThemeBtn = document.querySelector(".themeToggle");
+export const toggleThemeBtn = document.querySelector(".themeToggle")
 
-const body = document.querySelector("body");
+const body = document.querySelector("body")
 
 export function toggleTheme() {
-    body.classList.toggle("darkTheme");
-};
+  body.classList.toggle("darkTheme")
+}
 
 export function setThemeLocalStorage() {
-    if(body.classList.contains("darkTheme")) {
-        localStorage.setItem("theme", "dark")
-    } else {
-        localStorage.setItem("theme", "light");
-    }
+  if (body.classList.contains("darkTheme")) {
+    localStorage.setItem("theme", "dark")
+  } else {
+    localStorage.setItem("theme", "light")
+  }
 }
 
 export function applyThemeLocalStorage() {
-    const theme = localStorage.getItem("theme");
+  const theme = localStorage.getItem("theme")
 
-    if(theme === "dark") {
-        body.classList.add("darkTheme") 
-    } else {
-        body.classList.remove("darkTheme");
-    }
+  if (theme === "dark") {
+    body.classList.add("darkTheme")
+  } else {
+    body.classList.remove("darkTheme")
+  }
 }

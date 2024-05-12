@@ -1,295 +1,288 @@
-import { findEmptyDataTabIndex, projectsArr, sortProjectsDataAttributes, modifyProjectDataName, applyTasks, setTasks } from "./localStorageAndState";
-import { tabsEventHandler, Tab, clear } from "./tabFunctionalities";
-import { addTaskBtnMaker, taskFormMaker } from "./tasksHandler";
+import {
+  findEmptyDataTabIndex,
+  projectsArr,
+  sortProjectsDataAttributes,
+  modifyProjectDataName,
+  applyTasks,
+  setTasks,
+} from "./localStorageAndState"
+import { tabsEventHandler, Tab, clear } from "./tabFunctionalities"
+import { addTaskBtnMaker, taskFormMaker } from "./tasksHandler"
 
 const projectSection = document.querySelector(".projectSection")
-export const addProjectBtn = document.querySelector(".addProjectBtn");
-const projectSectionContent = document.querySelector(".js-projectSection-content");
+export const addProjectBtn = document.querySelector(".addProjectBtn")
+const projectSectionContent = document.querySelector(
+  ".js-projectSection-content",
+)
 
 export function projectFormMaker() {
+  const projectMakerForm = document.createElement("form")
+  const nameLabel = document.createElement("label")
+  const nameInput = document.createElement("input")
+  const addBtn = document.createElement("button")
+  const cancelBtn = document.createElement("button")
+  const projectFormBtnContainer = document.createElement("div")
 
-    const projectMakerForm = document.createElement("form");
-    const nameLabel = document.createElement("label");
-    const nameInput = document.createElement("input");
-    const addBtn = document.createElement("button");
-    const cancelBtn = document.createElement("button");
-    const projectFormBtnContainer = document.createElement("div");
+  nameLabel.setAttribute("for", "projectNameInput")
+  nameLabel.textContent = "Enter projects name"
 
-    nameLabel.setAttribute("for", "projectNameInput");
-    nameLabel.textContent = "Enter projects name";
+  nameInput.setAttribute("type", "text")
+  nameInput.setAttribute("placeholder", "Project Name")
+  nameInput.setAttribute("maxlength", "20")
+  nameInput.setAttribute("id", "projectNameInput")
 
-    nameInput.setAttribute("type", "text");
-    nameInput.setAttribute("placeholder", "Project Name");
-    nameInput.setAttribute("maxlength", "20");
-    nameInput.setAttribute("id", "projectNameInput");
+  projectMakerForm.classList.add("projectMakerForm")
+  nameLabel.classList.add("is-visually-hidden")
+  nameInput.classList.add("projectMakerForm-input")
+  projectFormBtnContainer.classList.add("buttonContainer")
+  addBtn.classList.add("addButton")
+  cancelBtn.classList.add("cancelButton")
 
-    projectMakerForm.classList.add("projectMakerForm");
-    nameLabel.classList.add("is-visually-hidden");
-    nameInput.classList.add("projectMakerForm-input");
-    projectFormBtnContainer.classList.add("buttonContainer");
-    addBtn.classList.add("addButton");
-    cancelBtn.classList.add("cancelButton");
+  addBtn.textContent = "ADD"
+  cancelBtn.textContent = "Cancel"
 
-    addBtn.textContent = "ADD";
-    cancelBtn.textContent = "Cancel";
+  projectMakerForm.style.display = "none"
 
-    projectMakerForm.style.display = "none";
+  projectFormBtnContainer.appendChild(addBtn)
+  projectFormBtnContainer.appendChild(cancelBtn)
 
-    projectFormBtnContainer.appendChild(addBtn);
-    projectFormBtnContainer.appendChild(cancelBtn);
+  projectMakerForm.appendChild(nameLabel)
+  projectMakerForm.appendChild(nameInput)
+  projectMakerForm.appendChild(projectFormBtnContainer)
 
-    projectMakerForm.appendChild(nameLabel);
-    projectMakerForm.appendChild(nameInput);
-    projectMakerForm.appendChild(projectFormBtnContainer);
+  projectSection.insertBefore(projectMakerForm, addProjectBtn)
 
-    projectSection.insertBefore(projectMakerForm, addProjectBtn);
+  nameInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault()
+      addBtn.click()
+    } else if (e.key === "Escape") {
+      cancelBtn.click()
+    }
+  })
 
-    nameInput.addEventListener("keydown", (e) => {
-        if(e.key === "Enter") {
-            e.preventDefault();
-            addBtn.click(); 
-        } else if (e.key === "Escape") {
-            cancelBtn.click();
-        }
-    });
+  addBtn.addEventListener("click", (e) => {
+    e.preventDefault()
 
-    addBtn.addEventListener("click", (e) => {
-        e.preventDefault();
+    if (nameInput.value === "") {
+      alert("The project name cannot be empty")
+      return
+    }
 
-        if(nameInput.value === "") {
-            alert("The project name cannot be empty");
-            return;
-        };
+    const newProject = new Tab(nameInput.value, [])
+    projectsArr.push(newProject)
 
-        
-        let newProject = new Tab(nameInput.value, []);
-        projectsArr.push(newProject);
-        
-        projectMaker(nameInput.value, findEmptyDataTabIndex());
+    projectMaker(nameInput.value, findEmptyDataTabIndex())
 
-        projectMakerForm.style.display = "none";
-        nameInput.value = "";
-    });
+    projectMakerForm.style.display = "none"
+    nameInput.value = ""
+  })
 
-    cancelBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        projectMakerForm.style.display = "none";
-    });
+  cancelBtn.addEventListener("click", (e) => {
+    e.preventDefault()
+    projectMakerForm.style.display = "none"
+  })
 }
 
 export function projectFormOpener() {
-    const projcetForm = document.querySelector(".projectMakerForm");
-    projcetForm.style.display = "block";
-};
-
+  const projcetForm = document.querySelector(".projectMakerForm")
+  projcetForm.style.display = "block"
+}
 
 export function projectMaker(name, id) {
-    // General project section
-
-    name = name.charAt(0).toUpperCase() + name.slice(1, );
+  // General project section
+
+  name = name.charAt(0).toUpperCase() + name.slice(1)
+
+  const project = document.createElement("li")
+
+  const projectBtn = document.createElement("button")
+  const projectIcon = document.createElement("i")
+  const projectName = document.createElement("span")
+
+  const projectOptionsBtn = document.createElement("button")
+  const optionsBtnAccesibilityText = document.createElement("span")
+  const projectOptionsIcon = document.createElement("i")
+
+  project.classList.add("project")
+  projectBtn.classList.add("project-btn", "button-primarySkin", "js-tab")
+  projectIcon.classList.add("fa-solid", "fa-bars")
+  projectName.classList.add("project-name")
+  projectOptionsBtn.classList.add("project-optionsBtn")
+  optionsBtnAccesibilityText.classList.add("is-visually-hidden")
+  projectOptionsIcon.classList.add(
+    "fa-solid",
+    "fa-ellipsis-vertical",
+    "project-optionsIcon",
+  )
 
-    const project = document.createElement("li");
-    
-    const projectBtn = document.createElement("button");
-    const projectIcon = document.createElement("i");
-    const projectName = document.createElement("span");
-
-    const projectOptionsBtn = document.createElement("button");
-    const optionsBtnAccesibilityText = document.createElement("span");
-    const projectOptionsIcon = document.createElement("i");
+  projectBtn.setAttribute("data-project-index", `${id}`)
 
-    project.classList.add("project");
-    projectBtn.classList.add("project-btn","button-primarySkin", "js-tab");
-    projectIcon.classList.add("fa-solid", "fa-bars");
-    projectName.classList.add("project-name");
-    projectOptionsBtn.classList.add("project-optionsBtn");
-    optionsBtnAccesibilityText.classList.add("is-visually-hidden");
-    projectOptionsIcon.classList.add("fa-solid", "fa-ellipsis-vertical", "project-optionsIcon");
+  projectOptionsBtn.setAttribute("tabIndex", "0")
+  projectOptionsBtn.setAttribute("aria-controls", "options")
 
-    projectBtn.setAttribute("data-project-index", `${id}`);
+  projectName.textContent = name
+  optionsBtnAccesibilityText.textContent = "Options"
 
-    projectOptionsBtn.setAttribute("tabIndex", "0");
-    projectOptionsBtn.setAttribute("aria-controls", "options")
+  projectOptionsBtn.appendChild(projectOptionsIcon)
+  projectOptionsBtn.appendChild(optionsBtnAccesibilityText)
 
-    projectName.textContent = name;
-    optionsBtnAccesibilityText.textContent = "Options";
+  projectBtn.appendChild(projectIcon)
+  projectBtn.appendChild(projectName)
+  projectBtn.appendChild(projectOptionsBtn)
+  project.appendChild(projectBtn)
+  projectSectionContent.appendChild(project)
 
-    projectOptionsBtn.appendChild(projectOptionsIcon);
-    projectOptionsBtn.appendChild(optionsBtnAccesibilityText);
+  projectBtn.addEventListener("click", () => {
+    tabsEventHandler(projectBtn, true)
+    addTaskBtnMaker()
+    taskFormMaker()
+  })
 
-    projectBtn.appendChild(projectIcon);
-    projectBtn.appendChild(projectName);
-    projectBtn.appendChild(projectOptionsBtn);
-    project.appendChild(projectBtn);
-    projectSectionContent.appendChild(project);
+  // Options menu
 
-    projectBtn.addEventListener("click", () => {
-        tabsEventHandler(projectBtn, true);
-        addTaskBtnMaker();
-        taskFormMaker();
-        });
+  const projecOptions = document.createElement("ul")
+  const modifyOption = document.createElement("li")
+  const deleteOption = document.createElement("li")
+  const modifyOptionBtn = document.createElement("button")
+  const deleteOptionBtn = document.createElement("button")
 
-    
+  modifyOptionBtn.textContent = "MODIFY"
+  deleteOptionBtn.textContent = "DELETE"
 
-    // Options menu
+  projecOptions.classList.add("project-options", "project-options-isHidden")
+  projecOptions.setAttribute("id", "options")
 
-    const projecOptions = document.createElement("ul");
-    const modifyOption = document.createElement("li");
-    const deleteOption = document.createElement("li")
-    const modifyOptionBtn = document.createElement("button");
-    const deleteOptionBtn = document.createElement("button");
+  modifyOptionBtn.classList.add("project-modifyOptionBtn")
 
-    modifyOptionBtn.textContent = "MODIFY";
-    deleteOptionBtn.textContent = "DELETE";
+  modifyOption.appendChild(modifyOptionBtn)
+  deleteOption.appendChild(deleteOptionBtn)
 
-    projecOptions.classList.add("project-options", "project-options-isHidden");
-    projecOptions.setAttribute("id", "options");
+  projecOptions.appendChild(modifyOption)
+  projecOptions.appendChild(deleteOption)
+  projectBtn.appendChild(projecOptions)
 
-    modifyOptionBtn.classList.add("project-modifyOptionBtn");
+  projectOptionsBtn.addEventListener("click", () => {
+    projecOptions.classList.toggle("project-options-isHidden")
+  })
 
-    
-    modifyOption.appendChild(modifyOptionBtn);
-    deleteOption.appendChild(deleteOptionBtn);
-    
-    projecOptions.appendChild(modifyOption);
-    projecOptions.appendChild(deleteOption);
-    projectBtn.appendChild(projecOptions);
+  projectOptionsBtn.addEventListener("blur", () => {
+    const clickHandler = (e) => {
+      if (projecOptions.classList.contains("project-options-isHidden")) return
+      if (modifyOptionBtn !== e.target || deleteOptionBtn !== e.target) {
+        projecOptions.classList.add("project-options-isHidden")
+        document.removeEventListener("click", clickHandler)
+      }
+    }
 
-    projectOptionsBtn.addEventListener("click", () => {
-        projecOptions.classList.toggle("project-options-isHidden");
-    })
+    document.addEventListener("click", clickHandler)
+  })
 
-    projectOptionsBtn.addEventListener("blur", () => {
-        const clickHandler = (e) => {
-            if(projecOptions.classList.contains("project-options-isHidden")) return;
-            if(modifyOptionBtn !== e.target || deleteOptionBtn !== e.target) {
-                projecOptions.classList.add("project-options-isHidden");
-                document.removeEventListener("click", clickHandler);
-            }
-        }
+  // Modify option section
+  const modifyNameInput = document.createElement("input")
 
-        document.addEventListener("click", clickHandler);
-    })
+  modifyNameInput.classList.add("project-modifyInput")
+  modifyNameInput.setAttribute(
+    "aria-label",
+    "Enter new project name, text input",
+  )
+  modifyNameInput.value = projectName.textContent
+  modifyNameInput.style.display = "none"
 
+  const modifyButtons = document.createElement("div")
+  const renameBtn = document.createElement("button")
+  const cancelBtn = document.createElement("button")
 
-    // Modify option section
-    const modifyNameInput = document.createElement("input");
+  renameBtn.textContent = "RENAME"
+  cancelBtn.textContent = "CANCEL"
 
-    modifyNameInput.classList.add("project-modifyInput");
-    modifyNameInput.setAttribute("aria-label", "Enter new project name, text input");
-    modifyNameInput.value = projectName.textContent;
-    modifyNameInput.style.display = "none";
+  modifyButtons.classList.add("modifyProject-options")
+  renameBtn.classList.add("addButton")
+  cancelBtn.classList.add("cancelButton")
 
-    const modifyButtons = document.createElement("div");
-    const renameBtn = document.createElement("button");
-    const cancelBtn = document.createElement("button");
+  modifyButtons.appendChild(renameBtn)
+  modifyButtons.appendChild(cancelBtn)
 
-    renameBtn.textContent = "RENAME";
-    cancelBtn.textContent = "CANCEL";
+  project.appendChild(modifyButtons)
 
-    modifyButtons.classList.add("modifyProject-options");
-    renameBtn.classList.add("addButton");
-    cancelBtn.classList.add("cancelButton");
+  modifyButtons.style.display = "none"
 
-    modifyButtons.appendChild(renameBtn);
-    modifyButtons.appendChild(cancelBtn);
+  projectBtn.insertBefore(modifyNameInput, projectOptionsBtn)
 
-    project.appendChild(modifyButtons);
+  modifyOptionBtn.addEventListener("click", () => {
+    projectOptionsBtn.disabled = true
 
-    modifyButtons.style.display = "none";
+    modifyNameInput.style.display = "block"
+    projectName.style.display = "none"
+    modifyButtons.style.display = "flex"
 
-    projectBtn.insertBefore(modifyNameInput, projectOptionsBtn);
+    modifyNameInput.value = projectName.textContent
 
-    modifyOptionBtn.addEventListener("click", () => {
-        projectOptionsBtn.disabled = true;
+    project.classList.add("project-isModifyState")
+    projectBtn.classList.add("project-btn-isModifyState")
 
-    modifyNameInput.style.display = "block";
-    projectName.style.display = "none";
-    modifyButtons.style.display = "flex";
+    modifyNameInput.focus()
+  })
 
-    modifyNameInput.value = projectName.textContent;
+  // Options for when you are modifying-renaming the project name
 
-    project.classList.add("project-isModifyState");
-    projectBtn.classList.add("project-btn-isModifyState");
+  renameBtn.addEventListener("click", (e) => {
+    name = modifyNameInput.value
+    name = name.charAt(0).toUpperCase() + name.slice(1)
 
-    modifyNameInput.focus();
-    });
+    e.stopPropagation()
 
-    // Options for when you are modifying-renaming the project name
+    if (name === "") {
+      alert("The project name cannot be empty")
+      return
+    } else {
+      projectName.style.display = "inline-block"
+      projectName.textContent = name
+      cancelBtn.click()
+      modifyProjectDataName(name, projectBtn.getAttribute("data-project-index"))
+    }
+  })
 
-    renameBtn.addEventListener("click", (e) => {
-        name = modifyNameInput.value;
-        name = name.charAt(0).toUpperCase() + name.slice(1, );
+  cancelBtn.addEventListener("click", () => {
+    projectName.style.display = "inline-block"
+    modifyNameInput.style.display = "none"
+    modifyButtons.style.display = "none"
 
-        e.stopPropagation();
+    project.classList.remove("project-isModifyState")
+    projectBtn.classList.remove("project-btn-isModifyState")
 
-        if(name === "") {
-            alert("The project name cannot be empty");
-            return;
-        } else {
-            projectName.style.display = "inline-block";
-            projectName.textContent = name;
-            cancelBtn.click();
-            modifyProjectDataName(name, projectBtn.getAttribute("data-project-index"));
-        }
-    });
+    projectOptionsBtn.disabled = false
 
-    cancelBtn.addEventListener("click", () => {
-        projectName.style.display = "inline-block";
-        modifyNameInput.style.display = "none";
-        modifyButtons.style.display = "none";
+    projectBtn.click()
+  })
 
-        project.classList.remove("project-isModifyState");
-        projectBtn.classList.remove("project-btn-isModifyState");
+  // Delete section
 
-        projectOptionsBtn.disabled = false;
+  deleteOptionBtn.addEventListener("click", (e) => {
+    e.stopPropagation()
+    let confirmed = confirm("Are you sure you want to delete this project")
 
-        projectBtn.click();
-    });
+    if (confirmed === true) {
+      projectsArr.splice(projectBtn.getAttribute("data-project-index"), 1)
+      projectSectionContent.removeChild(project)
+      sortProjectsDataAttributes()
+      clear()
+    } else {
+      return
+    }
+  })
 
-   // Delete section
+  modifyNameInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      renameBtn.click()
+    } else if (e.key === "Escape") {
+      cancelBtn.click()
+    }
+  })
 
-   deleteOptionBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        let confirmed = confirm("Are you sure you want to delete this project");
+  // End of delete section
 
-        if(confirmed === true) {
-        projectsArr.splice(projectBtn.getAttribute("data-project-index"), 1);
-        projectSectionContent.removeChild(project);
-        sortProjectsDataAttributes();
-        clear();
-        } else {
-            return;
-        }
-
-        
-   })
-
-   modifyNameInput.addEventListener("keydown", (e) => {
-            if(e.key === "Enter") {
-                renameBtn.click();
-            } else if (e.key === "Escape") {
-                cancelBtn.click();
-            }});
-
-   // End of delete section
-
-   tabsEventHandler(projectBtn, false);
-   addTaskBtnMaker();
-   taskFormMaker();
-};
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
+  tabsEventHandler(projectBtn, false)
+  addTaskBtnMaker()
+  taskFormMaker()
+}
