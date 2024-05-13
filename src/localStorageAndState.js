@@ -1,5 +1,3 @@
-import { projectMaker } from "./projectHandler"
-import { taskMaker } from "./tasksHandler"
 import {
   differenceInMilliseconds,
   millisecondsToHours,
@@ -47,7 +45,7 @@ export function setProjectsLocalStorage() {
   localStorage.setItem("Projects", JSON.stringify(projectsArr))
 }
 
-export function applyProjectsLocalStorage(cb) {
+export function applyProjectsLocalStorage(cbProjectMaker) {
   const localStateProjectArr = JSON.parse(localStorage.getItem("Projects"))
 
   for (let i = 0; i < localStateProjectArr.length; i += 1) {
@@ -55,7 +53,7 @@ export function applyProjectsLocalStorage(cb) {
   }
 
   for (let i = 0; i < projectsArr.length; i += 1) {
-    cb(projectsArr[i].tabName, i)
+    cbProjectMaker(projectsArr[i].tabName, i)
   }
 }
 
@@ -159,7 +157,7 @@ function manageWeek() {
   }
 }
 
-export function applyTasks() {
+export function applyTasks(cbTaskMaker) {
   const currActiveTab = document.querySelector(".is-active")
 
   if (currActiveTab == null) return
@@ -168,7 +166,7 @@ export function applyTasks() {
     if (currActiveTab.classList.contains("homeBtn-allTasks")) {
       manageAllTasks()
       homeBtnAllTasksArr.forEach((task) => {
-        taskMaker(
+        cbTaskMaker(
           task.title,
           task.details,
           task.date,
@@ -180,7 +178,7 @@ export function applyTasks() {
     } else if (currActiveTab.classList.contains("homeBtn-important")) {
       manageImportant()
       importantArr.forEach((task) => {
-        taskMaker(
+        cbTaskMaker(
           task.title,
           task.details,
           task.date,
@@ -192,7 +190,7 @@ export function applyTasks() {
     } else if (currActiveTab.classList.contains("homeBtn-today")) {
       manageToday()
       todayArr.forEach((task) => {
-        taskMaker(
+        cbTaskMaker(
           task.title,
           task.details,
           task.date,
@@ -204,7 +202,7 @@ export function applyTasks() {
     } else if (currActiveTab.classList.contains("homeBtn-thisWeek")) {
       manageWeek()
       weekArr.forEach((task) => {
-        taskMaker(
+        cbTaskMaker(
           task.title,
           task.details,
           task.date,
@@ -224,7 +222,7 @@ export function applyTasks() {
     if (projectsArr[currActiveProjectIndex].tabTasks.length === 0) return
 
     projectsArr[currActiveProjectIndex].tabTasks.forEach((task) => {
-      taskMaker(
+      cbTaskMaker(
         task.title,
         task.details,
         task.date,

@@ -1,6 +1,5 @@
 import {
   projectsArr,
-  setTasks,
   assignTaskIndex,
   sortTaskIndex,
   updateProject,
