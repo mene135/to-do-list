@@ -198,7 +198,7 @@ ul {
   color: var(--primary);
 }
 
-.addProjectBtn > span {
+.addProjectBtn>span {
   margin-left: var(--spacing-100);
 }
 
@@ -496,6 +496,38 @@ ul {
 
   pointer-events: none;
 }
+
+.toastNt {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%) translateY(10px) scaleY(0);
+  width: clamp(15rem, 50%, 45rem);
+  height: 40px;
+  z-index: 100;
+  background-color: hsl(0, 100%, 54%);
+  transform-origin: bottom;
+  transition: transform 0.35s;
+}
+
+.toastNt-isActive {
+  transform: translateX(-50%) translateY(-10px);
+}
+
+.toastNt-message {
+  margin-left: 1em;
+  color: #fff;
+
+  font-weight: bold;
+}
+
+.toastNt-icon {
+  color: hsl(0, 100%, 34%);
+}
+
 
 /* -- State rules */
 

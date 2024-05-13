@@ -3,8 +3,6 @@ import {
   projectsArr,
   sortProjectsDataAttributes,
   modifyProjectDataName,
-  applyTasks,
-  setTasks,
 } from "./localStorageAndState"
 import { tabsEventHandler, Tab, clear } from "./tabFunctionalities"
 import { addTaskBtnMaker, taskFormMaker } from "./tasksHandler"

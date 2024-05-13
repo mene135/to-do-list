@@ -9,7 +9,7 @@ export function createTabContent(tab) {
 
   const text = tab.querySelector("span").textContent
 
- const h3 = document.createElement("h3")
+  const h3 = document.createElement("h3")
   h3.textContent = text
   h3.classList.add("tab-title-heading")
 
@@ -26,22 +26,18 @@ export function clear() {
 }
 
 export function manageActiveTab(tabClicked) {
-  tabs = document.querySelectorAll(".js-tab")
   const currActiveTab = document.querySelector(".is-active")
 
   if (currActiveTab !== tabClicked) {
     tabs.forEach((tab) => {
       if (tabClicked === tab) {
         tab.classList.add("is-active")
-        return
       }
     })
 
     if (currActiveTab !== null) {
       currActiveTab.classList.remove("is-active")
     }
-  } else {
-    return
   }
 }
 

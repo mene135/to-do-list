@@ -15,12 +15,14 @@ import {
   applyProjectsLocalStorage,
   setProjectsLocalStorage,
 } from "./localStorageAndState"
+import { toastNtMaker, setToastNtMessage, activateToastNt } from "./toastNt"
 
 toggleThemeBtn.addEventListener("click", toggleTheme)
 menuToggleBtn.addEventListener("click", menuToggle)
 addProjectBtn.addEventListener("click", () => {
   if (document.querySelector(".projectMakerForm").style.display === "block") {
-    alert("You must finish the previous form")
+    setToastNtMessage("You must complete the form you started!");
+    activateToastNt();
     document.querySelector(".projectMakerForm-input").focus()
     return
   }
@@ -39,6 +41,7 @@ window.onload = () => {
   applyProjectsLocalStorage()
   isNavExpanded()
   projectFormMaker()
+  toastNtMaker()
 
   document.querySelector(".homeBtn").click()
 }
