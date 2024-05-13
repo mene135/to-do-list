@@ -1,9 +1,6 @@
 -- To dos
 
-Check for if inputs in projects have the text attribute.
-Add animation for task.
-Make it so that the form fields in tasks go empty after input.
-Add a no tasks message for when there are not tasks in the tab.
-
+add blur event for menu.
+fix allowing empty title string when modifying tasks
 -- Solution
 

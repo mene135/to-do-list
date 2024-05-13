@@ -1,5 +1,3 @@
-import { projectMaker } from "./projectHandler"
-import { taskMaker } from "./tasksHandler"
 import {
   differenceInMilliseconds,
   millisecondsToHours,
@@ -47,7 +45,7 @@ export function setProjectsLocalStorage() {
   localStorage.setItem("Projects", JSON.stringify(projectsArr))
 }
 
-export function applyProjectsLocalStorage(cb) {
+export function applyProjectsLocalStorage(cbProjectMaker) {
   const localStateProjectArr = JSON.parse(localStorage.getItem("Projects"))
 
   for (let i = 0; i < localStateProjectArr.length; i += 1) {
@@ -55,20 +53,36 @@ export function applyProjectsLocalStorage(cb) {
   }
 
   for (let i = 0; i < projectsArr.length; i += 1) {
-    cb(projectsArr[i].tabName, i)
+    cbProjectMaker(projectsArr[i].tabName, i)
   }
 }
 
 
 
 export function assignTaskIndex() {
+  let count = 0
+  let found = false
   const currActiveProjectIndex = parseInt(
-    document.querySelector(".is-active").getAttribute("data-project-index"), 10
+    document.querySelector(".is-active").getAttribute("data-project-index"),
+    10
   )
 
-  for (let i = 0; i < projectsArr[currActiveProjectIndex].length + 1; i += 1) {
-    if (projectsArr[currActiveProjectIndex].tabTasks[i] === undefined) {
-      return i;
+  for (let i = 0; i < projectsArr.length; i += 1) {
+    if (i === currActiveProjectIndex) {
+      let localIndex = 0
+      while (found === false) {
+        if (projectsArr[i].tabTasks[localIndex] === undefined) {
+          found = true
+          return count
+        }
+        localIndex = 1
+        count += 1
+
+      }
+    } else {
+      for (let j = 0; j < projectsArr[i].tabTasks.length; j += 1) {
+        count += 1
+      }
     }
   }
 
@@ -159,7 +173,7 @@ function manageWeek() {
   }
 }
 
-export function applyTasks() {
+export function applyTasks(cbTaskMaker) {
   const currActiveTab = document.querySelector(".is-active")
 
   if (currActiveTab == null) return
@@ -168,7 +182,7 @@ export function applyTasks() {
     if (currActiveTab.classList.contains("homeBtn-allTasks")) {
       manageAllTasks()
       homeBtnAllTasksArr.forEach((task) => {
-        taskMaker(
+        cbTaskMaker(
           task.title,
           task.details,
           task.date,
@@ -180,7 +194,7 @@ export function applyTasks() {
     } else if (currActiveTab.classList.contains("homeBtn-important")) {
       manageImportant()
       importantArr.forEach((task) => {
-        taskMaker(
+        cbTaskMaker(
           task.title,
           task.details,
           task.date,
@@ -192,7 +206,7 @@ export function applyTasks() {
     } else if (currActiveTab.classList.contains("homeBtn-today")) {
       manageToday()
       todayArr.forEach((task) => {
-        taskMaker(
+        cbTaskMaker(
           task.title,
           task.details,
           task.date,
@@ -204,7 +218,7 @@ export function applyTasks() {
     } else if (currActiveTab.classList.contains("homeBtn-thisWeek")) {
       manageWeek()
       weekArr.forEach((task) => {
-        taskMaker(
+        cbTaskMaker(
           task.title,
           task.details,
           task.date,
@@ -224,7 +238,7 @@ export function applyTasks() {
     if (projectsArr[currActiveProjectIndex].tabTasks.length === 0) return
 
     projectsArr[currActiveProjectIndex].tabTasks.forEach((task) => {
-      taskMaker(
+      cbTaskMaker(
         task.title,
         task.details,
         task.date,

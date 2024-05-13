@@ -153,7 +153,7 @@ export function projectMaker(name, id) {
 
   renameBtn.addEventListener("click", (e) => {
     let newName = modifyNameInput.value
-    newName = newName.charAt(0).toUpperCase() + name.slice(1)
+    newName = newName.charAt(0).toUpperCase() + newName.slice(1)
 
     e.stopPropagation()
 
@@ -163,8 +163,8 @@ export function projectMaker(name, id) {
       return
     }
 
-    projectName.style.display = "inline-block"
     projectName.textContent = newName
+
     cancelBtn.click()
     modifyProjectDataName(newName, projectBtn.getAttribute("data-project-index"))
 

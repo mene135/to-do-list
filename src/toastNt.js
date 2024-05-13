@@ -9,6 +9,8 @@ export function toastNtMaker() {
 
     toastNtIcon.style.color = "#a80505";
 
+    toastNt.setAttribute("aria-live", "polite")
+
     toastNt.appendChild(toastNtIcon)
     toastNt.appendChild(toastNtMessage)
     document.body.appendChild(toastNt)
@@ -19,6 +21,7 @@ export function setToastNtMessage(message) {
 }
 
 export function activateToastNt() {
+    console.log("toast is being activated")
     const toastNt = document.querySelector(".toastNt");
     toastNt.classList.add("toastNt-isActive");
 

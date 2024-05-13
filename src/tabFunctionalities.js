@@ -1,4 +1,5 @@
 import { applyTasks } from "./localStorageAndState"
+import { taskMaker } from "./tasksHandler"
 
 const displayTab = document.querySelector(".l-displayTab")
 
@@ -45,7 +46,7 @@ export function tabsEventHandler(tab) {
   manageActiveTab(tab)
   clear()
   createTabContent(tab)
-  applyTasks()
+  applyTasks(taskMaker)
 }
 
 export class Tab {

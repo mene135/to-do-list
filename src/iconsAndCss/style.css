@@ -72,6 +72,7 @@ ul {
     transform 0.25s linear;
 
   overflow-y: auto;
+  z-index: 1
 }
 
 @media (max-width: 425px) {
@@ -190,6 +191,7 @@ ul {
 .addProjectBtn {
   padding: var(--spacing-300);
   width: 100%;
+  margin-bottom: 1em;
 
   background-color: var(--bg2);
 
@@ -334,7 +336,7 @@ ul {
 
 .l-displayTab {
   display: flex;
-  width: clamp(13rem, 50vw, 35rem);
+  width: clamp(15rem, 80%, 45rem);
 
   flex-direction: column;
   justify-items: center;
@@ -412,6 +414,7 @@ ul {
   border-radius: 5px;
 }
 
+
 .task-shrink {
   transform: scale(0.995);
 }
@@ -431,7 +434,7 @@ ul {
 
 .taskText {
   width: 100%;
-  min-width: 262px;
+  min-width: 200px;
   display: flex;
   flex-direction: column;
   justify-content: start;
@@ -497,16 +500,57 @@ ul {
   pointer-events: none;
 }
 
+@media (max-width: 650px) {
+
+  .task {
+    padding-top: var(--spacing-300);
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    row-gap: var(--spacing-200);
+  }
+
+  .taskText {
+    grid-row: 1 / -1;
+    grid-column: 1 / -1;
+    padding: 0;
+
+
+    justify-content: center;
+    align-items: center;
+
+    gap: var(--spacing-200);
+  }
+
+  .task-date {
+    width: 100%;
+    text-align: center;
+    grid-column: 1 / 4;
+    border-top: dashed 3px var(--primary);
+    padding-top: var(--spacing-300);
+  }
+
+  .task-checkedCircleBtn {
+    grid-column: 1/ 2;
+    grid-row: 5 / 6;
+  }
+
+  .task-important {
+    grid-column: 2/ 3;
+  }
+
+
+}
+
 .toastNt {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: clamp(15rem, 50%, 45rem);
+  width: clamp(15rem, 50%, 30rem);
 
   position: absolute;
-  left: 50%;
+  right: 5em;
   bottom: 10px;
-  transform: translateX(-50%) translateY(10px) scaleY(0);
+  transform: translateY(10px) scaleY(0);
   z-index: 100;
 
   background-color: hsl(0, 100%, 54%);
@@ -515,8 +559,13 @@ ul {
   transition: transform 0.35s;
 }
 
+
+.toastNt-l-up {
+  top: 10px;
+}
+
 .toastNt-isActive {
-  transform: translateX(-50%) translateY(-10px);
+  transform: translateY(-10px);
 }
 
 .toastNt-message {

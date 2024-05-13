@@ -1,6 +1,5 @@
 import {
   projectsArr,
-  setTasks,
   assignTaskIndex,
   sortTaskIndex,
   updateProject,
@@ -117,25 +116,24 @@ function taskModifyForm(task) {
 
     const taskIndex = parseFloat(task.getAttribute("data-task-index"))
 
-    const currActiveProjectIndex = document
-      .querySelector(".is-active")
-      .getAttribute("data-project-index")
-    projectsArr[currActiveProjectIndex].tabTasks.forEach((projectTask) => {
-      if (projectTask.index === taskIndex) {
-        taskSelected.title = title
-        taskSelected.details = details
-        taskSelected.date = date
+    for (let i = 0; i < projectsArr.length; i += 1) {
+      for (let j = 0; j < projectsArr[i].tabTasks.length; j += 1) {
+        if (projectsArr[i].tabTasks[j].index === taskIndex) {
+          const taskModify = projectsArr[i].tabTasks[j];
+          taskModify.title = title
+          taskModify.details = details
+          taskModify.date = date
+        }
       }
-    })
+    }
 
-    cancelBtn.click()
+
     document.querySelector(".is-active").click()
-    taskSelected.style.display = "block"
   })
 
   cancelBtn.addEventListener("click", (e) => {
+    document.querySelector(".is-active").click()
     e.preventDefault()
-    taskMakerForm.classList.toggle("is-hidden")
   })
 }
 
@@ -485,6 +483,9 @@ export function taskFormMaker() {
 
   cancelBtn.addEventListener("click", (e) => {
     e.preventDefault()
+    titleInput.value = '';
+    detailsTextArea.value = '';
+    dateInput.value = '';
     taskMakerForm.classList.toggle("is-hidden")
   })
 }
