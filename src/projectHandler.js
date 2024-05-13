@@ -6,6 +6,7 @@ import {
 } from "./localStorageAndState"
 import { tabsEventHandler, Tab, clear } from "./tabFunctionalities"
 import { addTaskBtnMaker, taskFormMaker } from "./tasksHandler"
+import { setToastNtMessage, activateToastNt } from "./toastNt"
 
 const projectSection = document.querySelector(".projectSection")
 export const addProjectBtn = document.querySelector(".addProjectBtn")
@@ -13,84 +14,10 @@ const projectSectionContent = document.querySelector(
   ".js-projectSection-content",
 )
 
-export function projectFormMaker() {
-  const projectMakerForm = document.createElement("form")
-  const nameLabel = document.createElement("label")
-  const nameInput = document.createElement("input")
-  const addBtn = document.createElement("button")
-  const cancelBtn = document.createElement("button")
-  const projectFormBtnContainer = document.createElement("div")
-
-  nameLabel.setAttribute("for", "projectNameInput")
-  nameLabel.textContent = "Enter projects name"
-
-  nameInput.setAttribute("type", "text")
-  nameInput.setAttribute("placeholder", "Project Name")
-  nameInput.setAttribute("maxlength", "20")
-  nameInput.setAttribute("id", "projectNameInput")
-
-  projectMakerForm.classList.add("projectMakerForm")
-  nameLabel.classList.add("is-visually-hidden")
-  nameInput.classList.add("projectMakerForm-input")
-  projectFormBtnContainer.classList.add("buttonContainer")
-  addBtn.classList.add("addButton")
-  cancelBtn.classList.add("cancelButton")
-
-  addBtn.textContent = "ADD"
-  cancelBtn.textContent = "Cancel"
-
-  projectMakerForm.style.display = "none"
-
-  projectFormBtnContainer.appendChild(addBtn)
-  projectFormBtnContainer.appendChild(cancelBtn)
-
-  projectMakerForm.appendChild(nameLabel)
-  projectMakerForm.appendChild(nameInput)
-  projectMakerForm.appendChild(projectFormBtnContainer)
-
-  projectSection.insertBefore(projectMakerForm, addProjectBtn)
-
-  nameInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault()
-      addBtn.click()
-    } else if (e.key === "Escape") {
-      cancelBtn.click()
-    }
-  })
-
-  addBtn.addEventListener("click", (e) => {
-    e.preventDefault()
-
-    if (nameInput.value === "") {
-      alert("The project name cannot be empty")
-      return
-    }
-
-    const newProject = new Tab(nameInput.value, [])
-    projectsArr.push(newProject)
-
-    projectMaker(nameInput.value, findEmptyDataTabIndex())
-
-    projectMakerForm.style.display = "none"
-    nameInput.value = ""
-  })
-
-  cancelBtn.addEventListener("click", (e) => {
-    e.preventDefault()
-    projectMakerForm.style.display = "none"
-  })
-}
-
-export function projectFormOpener() {
-  const projcetForm = document.querySelector(".projectMakerForm")
-  projcetForm.style.display = "block"
-}
-
 export function projectMaker(name, id) {
   // General project section
 
-  name = name.charAt(0).toUpperCase() + name.slice(1)
+  const nameToUppercase = name.charAt(0).toUpperCase() + name.slice(1)
 
   const project = document.createElement("li")
 
@@ -119,7 +46,7 @@ export function projectMaker(name, id) {
   projectOptionsBtn.setAttribute("tabIndex", "0")
   projectOptionsBtn.setAttribute("aria-controls", "options")
 
-  projectName.textContent = name
+  projectName.textContent = nameToUppercase;
   optionsBtnAccesibilityText.textContent = "Options"
 
   projectOptionsBtn.appendChild(projectOptionsIcon)
@@ -225,20 +152,22 @@ export function projectMaker(name, id) {
   // Options for when you are modifying-renaming the project name
 
   renameBtn.addEventListener("click", (e) => {
-    name = modifyNameInput.value
-    name = name.charAt(0).toUpperCase() + name.slice(1)
+    let newName = modifyNameInput.value
+    newName = newName.charAt(0).toUpperCase() + name.slice(1)
 
     e.stopPropagation()
 
-    if (name === "") {
-      alert("The project name cannot be empty")
+    if (newName === "") {
+      setToastNtMessage("The project name cannot be empty")
+      activateToastNt()
       return
-    } else {
-      projectName.style.display = "inline-block"
-      projectName.textContent = name
-      cancelBtn.click()
-      modifyProjectDataName(name, projectBtn.getAttribute("data-project-index"))
     }
+
+    projectName.style.display = "inline-block"
+    projectName.textContent = newName
+    cancelBtn.click()
+    modifyProjectDataName(newName, projectBtn.getAttribute("data-project-index"))
+
   })
 
   cancelBtn.addEventListener("click", () => {
@@ -258,17 +187,12 @@ export function projectMaker(name, id) {
 
   deleteOptionBtn.addEventListener("click", (e) => {
     e.stopPropagation()
-    let confirmed = confirm("Are you sure you want to delete this project")
-
-    if (confirmed === true) {
-      projectsArr.splice(projectBtn.getAttribute("data-project-index"), 1)
-      projectSectionContent.removeChild(project)
-      sortProjectsDataAttributes()
-      clear()
-    } else {
-      return
-    }
+    projectsArr.splice(projectBtn.getAttribute("data-project-index"), 1)
+    projectSectionContent.removeChild(project)
+    sortProjectsDataAttributes()
+    clear()
   })
+
 
   modifyNameInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
@@ -284,3 +208,81 @@ export function projectMaker(name, id) {
   addTaskBtnMaker()
   taskFormMaker()
 }
+
+
+export function projectFormMaker() {
+  const projectMakerForm = document.createElement("form")
+  const nameLabel = document.createElement("label")
+  const nameInput = document.createElement("input")
+  const addBtn = document.createElement("button")
+  const cancelBtn = document.createElement("button")
+  const projectFormBtnContainer = document.createElement("div")
+
+  nameLabel.setAttribute("for", "projectNameInput")
+  nameLabel.textContent = "Enter projects name"
+
+  nameInput.setAttribute("type", "text")
+  nameInput.setAttribute("placeholder", "Project Name")
+  nameInput.setAttribute("maxlength", "20")
+  nameInput.setAttribute("id", "projectNameInput")
+
+  projectMakerForm.classList.add("projectMakerForm")
+  nameLabel.classList.add("is-visually-hidden")
+  nameInput.classList.add("projectMakerForm-input")
+  projectFormBtnContainer.classList.add("buttonContainer")
+  addBtn.classList.add("addButton")
+  cancelBtn.classList.add("cancelButton")
+
+  addBtn.textContent = "ADD"
+  cancelBtn.textContent = "Cancel"
+
+  projectMakerForm.style.display = "none"
+
+  projectFormBtnContainer.appendChild(addBtn)
+  projectFormBtnContainer.appendChild(cancelBtn)
+
+  projectMakerForm.appendChild(nameLabel)
+  projectMakerForm.appendChild(nameInput)
+  projectMakerForm.appendChild(projectFormBtnContainer)
+
+  projectSection.insertBefore(projectMakerForm, addProjectBtn)
+
+  nameInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault()
+      addBtn.click()
+    } else if (e.key === "Escape") {
+      cancelBtn.click()
+    }
+  })
+
+  addBtn.addEventListener("click", (e) => {
+    e.preventDefault()
+
+    if (nameInput.value === "") {
+      setToastNtMessage("The project name cannot be empty!")
+      activateToastNt()
+      document.querySelector(".projectMakerForm-input").focus();
+      return
+    }
+
+    const newProject = new Tab(nameInput.value, [])
+    projectsArr.push(newProject)
+
+    projectMaker(nameInput.value, findEmptyDataTabIndex())
+
+    projectMakerForm.style.display = "none"
+    nameInput.value = ""
+  })
+
+  cancelBtn.addEventListener("click", (e) => {
+    e.preventDefault()
+    projectMakerForm.style.display = "none"
+  })
+}
+
+export function projectFormOpener() {
+  const projcetForm = document.querySelector(".projectMakerForm")
+  projcetForm.style.display = "block"
+}
+

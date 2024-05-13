@@ -5,10 +5,46 @@ import {
   sortTaskIndex,
   updateProject,
 } from "./localStorageAndState"
+import { setToastNtMessage, activateToastNt } from "./toastNt"
 
 const displayTab = document.querySelector(".l-displayTab")
 
-export function taskFormMaker() {
+export class Task {
+  constructor(title, details, date, important, checked, index) {
+    this.title = title
+    this.details = details
+    this.date = date
+    this.important = important
+    this.checked = checked
+    this.index = index
+  }
+}
+
+
+
+export function addTaskBtnMaker() {
+  const addTaskBtn = document.createElement("button")
+  addTaskBtn.textContent = "Add task"
+  addTaskBtn.classList.add("tab-addTaskBtn")
+  displayTab.appendChild(addTaskBtn)
+
+  addTaskBtn.addEventListener("click", () => {
+    const form = document.querySelector(".taskMakerForm")
+
+    if (form.classList.contains("is-hidden") === false) {
+      setToastNtMessage("Finish the form you started")
+      activateToastNt()
+      return
+    }
+
+    form.classList.toggle("is-hidden")
+  })
+}
+
+function taskModifyForm(task) {
+  const taskSelected = task;
+  taskSelected.style.display = "none"
+
   const taskMakerForm = document.createElement("form")
   const titleLabel = document.createElement("label")
   const titleInput = document.createElement("input")
@@ -24,6 +60,10 @@ export function taskFormMaker() {
   titleInput.classList.add("taskForm-input", "taskForm-title")
   detailsTextArea.classList.add("taskForm-textArea", "taskForm-details")
   dateInput.classList.add("taskForm-input", "taskForm-date")
+
+  titleInput.value = task.querySelector(".task-title").textContent
+  detailsTextArea.value = task.querySelector(".task-details").textContent
+  dateInput.value = task.querySelector(".task-date").textContent
 
   titleInput.setAttribute("type", "text")
   dateInput.setAttribute("type", "date")
@@ -41,58 +81,56 @@ export function taskFormMaker() {
   dateLabel.appendChild(dateInput)
 
   const projectFormBtnContainer = document.createElement("div")
-  const addBtn = document.createElement("button")
+  const modifyBtn = document.createElement("button")
   const cancelBtn = document.createElement("button")
 
-  addBtn.classList.add("addButton")
+  modifyBtn.classList.add("addButton")
   cancelBtn.classList.add("cancelButton")
 
-  addBtn.textContent = "Add"
+  modifyBtn.textContent = "Modify"
   cancelBtn.textContent = "Cancel"
 
-  projectFormBtnContainer.appendChild(addBtn)
+  projectFormBtnContainer.appendChild(modifyBtn)
   projectFormBtnContainer.appendChild(cancelBtn)
 
   projectFormBtnContainer.classList.add("buttonContainer")
 
-  taskMakerForm.classList.add("taskMakerForm", "is-hidden")
+  taskMakerForm.classList.add("taskMakerForm")
 
   taskMakerForm.appendChild(titleLabel)
   taskMakerForm.appendChild(detailsLabel)
   taskMakerForm.appendChild(dateLabel)
   taskMakerForm.appendChild(projectFormBtnContainer)
 
-  displayTab.insertBefore(
-    taskMakerForm,
-    document.querySelector(".tab-addTaskBtn"),
-  )
+  const taskContainer = document.querySelector(".tab-tasksContainer")
 
-  addBtn.addEventListener("click", (e) => {
+  taskContainer.insertBefore(taskMakerForm, task)
+
+  modifyBtn.addEventListener("click", (e) => {
     e.preventDefault()
-
-    let title = titleInput.value
-    let details = detailsTextArea.value
+    const title = titleInput.value
+    const details = detailsTextArea.value
     let date = dateInput.value
-    let taskIndex = assignTaskIndex()
-
-    if (title === "") {
-      alert("You must fill out the Title field")
-      return
-    }
-
     if (date === "") {
       date = "No due date"
     }
 
-    cancelBtn.click()
+    const taskIndex = parseFloat(task.getAttribute("data-task-index"))
 
-    let currActiveProjectIndex = document
+    const currActiveProjectIndex = document
       .querySelector(".is-active")
       .getAttribute("data-project-index")
+    projectsArr[currActiveProjectIndex].tabTasks.forEach((projectTask) => {
+      if (projectTask.index === taskIndex) {
+        taskSelected.title = title
+        taskSelected.details = details
+        taskSelected.date = date
+      }
+    })
 
-    let newTask = new Task(title, details, date, false, false, taskIndex)
-    projectsArr[currActiveProjectIndex].tabTasks.push(newTask)
-    taskMaker(title, details, date, false, false, taskIndex)
+    cancelBtn.click()
+    document.querySelector(".is-active").click()
+    taskSelected.style.display = "block"
   })
 
   cancelBtn.addEventListener("click", (e) => {
@@ -101,38 +139,13 @@ export function taskFormMaker() {
   })
 }
 
-export function addTaskBtnMaker() {
-  const addTaskBtn = document.createElement("button")
-  addTaskBtn.textContent = "Add task"
-  addTaskBtn.classList.add("tab-addTaskBtn")
-  displayTab.appendChild(addTaskBtn)
-
-  addTaskBtn.addEventListener("click", () => {
-    let form = document.querySelector(".taskMakerForm")
-
-    if (form.classList.contains("is-hidden") === false) {
-      alert("Finish the form you started")
-      return
-    }
-
-    form.classList.toggle("is-hidden")
-  })
-}
-
-export class Task {
-  constructor(title, details, date, important, checked, index) {
-    this.title = title
-    this.details = details
-    this.date = date
-    this.important = important
-    this.checked = checked
-    this.index = index
-  }
-}
 
 export function taskMaker(title, details, date, important, checked, index) {
   const taskContainer = document.querySelector(".tab-tasksContainer")
   const task = document.createElement("li")
+
+  let isChecked = checked
+  let isImportant = important
 
   task.classList.add("task")
 
@@ -193,7 +206,7 @@ export function taskMaker(title, details, date, important, checked, index) {
   emptyStar.style.color = "var(--primary)"
   yellowStar.style.color = "#f1bf13"
 
-  if (important === true) {
+  if (isImportant === true) {
     emptyStar.style.display = "none"
     importantAriaText.textContent = "Important"
   } else {
@@ -201,7 +214,7 @@ export function taskMaker(title, details, date, important, checked, index) {
     importantAriaText.textContent = "Not Important"
   }
 
-  if (checked === true) {
+  if (isChecked === true) {
     checkedCircleOutline.style.display = "none"
     checkedCircleBtn.setAttribute("aria-pressed", "true")
     checkedAriaText.textContent = "Checked"
@@ -270,15 +283,15 @@ export function taskMaker(title, details, date, important, checked, index) {
   })
 
   checkedCircleBtn.addEventListener("click", () => {
-    if (checked === true) {
+    if (isChecked === true) {
       checkedCircleOutline.style.display = "inline"
       checkedCircleGreenCheck.style.display = "none"
       checkedCircleBtn.setAttribute("aria-pressed", "false")
       checkedAriaText.textContent = "Unchecked"
-      checked = false
+      isChecked = false
 
-      for (let i = 0; i < projectsArr.length; i++) {
-        for (let j = 0; j < projectsArr[i].tabTasks.length; j++) {
+      for (let i = 0; i < projectsArr.length; i += 1) {
+        for (let j = 0; j < projectsArr[i].tabTasks.length; j += 1) {
           if (projectsArr[i].tabTasks[j].index === index) {
             projectsArr[i].tabTasks[j].checked = false
           }
@@ -292,10 +305,10 @@ export function taskMaker(title, details, date, important, checked, index) {
       checkedCircleGreenCheck.style.display = "inline"
       checkedCircleBtn.setAttribute("aria-pressed", "true")
       checkedAriaText.textContent = "Checked"
-      checked = true
+      isChecked = true
 
-      for (let i = 0; i < projectsArr.length; i++) {
-        for (let j = 0; j < projectsArr[i].tabTasks.length; j++) {
+      for (let i = 0; i < projectsArr.length; i += 1) {
+        for (let j = 0; j < projectsArr[i].tabTasks.length; j += 1) {
           if (projectsArr[i].tabTasks[j].index === index) {
             projectsArr[i].tabTasks[j].checked = true
           }
@@ -308,14 +321,14 @@ export function taskMaker(title, details, date, important, checked, index) {
   })
 
   importantStar.addEventListener("click", () => {
-    if (important == true) {
+    if (isImportant === true) {
       emptyStar.style.display = "inline"
       yellowStar.style.display = "none"
       importantAriaText.textContent = "Important"
-      important = false
+      isImportant = false
 
-      for (let i = 0; i < projectsArr.length; i++) {
-        for (let j = 0; j < projectsArr[i].tabTasks.length; j++) {
+      for (let i = 0; i < projectsArr.length; i += 1) {
+        for (let j = 0; j < projectsArr[i].tabTasks.length; j += 1) {
           if (projectsArr[i].tabTasks[j].index === index) {
             projectsArr[i].tabTasks[j].important = false
           }
@@ -325,10 +338,10 @@ export function taskMaker(title, details, date, important, checked, index) {
       emptyStar.style.display = "none"
       yellowStar.style.display = "inline"
       importantAriaText.textContent = "Not important"
-      important = true
+      isImportant = true
 
-      for (let i = 0; i < projectsArr.length; i++) {
-        for (let j = 0; j < projectsArr[i].tabTasks.length; j++) {
+      for (let i = 0; i < projectsArr.length; i += 1) {
+        for (let j = 0; j < projectsArr[i].tabTasks.length; j += 1) {
           if (projectsArr[i].tabTasks[j].index === index) {
             projectsArr[i].tabTasks[j].important = true
           }
@@ -362,8 +375,8 @@ export function taskMaker(title, details, date, important, checked, index) {
   })
 
   taskOptionDeleteBtn.addEventListener("click", () => {
-    for (let i = 0; i < projectsArr.length; i++) {
-      for (let j = 0; j < projectsArr[i].tabTasks.length; j++) {
+    for (let i = 0; i < projectsArr.length; i += 1) {
+      for (let j = 0; j < projectsArr[i].tabTasks.length; j += 1) {
         if (projectsArr[i].tabTasks[j].index === index) {
           projectsArr[i].tabTasks.splice(j, 1)
         }
@@ -382,8 +395,7 @@ export function taskMaker(title, details, date, important, checked, index) {
   taskContainer.appendChild(task)
 }
 
-function taskModifyForm(task) {
-  task.style.display = "none"
+export function taskFormMaker() {
   const taskMakerForm = document.createElement("form")
   const titleLabel = document.createElement("label")
   const titleInput = document.createElement("input")
@@ -399,10 +411,6 @@ function taskModifyForm(task) {
   titleInput.classList.add("taskForm-input", "taskForm-title")
   detailsTextArea.classList.add("taskForm-textArea", "taskForm-details")
   dateInput.classList.add("taskForm-input", "taskForm-date")
-
-  titleInput.value = task.querySelector(".task-title").textContent
-  detailsTextArea.value = task.querySelector(".task-details").textContent
-  dateInput.value = task.querySelector(".task-date").textContent
 
   titleInput.setAttribute("type", "text")
   dateInput.setAttribute("type", "date")
@@ -420,57 +428,59 @@ function taskModifyForm(task) {
   dateLabel.appendChild(dateInput)
 
   const projectFormBtnContainer = document.createElement("div")
-  const modifyBtn = document.createElement("button")
+  const addBtn = document.createElement("button")
   const cancelBtn = document.createElement("button")
 
-  modifyBtn.classList.add("addButton")
+  addBtn.classList.add("addButton")
   cancelBtn.classList.add("cancelButton")
 
-  modifyBtn.textContent = "Modify"
+  addBtn.textContent = "Add"
   cancelBtn.textContent = "Cancel"
 
-  projectFormBtnContainer.appendChild(modifyBtn)
+  projectFormBtnContainer.appendChild(addBtn)
   projectFormBtnContainer.appendChild(cancelBtn)
 
   projectFormBtnContainer.classList.add("buttonContainer")
 
-  taskMakerForm.classList.add("taskMakerForm")
+  taskMakerForm.classList.add("taskMakerForm", "is-hidden")
 
   taskMakerForm.appendChild(titleLabel)
   taskMakerForm.appendChild(detailsLabel)
   taskMakerForm.appendChild(dateLabel)
   taskMakerForm.appendChild(projectFormBtnContainer)
 
-  let taskContainer = document.querySelector(".tab-tasksContainer")
-  console.log("modify work")
+  displayTab.insertBefore(
+    taskMakerForm,
+    document.querySelector(".tab-addTaskBtn"),
+  )
 
-  taskContainer.insertBefore(taskMakerForm, task)
-
-  modifyBtn.addEventListener("click", (e) => {
+  addBtn.addEventListener("click", (e) => {
     e.preventDefault()
-    let title = titleInput.value
-    let details = detailsTextArea.value
+
+    const title = titleInput.value
+    const details = detailsTextArea.value
     let date = dateInput.value
+    const taskIndex = assignTaskIndex()
+
+    if (title === "") {
+      setToastNtMessage("You must fill out the Title field")
+      activateToastNt();
+      return
+    }
+
     if (date === "") {
       date = "No due date"
     }
 
-    let taskIndex = parseFloat(task.getAttribute("data-task-index"))
+    cancelBtn.click()
 
-    let currActiveProjectIndex = document
+    const currActiveProjectIndex = document
       .querySelector(".is-active")
       .getAttribute("data-project-index")
-    projectsArr[currActiveProjectIndex].tabTasks.forEach((task) => {
-      if (task.index === taskIndex) {
-        task.title = title
-        task.details = details
-        task.date = date
-      }
-    })
 
-    cancelBtn.click()
-    document.querySelector(".is-active").click()
-    task.style.display = "block"
+    const newTask = new Task(title, details, date, false, false, taskIndex)
+    projectsArr[currActiveProjectIndex].tabTasks.push(newTask)
+    taskMaker(title, details, date, false, false, taskIndex)
   })
 
   cancelBtn.addEventListener("click", (e) => {

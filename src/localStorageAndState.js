@@ -16,7 +16,7 @@ export function findEmptyDataTabIndex() {
     if (indexes[count] === undefined) {
       foundEmptyIndex = true
     } else {
-      count++
+      count += 1
     }
   }
 
@@ -30,12 +30,12 @@ const todayArr = []
 const weekArr = []
 
 export function sortProjectsDataAttributes() {
-  let projects = document.querySelectorAll("[data-project-index]")
+  const projects = document.querySelectorAll("[data-project-index]")
   let count = 0
 
   projects.forEach((project) => {
     project.setAttribute("data-project-index", `${count}`)
-    count++
+    count += 1;
   })
 }
 
@@ -47,20 +47,120 @@ export function setProjectsLocalStorage() {
   localStorage.setItem("Projects", JSON.stringify(projectsArr))
 }
 
-export function applyProjectsLocalStorage() {
-  let localStateProjectArr = JSON.parse(localStorage.getItem("Projects"))
+export function applyProjectsLocalStorage(cb) {
+  const localStateProjectArr = JSON.parse(localStorage.getItem("Projects"))
 
-  for (let i = 0; i < localStateProjectArr.length; i++) {
+  for (let i = 0; i < localStateProjectArr.length; i += 1) {
     projectsArr.push(localStateProjectArr[i])
   }
 
-  for (let i = 0; i < projectsArr.length; i++) {
-    projectMaker(projectsArr[i].tabName, i)
+  for (let i = 0; i < projectsArr.length; i += 1) {
+    cb(projectsArr[i].tabName, i)
+  }
+}
+
+
+
+export function assignTaskIndex() {
+  const currActiveProjectIndex = parseInt(
+    document.querySelector(".is-active").getAttribute("data-project-index"), 10
+  )
+
+  for (let i = 0; i < projectsArr[currActiveProjectIndex].length + 1; i += 1) {
+    if (projectsArr[currActiveProjectIndex].tabTasks[i] === undefined) {
+      return i;
+    }
+  }
+
+  return undefined;
+}
+
+export function sortTaskIndex(taskRemoved) {
+  for (let i = 0; i < projectsArr.length; i += 1) {
+    for (let j = 0; j < projectsArr[i].tabTasks.length; j += 1) {
+      if (taskRemoved <= projectsArr[i].tabTasks[j].index) {
+        projectsArr[i].tabTasks[j].index -= 1
+      }
+    }
+  }
+}
+
+export function updateProject() {
+  const active = document.querySelector(".is-active")
+  active.click()
+}
+
+export function manageAllTasks() {
+  while (homeBtnAllTasksArr.length !== 0) {
+    homeBtnAllTasksArr.pop()
+  }
+
+  for (let i = 0; i < projectsArr.length; i += 1) {
+    for (let j = 0; j < projectsArr[i].tabTasks.length; j += 1) {
+      homeBtnAllTasksArr.push(projectsArr[i].tabTasks[j])
+    }
+  }
+}
+
+export function manageImportant() {
+  while (importantArr.length !== 0) {
+    importantArr.pop()
+  }
+
+  for (let i = 0; i < projectsArr.length; i += 1) {
+    for (let j = 0; j < projectsArr[i].tabTasks.length; j += 1) {
+      if (projectsArr[i].tabTasks[j].important === true) {
+        importantArr.push(projectsArr[i].tabTasks[j])
+      }
+    }
+  }
+}
+
+function manageToday() {
+  while (todayArr.length !== 0) {
+    todayArr.pop()
+  }
+
+  let today = new Date()
+  const newDay = today.getDate()
+  const newMonth = today.getMonth()
+  const newYear = today.getFullYear()
+
+  today = new Date(newYear, newMonth, newDay)
+
+  for (let i = 0; i < projectsArr.length; i += 1) {
+    for (let j = 0; j < projectsArr[i].tabTasks.length; j += 1) {
+      const taskDate = projectsArr[i].tabTasks[j].date
+      const difference = millisecondsToHours(
+        differenceInMilliseconds(taskDate, today),
+      )
+
+      if (difference < 24 && difference >= 0) {
+        todayArr.push(projectsArr[i].tabTasks[j])
+      }
+    }
+  }
+}
+
+function manageWeek() {
+  while (weekArr.length !== 0) {
+    weekArr.pop()
+  }
+
+  const today = new Date()
+
+  for (let i = 0; i < projectsArr.length; i += 1) {
+    for (let j = 0; j < projectsArr[i].tabTasks.length; j += 1) {
+      const taskDate = projectsArr[i].tabTasks[j].date
+      if (isSameWeek(taskDate, today, { weekStartsOn: 1 }) === true) {
+        weekArr.push(projectsArr[i].tabTasks[j])
+      }
+    }
   }
 }
 
 export function applyTasks() {
-  let currActiveTab = document.querySelector(".is-active")
+  const currActiveTab = document.querySelector(".is-active")
 
   if (currActiveTab == null) return
 
@@ -117,7 +217,7 @@ export function applyTasks() {
   }
 
   if (currActiveTab.classList.contains("project-btn")) {
-    let currActiveProjectIndex = document
+    const currActiveProjectIndex = document
       .querySelector(".is-active")
       .getAttribute("data-project-index")
 
@@ -133,116 +233,5 @@ export function applyTasks() {
         task.index,
       )
     })
-  }
-}
-
-export function assignTaskIndex() {
-  let count = 0
-  let found = false
-  let currActiveProjectIndex = parseInt(
-    document.querySelector(".is-active").getAttribute("data-project-index"),
-  )
-
-  for (let i = 0; i < projectsArr.length; i++) {
-    if (i === currActiveProjectIndex) {
-      let localIndex = 0
-      while (found === false) {
-        if (projectsArr[i].tabTasks[localIndex] === undefined) {
-          found = true
-          return count
-        } else {
-          localIndex++
-          count++
-        }
-      }
-    } else {
-      for (let j = 0; j < projectsArr[i].tabTasks.length; j++) {
-        count++
-      }
-    }
-  }
-}
-
-export function sortTaskIndex(taskRemoved) {
-  for (let i = 0; i < projectsArr.length; i++) {
-    for (let j = 0; j < projectsArr[i].tabTasks.length; j++) {
-      if (taskRemoved <= projectsArr[i].tabTasks[j].index) {
-        projectsArr[i].tabTasks[j].index = projectsArr[i].tabTasks[j].index - 1
-      }
-    }
-  }
-}
-
-export function updateProject() {
-  let active = document.querySelector(".is-active")
-  active.click()
-}
-
-export function manageAllTasks() {
-  while (homeBtnAllTasksArr.length != 0) {
-    homeBtnAllTasksArr.pop()
-  }
-
-  for (let i = 0; i < projectsArr.length; i++) {
-    for (let j = 0; j < projectsArr[i].tabTasks.length; j++) {
-      homeBtnAllTasksArr.push(projectsArr[i].tabTasks[j])
-    }
-  }
-}
-
-export function manageImportant() {
-  while (importantArr.length != 0) {
-    importantArr.pop()
-  }
-
-  for (let i = 0; i < projectsArr.length; i++) {
-    for (let j = 0; j < projectsArr[i].tabTasks.length; j++) {
-      if (projectsArr[i].tabTasks[j].important === true) {
-        importantArr.push(projectsArr[i].tabTasks[j])
-      }
-    }
-  }
-}
-
-function manageToday() {
-  while (todayArr.length != 0) {
-    todayArr.pop()
-  }
-
-  let today = new Date()
-  let newDay = today.getDate()
-  let newMonth = today.getMonth()
-  let newYear = today.getFullYear()
-
-  today = new Date(newYear, newMonth, newDay)
-
-  for (let i = 0; i < projectsArr.length; i++) {
-    for (let j = 0; j < projectsArr[i].tabTasks.length; j++) {
-      let taskDate = projectsArr[i].tabTasks[j].date
-      let difference = millisecondsToHours(
-        differenceInMilliseconds(taskDate, today),
-      )
-
-      if (difference < 24 && difference >= 0) {
-        todayArr.push(projectsArr[i].tabTasks[j])
-      }
-    }
-  }
-}
-
-function manageWeek() {
-  while (weekArr.length != 0) {
-    weekArr.pop()
-  }
-
-  let today = new Date()
-
-  for (let i = 0; i < projectsArr.length; i++) {
-    for (let j = 0; j < projectsArr[i].tabTasks.length; j++) {
-      let taskDate = projectsArr[i].tabTasks[j].date
-      if (isSameWeek(taskDate, today, { weekStartsOn: 1 }) === true) {
-        weekArr.push(projectsArr[i].tabTasks[j])
-      }
-    }
   }
 }

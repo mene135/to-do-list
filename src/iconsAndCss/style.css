@@ -501,14 +501,16 @@ ul {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: clamp(15rem, 50%, 45rem);
+
   position: absolute;
   left: 50%;
   bottom: 10px;
   transform: translateX(-50%) translateY(10px) scaleY(0);
-  width: clamp(15rem, 50%, 45rem);
-  height: 40px;
   z-index: 100;
+
   background-color: hsl(0, 100%, 54%);
+
   transform-origin: bottom;
   transition: transform 0.35s;
 }
@@ -519,6 +521,7 @@ ul {
 
 .toastNt-message {
   margin-left: 1em;
+
   color: #fff;
 
   font-weight: bold;

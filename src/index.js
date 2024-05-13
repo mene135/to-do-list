@@ -5,9 +5,10 @@ import {
   applyThemeLocalStorage,
 } from "./themes/themeToggle"
 import { menuToggleBtn, menuToggle, isNavExpanded } from "./menuToggle"
-import { tabs, tabsEventHandler } from "./tabFunctionalities"
+import { tabsEventHandler } from "./tabFunctionalities"
 import {
   addProjectBtn,
+  projectMaker,
   projectFormMaker,
   projectFormOpener,
 } from "./projectHandler"
@@ -30,6 +31,7 @@ addProjectBtn.addEventListener("click", () => {
   document.querySelector(".projectMakerForm-input").focus()
 })
 
+const tabs = document.querySelectorAll(".js-tab");
 tabs.forEach((tab) => {
   tab.addEventListener("click", () => {
     tabsEventHandler(tab)
@@ -38,7 +40,7 @@ tabs.forEach((tab) => {
 
 window.onload = () => {
   applyThemeLocalStorage()
-  applyProjectsLocalStorage()
+  applyProjectsLocalStorage(projectMaker)
   isNavExpanded()
   projectFormMaker()
   toastNtMaker()

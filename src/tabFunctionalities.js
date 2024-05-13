@@ -1,7 +1,6 @@
 import { applyTasks } from "./localStorageAndState"
 
 const displayTab = document.querySelector(".l-displayTab")
-export const tabs = document.querySelectorAll(".js-tab")
 
 export function createTabContent(tab) {
   const div = document.createElement("div")
@@ -27,6 +26,7 @@ export function clear() {
 
 export function manageActiveTab(tabClicked) {
   const currActiveTab = document.querySelector(".is-active")
+  const tabs = document.querySelectorAll(".js-tab")
 
   if (currActiveTab !== tabClicked) {
     tabs.forEach((tab) => {
